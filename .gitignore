@@ -39,9 +39,10 @@ yarn-error.log*
 pnpm-debug.log*
 
 # variables de entorno
-.env
+.env*
 .env.local
 .env.*.local
+
 
 # cache
 .vite
