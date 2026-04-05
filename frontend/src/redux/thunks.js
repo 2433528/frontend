@@ -115,7 +115,7 @@ export const getLogout=(navigate='')=>{
             if (!resp.ok){
                 const data=await resp.json();          
                 console.log(data);             
-                (navigate !== '') && navigate('/');
+                (navigate !== '') && navigate('/',{ replace: true });
                 return;
             }
 
@@ -123,7 +123,7 @@ export const getLogout=(navigate='')=>{
             console.log(data)
             dispatch(logout());
             localStorage.removeItem('actual');
-            (navigate !== '') && navigate('/');      
+            (navigate !== '') && navigate('/', { replace: true });
        }
        catch(error){
             console.log(error);
