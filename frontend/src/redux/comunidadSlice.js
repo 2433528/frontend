@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState={
-    comunidad_list:[]
+    comunidad_list:[],
+    actual:{}
 }
 
 export const comunidadSlice = createSlice({
@@ -10,9 +11,13 @@ export const comunidadSlice = createSlice({
     reducers:{
         obtenerComunidad:(state, {payload})=>{
             state.comunidad_list=payload;
+        },
+
+        obtenerActual:(state, {payload})=>{
+            state.actual=payload;
         }
     }
 });
 
 
-export const {obtenerComunidad}=comunidadSlice.actions;
+export const {obtenerComunidad, obtenerActual}=comunidadSlice.actions;

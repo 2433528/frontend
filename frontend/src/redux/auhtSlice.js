@@ -3,8 +3,9 @@ import {createSlice} from '@reduxjs/toolkit'
 const initialState={
     user:{},
     is_authenticated:false,
-    token:''
-
+    token:'',
+    roles_list:[],
+    rol:'',
 }
 
 export const auhtSlice = createSlice({
@@ -25,8 +26,16 @@ export const auhtSlice = createSlice({
             state.user={};
             state.is_authenticated=false;
             state.token='';
-        }
+        },
+
+        roles:(state, {payload})=>{
+            state.roles_list=payload;
+        },
+
+        asignarRol:(state, {payload})=>{
+            state.rol=payload.rol;
+        },
     }
 });
 
-export const {login, refresh,logout}=auhtSlice.actions;
+export const {login, refresh,logout, roles, asignarRol}=auhtSlice.actions;

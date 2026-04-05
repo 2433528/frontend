@@ -1,11 +1,11 @@
-import { useDispatch} from "react-redux"
+import { useDispatch, useSelector} from "react-redux"
 import { getLogout } from "../redux/thunks";
 import { useNavigate } from "react-router-dom";
 
 
 export const BtnSalir = () => {
-    const dispatch=useDispatch();
     const navigate=useNavigate();
+    const dispatch=useDispatch();
 
     const salir=()=>{      
       dispatch(getLogout(navigate));      
