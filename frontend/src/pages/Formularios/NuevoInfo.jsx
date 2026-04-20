@@ -20,7 +20,6 @@ export const NuevoInfo = () => {
         const sendFetch = async () => {
                 try {
                     sendInfo(token, form);
-                    console.log(form);
                 } catch (error) {
                     console.log(error);
                     dispatch(getRefresh(navigate));

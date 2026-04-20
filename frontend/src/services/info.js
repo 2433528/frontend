@@ -10,12 +10,11 @@ export const getInfo=async(comunidad='', token='')=>{
             },
             credentials:'include'
         });
-        
 
         if (!resp.ok){                
             const data = await resp.json();
             console.log("ERROR BACKEND:", data);
-            return false;
+            return [];
         }
 
         const data=await resp.json();
@@ -23,6 +22,7 @@ export const getInfo=async(comunidad='', token='')=>{
     }
     catch(error){
         console.log(error);
+        return [];
     }    
 }
 

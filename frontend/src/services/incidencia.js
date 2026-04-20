@@ -9,13 +9,12 @@ export const getInci=async(comunidad='', token='')=>{
                 'Authorization': `Bearer ${token}`,
             },
             credentials:'include'
-        });
-        
+        });        
 
         if (!resp.ok){                
             const data = await resp.json();
             console.log("ERROR BACKEND:", data);
-            return false;
+            return [];
         }
 
         const data=await resp.json();
@@ -23,6 +22,7 @@ export const getInci=async(comunidad='', token='')=>{
     }
     catch(error){
         console.log(error);
+        return [];
     }    
 }
 
@@ -41,7 +41,8 @@ export const sendInci=async(token='', datos={})=>{
         
 
         if (!resp.ok){                
-            const error=await resp.json();               
+            const error=await resp.json();
+            alert('La incidencia no pudo ser creada.');               
             console.log(error);
             return;
         }
@@ -50,6 +51,7 @@ export const sendInci=async(token='', datos={})=>{
     }
     catch(error){
         console.log(error);
+        alert('La incidencia no pudo ser creada.');
     }    
 }
 
@@ -96,7 +98,7 @@ export const changeInci=async(token='', estado='', id)=>{
             const data = await resp.json();
             console.log("ERROR BACKEND:", data);
             alert(data.estado);
-            return;
+            return null;
         }
 
         const data=await resp.json();
@@ -104,5 +106,6 @@ export const changeInci=async(token='', estado='', id)=>{
     }
     catch(error){
         console.log(error);
+        return null;
     }    
 }

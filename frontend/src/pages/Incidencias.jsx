@@ -3,13 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { getRefresh,} from "../redux/thunks";
 import { useNavigate } from "react-router-dom";
 import { changeInci, delInci, getInci } from "../services/incidencia";
-import { store } from "../redux/store";
 import { usePaginate } from "../hooks/usePaginate";
+import { BtnMenu } from "../components/BtnMenu";
 
 export const Incidencias = () => {
-    const token=useSelector((state)=>state.auth.token);
-    const user=useSelector((state)=>state.auth.user);
-    const rol=useSelector((state)=>state.auth.rol);
+    const {token, rol, is_loading, is_authenticated}=useSelector((state)=>state.auth);
     const comunidad=useSelector((state)=>state.comunidad.actual);
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -25,34 +23,22 @@ export const Incidencias = () => {
     const {getPrevious, getNext}=usePaginate(paginate.previous, paginate.next, token, actualizarEstado);
 
     const inciFetch = async () => {
-        try {
-            const data = await getInci(comunidad.id, token);
+        if (!token || !comunidad?.id || is_loading) return;
+        
+        const data = await getInci(comunidad.id, token);
 
-            if (!data){   
-                dispatch(getRefresh(navigate))                
-                .then(async()=>{
-                    const newToken = store.getState().auth.token;
-                    const newComunidad = store.getState().comunidad.actual.id;
-                    const data2=await getInci(newComunidad, newToken);
-                    actualizarEstado(data2);
-                    if (!data2){
-                        return;
-                    }
-                });
-                
-                return;
-            }
-
-            actualizarEstado(data);
-        } 
-        catch (error) {
-            console.log(error);
-        }
+        if (!data) return;               
+        actualizarEstado(data);
     };
 
     useEffect(()=>{
+        if (!token && !is_loading && !is_authenticated) {
+            dispatch(getRefresh(navigate));            
+        };
+
         inciFetch();
-    }, [comunidad.id]);
+        return;
+    }, [comunidad?.id, token, is_loading, is_authenticated]);
 
     const handleDelete=(id)=>{
         const dts=datos.filter((dato)=>dato.id !== id);
@@ -77,6 +63,7 @@ export const Incidencias = () => {
 
   return (
     <>
+        <BtnMenu/>
         <h1>Incidencias</h1>
         <small>{(rol !== 'gestor') && '*Solo se veran las incidencias creadas por ti.'}</small>
         <section>
@@ -87,6 +74,7 @@ export const Incidencias = () => {
                         <h2>{dato.titulo}</h2>
                         <p><strong>Fecha: </strong>{dato.fecha_creacion}</p>
                         <p><strong>Descripción: </strong>{dato.texto}</p>
+                        <p><strong>Creador: </strong>{dato?.usuario_creador?.nombre} {dato?.usuario_creador?.dni}</p>
                         {
                             (dato.estado !== 'resuelta' && rol === 'gestor')
                             ? 
@@ -106,8 +94,8 @@ export const Incidencias = () => {
             }
 
             <div>
-                {(paginate.previous) && <button onClick={getPrevious}>Anterior</button>}
-                {(paginate.next) && <button onClick={getNext}>Siguiente</button>}
+                <button onClick={getPrevious} disabled={!paginate.previous}>Anterior</button>
+                <button onClick={getNext} disabled={!paginate.next}>Siguiente</button>
             </div>
         </section>
     </>

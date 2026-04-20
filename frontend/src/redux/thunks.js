@@ -1,4 +1,5 @@
-import { asignarRol, login, logout, refresh, roles } from "./auhtSlice";
+import { replace } from "react-router-dom";
+import { asignarRol, login, logout, refresh, roles, startLoading } from "./auhtSlice";
 import { getComActual, getComunidades } from "./thunksComunidad";
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -52,6 +53,7 @@ export const getToken=(username, password, navigate='')=>{
 
 export const getRefresh=(navigate='')=>{
     return async(dispatch)=>{
+        dispatch(startLoading());
         try{
             const resp1=await fetch(`${API_URL}/refresh/`, {
                 method:'POST',
@@ -64,8 +66,7 @@ export const getRefresh=(navigate='')=>{
             if (!resp1.ok){   
                 const error=await resp1.json();             
                 console.log(error);
-                dispatch(getLogout());
-                (navigate !== '') && navigate('/');
+                dispatch(getLogout(navigate));
                 return false;
             }
 
@@ -80,8 +81,8 @@ export const getRefresh=(navigate='')=>{
                 credentials:'include'
             });
 
-            if (!resp2.ok){                
-                console.log('No se consiguió el usuario.', resp2);
+            if (!resp2.ok){     
+                dispatch(getLogout(navigate));           
                 alert('No se consiguió el usuario.')
                 return false;
             }
@@ -94,6 +95,7 @@ export const getRefresh=(navigate='')=>{
             return true;
        }
        catch(error){
+            dispatch(getLogout(navigate));
             console.log(error);
             return false;
        }
@@ -102,32 +104,26 @@ export const getRefresh=(navigate='')=>{
 
 export const getLogout=(navigate='')=>{
     return async(dispatch, getState)=>{
-        try{
-            const resp=await fetch(`${API_URL}/logout/`, {
-                method:'POST',
-                headers: {
-                    'Content-Type':'application/json',
-                    'Authorization': `Bearer ${getState().auth.token}`,
-                },
-                credentials:'include'
-            });
-
-            if (!resp.ok){
-                const data=await resp.json();          
-                console.log(data);             
-                (navigate !== '') && navigate('/',{ replace: true });
-                return;
+        try {
+            const token = getState().auth.token;
+            
+            if (token) {
+                await fetch(`${API_URL}/logout/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    credentials: 'include'
+                });
             }
-
-            const data=await resp.json();
-            console.log(data)
-            dispatch(logout());
-            localStorage.removeItem('actual');
-            (navigate !== '') && navigate('/', { replace: true });
-       }
-       catch(error){
+        } catch (error) {
             console.log(error);
-       }
+        } finally {
+            dispatch(logout());
+            console.log('Sesión cerrada.')
+            if (navigate !== '') navigate('/', { replace: true });
+        }
     }
 }
 

@@ -1,34 +1,8 @@
 const API_URL = import.meta.env.VITE_API_URL;
+export const getActas=async(comunidad='', token='')=>{
 
-export const createUser =async (token='', datos={}) => {
-  try{
-        const resp=await fetch(`${API_URL}/usuarios/`, {
-            method:'POST',
-            headers: {
-                'Content-Type':'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-            body:JSON.stringify(datos),
-            credentials:'include'
-        });
-        
-
-        if (!resp.ok){                
-            const data = await resp.json();
-            console.log("ERROR BACKEND:", data);
-            return data;
-        }
-
-        alert('Propietario creado.')
-    }
-    catch(error){
-        console.log(error);
-    }    
-}
-
-export const getPropietarios =async (token='') => {
-  try{
-        const resp=await fetch(`${API_URL}/usuarios/?comunidad=${localStorage.getItem('actual')}`, {
+    try{
+        const resp=await fetch(`${API_URL}/actas/?comunidad=${comunidad.id}`, {
             method:'GET',
             headers: {
                 'Content-Type':'application/json',
@@ -36,7 +10,6 @@ export const getPropietarios =async (token='') => {
             },
             credentials:'include'
         });
-        
 
         if (!resp.ok){                
             const data = await resp.json();
@@ -44,7 +17,7 @@ export const getPropietarios =async (token='') => {
             return [];
         }
 
-        const data = await resp.json();
+        const data=await resp.json();
         return data;
     }
     catch(error){
@@ -53,9 +26,10 @@ export const getPropietarios =async (token='') => {
     }    
 }
 
-export const getUsu =async (token='', dni='') => {
-  try{
-        const resp=await fetch(`${API_URL}/usuarios/?comunidad=${localStorage.getItem('actual')}&dni=${dni}`, {
+export const getActa=async(id='', token='')=>{
+
+    try{
+        const resp=await fetch(`${API_URL}/actas/${id}/`, {
             method:'GET',
             headers: {
                 'Content-Type':'application/json',
@@ -63,7 +37,6 @@ export const getUsu =async (token='', dni='') => {
             },
             credentials:'include'
         });
-        
 
         if (!resp.ok){                
             const data = await resp.json();
@@ -71,7 +44,7 @@ export const getUsu =async (token='', dni='') => {
             return {};
         }
 
-        const data = await resp.json();
+        const data=await resp.json();
         return data;
     }
     catch(error){
@@ -80,26 +53,55 @@ export const getUsu =async (token='', dni='') => {
     }    
 }
 
-export const modificarUser =async (id='', token='', form={}) => {
-  try{
-        const resp=await fetch(`${API_URL}/usuarios/${id}/`, {
-            method:'PATCH',
+export const nuevaActa=async(token='', datos={})=>{
+    try{
+        const resp=await fetch(`${API_URL}/actas/`, {
+            method:'POST',
             headers: {
                 'Content-Type':'application/json',
                 'Authorization': `Bearer ${token}`,
-            },
-            body:JSON.stringify(form),
+            },            
+            body:JSON.stringify(datos),
             credentials:'include'
         });
         
 
         if (!resp.ok){                
-            const data = await resp.json();
-            console.log("ERROR BACKEND:", data);
-            return false;
+            const error=await resp.json();               
+            console.log(error);
+            alert('Ya existe un acta para esta convocatoria.')
+            return;
         }
 
-        alert('Propietario modificado.')
+        alert('Acta creada con exito.');
+    }
+    catch(error){
+        console.log(error);
+    }    
+}
+
+export const changeActa=async(token='', id='', datos={})=>{
+
+    try{
+        const resp=await fetch(`${API_URL}/actas/${id}/`, {
+            method:'PATCH',
+            headers: {
+                'Content-Type':'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            body:JSON.stringify(datos),
+            credentials:'include'
+        });
+        
+        if (!resp.ok){                
+            const data = await resp.json();
+            console.log("ERROR BACKEND:", data);
+            alert('No se pudo hacer el cambio.')
+            return null;
+        }
+
+        alert('Datos cambiados');
+        return {};
     }
     catch(error){
         console.log(error);
@@ -107,25 +109,28 @@ export const modificarUser =async (id='', token='', form={}) => {
 }
 
 
-export const BorrarUser =async (token='', id='') => {
-  try{
-        const resp=await fetch(`${API_URL}/usuarios/${id}/`, {
-            method:'DELETE',
+export const saveAsistentes=async(token='', datos={})=>{
+    try{
+        const resp=await fetch(`${API_URL}/asistencia/`, {
+            method:'POST',
             headers: {
                 'Content-Type':'application/json',
                 'Authorization': `Bearer ${token}`,
-            },
+            },            
+            body:JSON.stringify(datos),
             credentials:'include'
         });
         
 
         if (!resp.ok){                
-            const data = await resp.json();
-            console.log("ERROR BACKEND:", data);
-            return false;
+            const error=await resp.json();               
+            console.log(error);
+            alert('No se guardaron los asistentes.')
+            return null;
         }
 
-        alert('Propietario borrado con exito.');
+        alert('Asistentes guardados con exito.');
+        return{};
     }
     catch(error){
         console.log(error);

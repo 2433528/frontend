@@ -2,6 +2,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const createPropiedad =async (token='', datos={}) => {
   try{
+        console.log(datos);
         const resp=await fetch(`${API_URL}/propiedades/`, {
             method:'POST',
             headers: {
@@ -42,7 +43,7 @@ export const getPropiedades =async (token='', num_piso='') => {
         if (!resp.ok){                
             const data = await resp.json();
             console.log("ERROR BACKEND:", data);
-            return false;
+            return [];
         }
 
         const data = await resp.json();
@@ -50,6 +51,7 @@ export const getPropiedades =async (token='', num_piso='') => {
     }
     catch(error){
         console.log(error);
+        return [];
     }    
 }
 
@@ -68,7 +70,7 @@ export const getProp =async (token='', id) => {
         if (!resp.ok){                
             const data = await resp.json();
             console.log("ERROR BACKEND:", data);
-            return false;
+            return {};
         }
 
         const data = await resp.json();
@@ -76,6 +78,7 @@ export const getProp =async (token='', id) => {
     }
     catch(error){
         console.log(error);
+        return {};
     }    
 }
 

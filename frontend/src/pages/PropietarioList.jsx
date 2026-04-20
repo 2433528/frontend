@@ -40,6 +40,7 @@ export const PropietarioList = () => {
 
     const handleSubmit=async(e)=>{
         e.preventDefault();
+        console.log(dni);
         const data=await getUsu(token, dni);
         actualizarEstado(data);
         handleReset();

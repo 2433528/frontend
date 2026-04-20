@@ -11,7 +11,6 @@ export const NuevoIncidencia = () => {
     const {form,titulo, texto, handleChange, handleReset}=useForm({
         titulo:'',
         texto:'',
-        usuario_creador:user.user_id,
         comunidad:comu.id
     });
 

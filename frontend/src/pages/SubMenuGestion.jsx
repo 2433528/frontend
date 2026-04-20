@@ -1,21 +1,25 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom"
+import { BtnMenu } from "../components/BtnMenu";
 
 export const SubMenuGestion = () => {
-    const rol=useSelector((state)=>state.auth.rol);
+    const {rol, is_loading, is_authenticated}=useSelector((state)=>state.auth);
     const navigate=useNavigate();
     const dispatch=useDispatch();
 
     useEffect(()=>{
-        if (!rol){
+    if (rol) return;
+
+        if (!rol && !is_loading && !is_authenticated){
             dispatch(getRefresh(navigate));
-            console.log(rol);
         }
-      }, [rol]);
+
+    }, [rol, is_loading, is_authenticated]);
 
   return (
     <>
+        <BtnMenu/>
         <h1>Gestión</h1>
         <section>
             <article onClick={()=>navigate(`/nuevo-propietario`)} style={{border: '2px solid black', margin: '1.5%'}}>Nuevo Propietario</article>
