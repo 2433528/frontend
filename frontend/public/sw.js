@@ -8,7 +8,7 @@ self.addEventListener('push', (event)=> {
             url: data.url
         }
     };
-    
+    console.log("PUSH RECIBIDO:", data);
     event.waitUntil(
         self.registration.showNotification(data.head, options)
     );
@@ -18,7 +18,7 @@ self.addEventListener('push', (event)=> {
 self.addEventListener('notificationclick', (event)=> {
     
     event.notification.close();
-    const url = event.notification.data?.url || "https://frontend-x64j.onrender.com"; // front aplicacion
+    const url = event.notification.data?.url || 'http://localhost:5173/'; // front aplicacion
     
     event.waitUntil(
         clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {

@@ -3,7 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { delInfo, getInfo } from "../services/info";
 import { getRefresh } from "../redux/thunks";
 import { useNavigate } from "react-router-dom";
-import { BtnMenu } from "../components/BtnMenu";
+import { PlantillaGeneral } from "../components/PlantillaGeneral";
+import { Cabecera } from "../components/Cabecera";
+import { BtnNuevo } from "../components/BtnNuevo";
+import { Btn } from "../components/Btn";
+import { Titulo } from "../components/Titulo";
+import { Contenedor } from "../components/Contenedor";
+import { Item } from "../components/Item";
+import { Footer } from "../components/Footer";
 
 
 export const TablonInfo = () => {
@@ -34,6 +41,8 @@ export const TablonInfo = () => {
     }, [token, comunidad?.id, is_loading]);
 
     const handleDelete=(id)=>{
+        const confirm=window.confirm('¿Eliminar esta informacion de forma permanente?');
+        if(!confirm)return;
         const info=datos.filter((inf)=>inf.id !== id);
         setDatos(info);
         delInfo(token, id);
@@ -41,21 +50,26 @@ export const TablonInfo = () => {
 
   return (
     <>
-        <BtnMenu/>
-        <h1>Tablón de anuncios</h1>
-        <section>
-            {(rol === 'gestor') && <button onClick={()=>navigate('/nuevo-info')}>Nuevo</button>}
+        <PlantillaGeneral>
+        <Cabecera/>
+        <Titulo titulo={'Tablón de Anuncios'}/>
+            <Contenedor>
+            {(rol === 'gestor') && <BtnNuevo onClick={()=>navigate('/nuevo-info')}/>}
             {
                 datos.map((inf)=>(
-                    <div key={inf.id}>
-                        <h2>📌 {inf.titulo}</h2>
-                        <p><strong>Fecha: </strong>{inf.fecha_creacion}</p>
-                        <p><strong>Descripción: </strong>{inf.texto}</p>
-                        {(rol === 'gestor') && <button onClick={()=>handleDelete(inf.id)}>Eliminar</button>}
-                    </div>
+                    <Item key={inf.id}>
+                        <div className="flex justify-between">
+                            <h2 className="font-bold m-2">📌 {inf.titulo}</h2>
+                            <p>{inf.fecha_creacion}</p>
+                        </div>
+                        <p className="m-2">{inf.texto}</p>
+                        {(rol === 'gestor') && <Btn onClick={()=>handleDelete(inf.id)} text={'Eliminar'}/>}
+                    </Item>
                 ))
             }
-        </section>
+        </Contenedor>
+        <Footer/>
+        </PlantillaGeneral>
     </>
   )
 }

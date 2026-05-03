@@ -131,3 +131,57 @@ export const BorrarUser =async (token='', id='') => {
         console.log(error);
     }    
 }
+
+
+export const getAsistentes =async (token='') => {
+  try{
+        const resp=await fetch(`${API_URL}/usuarios-asistencia/?comunidad=${localStorage.getItem('actual')}`, {
+            method:'GET',
+            headers: {
+                'Content-Type':'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            credentials:'include'
+        });
+        
+        if (!resp.ok){                
+            const data = await resp.json();
+            console.log("ERROR BACKEND:", data);
+            return [];
+        }
+
+        const data = await resp.json();
+        return data;
+    }
+    catch(error){
+        console.log(error);
+        return [];
+    }    
+}
+
+
+export const getPresentes =async (token='', acta_id) => {
+  try{
+        const resp=await fetch(`${API_URL}/asistencia/?comunidad=${localStorage.getItem('actual')}&acta_id=${acta_id}`, {
+            method:'GET',
+            headers: {
+                'Content-Type':'application/json',
+                'Authorization': `Bearer ${token}`,
+            },
+            credentials:'include'
+        });
+        
+        if (!resp.ok){                
+            const data = await resp.json();
+            console.log("ERROR BACKEND:", data);
+            return [];
+        }
+
+        const data = await resp.json();
+        return data;
+    }
+    catch(error){
+        console.log(error);
+        return [];
+    }    
+}

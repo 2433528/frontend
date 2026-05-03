@@ -49,6 +49,7 @@ export const suscribirNotificaciones = async () => {
             status_type: 'subscribe',
             subscription: subscripcion.toJSON(),
             browser: browser,
+            user_agent:navigator.userAgent
         };
 
         const res = await fetch(NOTIFICACION_URL, {

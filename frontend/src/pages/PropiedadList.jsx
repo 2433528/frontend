@@ -5,6 +5,16 @@ import { useForm } from "../hooks/useForm";
 import { usePaginate } from "../hooks/usePaginate";
 import { useNavigate } from "react-router-dom";
 import { BorrarPropiedad, getPropiedades } from "../services/propiedad";
+import { PlantillaGeneral } from "../components/PlantillaGeneral";
+import { Titulo } from "../components/Titulo";
+import { Cabecera } from "../components/Cabecera";
+import { Footer } from "../components/Footer";
+import { Formulario } from "../components/Formulario";
+import { Input } from "../components/Input";
+import { Btn } from "../components/Btn";
+import { Paginacion } from "../components/Paginacion";
+import { Item } from "../components/Item";
+import { Contenedor } from "../components/Contenedor";
 
 
 export const PropiedadList = () => {
@@ -42,41 +52,36 @@ export const PropiedadList = () => {
     }
   return (
     <>
-        <h1>Propiedades</h1>
-        <form onSubmit={handleSubmit}>
-            <label>Piso y letra </label>
-            <input
-            type="text"
-            name="num_piso"
-            value={num_piso}
-            onChange={handleChange}
-            />
-            <button type="submit">Buscar</button>
-        </form>        
-        <div>
-            {(datos.length > 0) && 
-                <>
-                    <h2>Lista propiedades</h2>
-                    <ul>
-                        {
-                            datos.map((item)=>(
-                                <li key={item.id}>
-                                    <p><strong>Piso y letra: </strong>{item.num_letra}</p>
-                                    <p><strong>Propietario: </strong>{item.nombre_usu} {item.apellido1_usu} {item.apellido2_usu}</p>     
-                                    <p><strong>DNI del Propietario: </strong>{item.dni_usu}</p>                                                             
-                                    <button onClick={()=>navigate(`/nuevo-propiedad/?prop_id=${item.id}`)}>Editar</button>
-                                    <button onClick={()=>delPropiedad(token, item.id)}>Eliminar</button>
-                                </li>
-                            ))
-                        }
-                    </ul>
-                    <div>
-                        {(paginate.previous) && <button onClick={getPrevious}>Anterior</button>}
-                        {(paginate.next) && <button onClick={getNext}>Siguiente</button>}
-                    </div>
-                </>
-            }
-        </div>
+        <PlantillaGeneral>
+            <Cabecera/>
+            <Titulo titulo={'Propiedades'}/>
+            <Formulario onSubmit={handleSubmit}>
+                <Input label={'Piso y letra'} value={num_piso} onChange={handleChange} name={'num_piso'}/>
+                <Btn text={'Buscar'} type={'submit'}/>
+            </Formulario>  
+            <Contenedor>
+                {(datos.length > 0) && 
+                    <>
+                        <h2 className="text-center text-white text-2xl">Lista propiedades</h2>                    
+                            {
+                                datos.map((item)=>(
+                                    <Item key={item.id}>
+                                        <p>Piso y letra: <strong>{item.num_letra}</strong></p>
+                                        <p>Propietario: <strong>{item.nombre_usu} {item.apellido1_usu} {item.apellido2_usu}</strong></p>     
+                                        <p>DNI del Propietario: <strong>{item.dni_usu}</strong></p>                                                             
+                                        <div className="flex items-center gap-4">
+                                            <Btn onClick={()=>navigate(`/nuevo-propiedad/?prop_id=${item.id}`)} text="Editar"/>
+                                            <Btn onClick={()=>delPropiedad(token, item.id)} text="Eliminar"/>
+                                        </div>
+                                    </Item>
+                                ))
+                            }                                     
+                        <Paginacion onClick1={getPrevious} onClick2={getNext} disabled1={!paginate.previous} disabled2={!paginate.next}/> 
+                    </>
+                }
+            </Contenedor>
+            <Footer/>
+        </PlantillaGeneral>
     </>
   )
 }

@@ -4,7 +4,15 @@ import { getRefresh,} from "../redux/thunks";
 import { useNavigate } from "react-router-dom";
 import { changeInci, delInci, getInci } from "../services/incidencia";
 import { usePaginate } from "../hooks/usePaginate";
-import { BtnMenu } from "../components/BtnMenu";
+import { PlantillaGeneral } from "../components/PlantillaGeneral";
+import { Titulo } from "../components/Titulo";
+import { Cabecera } from "../components/Cabecera";
+import { BtnNuevo } from "../components/BtnNuevo";
+import { Contenedor } from "../components/Contenedor";
+import { Item } from "../components/Item";
+import { Paginacion } from "../components/Paginacion";
+import { Footer } from "../components/Footer";
+import { Btn } from "../components/Btn";
 
 export const Incidencias = () => {
     const {token, rol, is_loading, is_authenticated}=useSelector((state)=>state.auth);
@@ -63,41 +71,44 @@ export const Incidencias = () => {
 
   return (
     <>
-        <BtnMenu/>
-        <h1>Incidencias</h1>
-        <small>{(rol !== 'gestor') && '*Solo se veran las incidencias creadas por ti.'}</small>
-        <section>
-            <button onClick={()=>navigate('/nuevo-inci')}>Nuevo</button>
+        <PlantillaGeneral>
+            <Cabecera/>
+            <Titulo titulo={'Incidencias'}/>
+            <Contenedor>       
+            <BtnNuevo onClick={()=>navigate('/nuevo-inci')}/>
             {
                 datos.map((dato)=>(
-                    <div key={dato.id}>
-                        <h2>{dato.titulo}</h2>
-                        <p><strong>Fecha: </strong>{dato.fecha_creacion}</p>
-                        <p><strong>Descripción: </strong>{dato.texto}</p>
-                        <p><strong>Creador: </strong>{dato?.usuario_creador?.nombre} {dato?.usuario_creador?.dni}</p>
+                    <Item key={dato.id}>
+                        <div className="flex justify-between">
+                            <h2 className="font-bold">{dato.titulo}</h2>
+                            <p>{dato.fecha_creacion}</p>
+                        </div>                        
+                        <p>Emisor: <span className="font-bold">{dato?.usuario_creador?.nombre} {dato?.usuario_creador?.dni}</span></p>
+                        <p>{dato.texto}</p>
                         {
                             (dato.estado !== 'resuelta' && rol === 'gestor')
                             ? 
-                                <select name="estado" value={dato.estado} onChange={(e)=>cambiarEstado(dato.id, e.target.value)}>
-                                    <option value="inicio">Inicio</option>
-                                    <option value="proceso">Proceso</option>
-                                    <option value="resuelta">Resuelta</option>
+                                <select className={`${(dato.estado === 'inicio') ? "bg-gray-400":"bg-orange-400"} p-2 mt-5 rounded-lg focus:outline-none`}
+                                    name="estado"
+                                    value={dato.estado}
+                                    onChange={(e)=>cambiarEstado(dato.id, e.target.value)}>
+                                    <option className="bg-white" value="inicio">Inicio</option>
+                                    <option className="bg-white" value="proceso">Proceso</option>
+                                    <option className="bg-white" value="resuelta">Resuelta</option>
                                 </select>                               
-                            : <p><strong>Estado: {dato.estado}</strong></p>
+                            : <p className={`${(dato.estado === 'resuelta')? "bg-green-600":(dato.estado === 'proceso')? "bg-orange-400":"bg-gray-400"} p-2 mt-5 rounded-lg max-w-max`}>{dato.estado}</p>
                         }
 
                         {
-                            (rol === 'gestor') && <button onClick={()=>handleDelete(dato.id)}>Eliminar</button>
+                            (rol === 'gestor') && <Btn onClick={()=>handleDelete(dato.id)} text={'Eliminar'}/>
                         }                  
-                    </div>
+                    </Item>
                 ))
             }
-
-            <div>
-                <button onClick={getPrevious} disabled={!paginate.previous}>Anterior</button>
-                <button onClick={getNext} disabled={!paginate.next}>Siguiente</button>
-            </div>
-        </section>
+            <Paginacion onClick1={getPrevious} onClick2={getNext} disabled1={!paginate.previous} disabled2={!paginate.next}/>
+            </Contenedor>            
+            <Footer/>   
+        </PlantillaGeneral>
     </>
   )
 }

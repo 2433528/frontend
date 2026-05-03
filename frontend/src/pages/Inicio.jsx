@@ -5,6 +5,7 @@ import { BtnSalir } from "../components/BtnSalir";
 import { useNavigate } from "react-router-dom";
 import { getRefresh, getRoles} from "../redux/thunks";
 import { ComunidadesList } from "../components/ComunidadesList";
+import { Checked } from "../components/Checked";
 
 
 export const Inicio = () => {
@@ -44,20 +45,23 @@ export const Inicio = () => {
 
   return (
     <>
-      <div>
-          <h1>👋 Hola {nombre}</h1>
+      <div className="bg-linear-to-tl from-blue-400 to-blue-900 h-screen w-screen flex flex-col items-center">
+        <div className="w-screen flex justify-between p-3 md:p-5 bg-linear-to-b from-blue-400 to-blue-900 shadow shadow-blue-900">
+          <h1 className="font-retro text-3xl md:text-6xl text-white font-bold">MiComunidapp</h1>
+          <BtnSalir/> 
+        </div>
+          <h2 className="font-text font-bold text-3xl md:text-4xl text-white my-10">👋 Hola {nombre}</h2>
           {
             (rolGestion && rolGestion.length > 0) &&
-            <div>
-              <label>Entrar como gestor</label>
-              <input type="checkbox" name="gestor" onChange={(e)=>changeChecked(e)}/>
+            <div className="flex items-center">              
+              <label className="font-text text-2xl md:text-3xl text-white mr-5">Entrar como gestor</label>
+              <Checked name={'gestor'} onChange={(e)=>changeChecked(e)}/>
             </div>
           }
-          <section>
+          <section className="bg-white p-5 md:p-15 m-5 rounded-lg">
           {(rolGestion && rolGestion.length > 0 && isGestor) && <ComunidadesList list={rolGestion} rol={'gestor'}/>}
           {(rolDist && rolDist.length > 0 && !isGestor) && <ComunidadesList list={rolDist}/>}
-          </section>
-        <BtnSalir/>
+          </section>        
       </div>
     </>
   )

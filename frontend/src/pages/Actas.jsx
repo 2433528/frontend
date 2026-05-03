@@ -4,13 +4,23 @@ import { useNavigate } from "react-router-dom"
 import { getRefresh } from "../redux/thunks";
 import { usePaginate } from "../hooks/usePaginate";
 import { getActas } from "../services/actas";
-import { BtnMenu } from "../components/BtnMenu";
+import { Cabecera } from "../components/Cabecera";
+import { Icono } from "../components/Icono";
+import { PlantillaGeneral } from "../components/PlantillaGeneral";
+import { Paginacion } from "../components/Paginacion";
+import { Btn } from "../components/Btn";
+import { Footer } from "../components/Footer";
+import { Contenedor } from "../components/Contenedor";
+import { Item } from "../components/Item";
+import { Titulo } from "../components/Titulo";
 
 export const Actas = () => {
     const {token, rol, is_loading, is_authenticated}=useSelector((state)=>state.auth);
     const comunidad=useSelector((state)=>state.comunidad.actual);
     const dispatch=useDispatch();
     const navigate=useNavigate();
+
+    const {abierto}=useSelector((state)=>state.menu);
 
     const [paginate, setPaginate]=useState({previous:null, next:null});
     const [datos, setDatos]=useState([]);
@@ -47,23 +57,23 @@ export const Actas = () => {
 
   return (
     <>
-        <BtnMenu/>
-        <h1>Actas</h1>
-        
-        <ul>
-            {datos.map((acta)=>(
-                <li key={acta.id}>
-                    <h2>{acta.pertenece_convocatoria?.titulo}</h2>
-                    <p><strong>{acta.pertenece_convocatoria?.fecha_lectura}</strong></p>
-                    <button onClick={()=>navigate(`/detalle-acta/?id=${acta.id}`)}>Votación Detalle</button>
-                </li>
-            ))}
-        </ul>
-
-        <div>
-            <button onClick={getPrevious} disabled={!paginate.previous}>Anterior</button>
-            <button onClick={getNext} disabled={!paginate.next}>Siguiente</button>
-        </div>
+        <PlantillaGeneral>
+            <Cabecera/>
+            <Titulo titulo={'Actas'}/>
+            <Contenedor>                
+                {datos.map((acta)=>(                    
+                    <Item key={acta.id}>
+                        <div className="flex flex-col">
+                            <p className="whitespace-nowrap self-end">{acta.pertenece_convocatoria?.fecha_lectura}</p>
+                            <h2 className="font-bold m-2">{acta.pertenece_convocatoria?.titulo}</h2>                            
+                        </div>
+                        <Btn onClick={()=>navigate(`/detalle-acta/?id=${acta.id}`)} text={'Votación Detalle'}/>
+                    </Item>                    
+                ))}
+                <Paginacion onClick1={getPrevious} onClick2={getNext} disabled1={!paginate.previous} disabled2={!paginate.next}/>               
+            </Contenedor>              
+        </PlantillaGeneral>
+        <Footer/>      
     </>
   )
 }

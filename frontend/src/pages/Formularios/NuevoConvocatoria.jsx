@@ -3,7 +3,17 @@ import { useForm } from "../../hooks/useForm";
 import { useEffect, useState } from "react";
 import {v4 as uuid} from 'uuid';
 import { changeConvocatoria, delPunto, nuevaConvocatoria } from "../../services/convocatorias";
-import { useNavigate } from "react-router-dom";
+import { Form, useNavigate } from "react-router-dom";
+import { PlantillaGeneral } from "../../components/PlantillaGeneral";
+import { Cabecera } from "../../components/Cabecera";
+import { Titulo } from "../../components/Titulo";
+import { Btn } from "../../components/Btn";
+import { Contenedor } from "../../components/Contenedor";
+import { Item } from "../../components/Item";
+import { Formulario } from "../../components/Formulario";
+import { Input } from "../../components/Input";
+import { Checked } from "../../components/Checked";
+import { Icono } from "../../components/Icono";
 
 
 export const NuevoConvocatoria = ({datos=null}) => {
@@ -37,11 +47,11 @@ export const NuevoConvocatoria = ({datos=null}) => {
     useEffect(()=>{
         if(datos){
             const fechaFormateada = formatearFechaInput(datos?.fecha_lectura);
-            const esPasada = datos?.fecha && datos?.hora
+            const esPasada = (datos?.fecha && datos?.hora)
             ? new Date(`${fechaFormateada}T${datos.hora}`) < new Date() 
             : false;
-            
-            setFechaPasada(esPasada && datos?.celebrada);
+
+            setFechaPasada(esPasada || datos?.celebrada);
 
             setForm({
                 titulo:datos?.titulo || '',
@@ -65,18 +75,20 @@ export const NuevoConvocatoria = ({datos=null}) => {
 
         if (isChecked) {
             const confirmar = window.confirm("Al marcar como celebrada se cerrará la edición. ¿Continuar?");
-            if (confirmar) {
-                const datosAEnviar = { ...form, celebrada: true, puntos:puntosNuevos};
-                const cambiado=await changeConvocatoria(token, datos?.id, datosAEnviar);
-                if(!cambiado){
-                    setFechaPasada(false);
-                    setForm({...form, celebrada:false});
-                    return;
-                };
-
-                setFechaPasada(true);
-                setForm({...form, celebrada:true});
+            if (!confirmar){
+                handleReset();
+                return;
             }
+            const datosAEnviar = { ...form, celebrada: true, puntos:puntosNuevos};
+            const cambiado=await changeConvocatoria(token, datos?.id, datosAEnviar);
+            if(!cambiado){
+                setFechaPasada(false);
+                setForm({...form, celebrada:false});
+                return;
+            };
+
+            setFechaPasada(true);
+            setForm({...form, celebrada:true});
         }
     };
 
@@ -132,98 +144,116 @@ export const NuevoConvocatoria = ({datos=null}) => {
 
   return (
     <>
-        <h1>{datos? 'Convocatoria':'Crear Convocatoria'}</h1>
-        {(celebrada && rol === 'gestor') && <button type="button" onClick={()=>navigate(`/nuevo-acta/?id=${datos.id}`)}>Crear Acta</button>}
-        {
-            (datos && fechaPasada) &&
-            <div className="alerta-error" hidden={rol !== 'gestor'}>
-                <p>⚠️ Esta convocatoria ya no se puede modificar.</p>
-            </div>
-        }
-        <form onSubmit={handleSubmit}>
-            <label>Titulo</label>
-            <input
-                type="text"
-                name="titulo"
-                value={titulo}
-                disabled={fechaPasada || rol !== 'gestor'}
-                onChange={handleChange}
-            />
+        <PlantillaGeneral>
+            <Cabecera/>
+            <Titulo titulo={datos? 'Convocatoria':'Crear Convocatoria'}/>
+            <Contenedor>
+            
+            {(celebrada && rol === 'gestor') && <Btn text={datos? "Ver detalle":"Crear Acta"} type="button" onClick={()=>navigate(`/nuevo-acta/?id=${datos.id}`)}/>}
+            {
+                (datos && fechaPasada) &&
+                <div className="bg-yellow-200 p-2 rounded-lg" hidden={rol !== 'gestor'}>
+                    <p>⚠️ Esta convocatoria ya no se puede modificar.</p>
+                </div>
+            }   
+                <Formulario onSubmit={handleSubmit}>
+                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>  
+                    <h2 className="text-3xl font-bold self-start">Datos</h2>
+                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>
+                    <Input
+                        label={'Título'}
+                        type="text"
+                        name="titulo"
+                        value={titulo}
+                        disabled={fechaPasada || rol !== 'gestor'}
+                        onChange={handleChange}
+                    />
 
-            <label>Tipo</label>
-            <select name="tipo" value={tipo} onChange={handleChange} disabled={fechaPasada || rol !== 'gestor'}>
-                <option value="ordinaria">Ordinaria</option>
-                <option value="extraordinaria">Extraordinaria</option>
-            </select>
+                    <label className="font-semibold text-gray-700">Tipo</label>
+                    <select name="tipo" value={tipo} onChange={handleChange} disabled={fechaPasada || rol !== 'gestor'}
+                        className="border border-gray-300 p-2 rounded-lg mb-4 focus:outline-none"
+                    >
+                        <option value="ordinaria">Ordinaria</option>
+                        <option value="extraordinaria">Extraordinaria</option>
+                    </select>
 
-            <label>Convocatoria</label>
-            <select name="num_convocatoria" value={num_convocatoria} onChange={handleChange} disabled={fechaPasada || rol !== 'gestor'}>
-                <option value="primera">Primera</option>
-                <option value="segunda">Segunda</option>
-            </select>
+                    <label className="font-semibold text-gray-700">Convocatoria</label>
+                    <select name="num_convocatoria" value={num_convocatoria} onChange={handleChange} disabled={fechaPasada || rol !== 'gestor'}
+                        className="border border-gray-300 p-2 rounded-lg focus:outline-none"
+                    >
+                        <option value="primera">Primera</option>
+                        <option value="segunda">Segunda</option>
+                    </select>
+                    
+                    <Input
+                        label={'Lugar'}
+                        type="text"
+                        name="lugar"
+                        value={lugar}
+                        disabled={fechaPasada || rol !== 'gestor'}
+                        onChange={handleChange}
+                    />
+                    
+                    <Input
+                        label={'Fecha'}
+                        type="date"
+                        name="fecha"
+                        value={fecha}
+                        disabled={fechaPasada || rol !== 'gestor'}
+                        onChange={handleChange}
+                    />
+                    
+                    <Input
+                        label={'Hora'}
+                        type="time"
+                        name="hora"
+                        value={hora}
+                        disabled={fechaPasada || rol !== 'gestor'}
+                        onChange={handleChange}
+                    />
+                    <small hidden={fechaPasada || rol !== 'gestor'}>*Tiempo de cortesia: 10 min después de la hora.</small>                    
+                    <Checked
+                        text={'Celebrada'}                        
+                        name="celebrada"
+                        checked={celebrada}
+                        disabled={fechaPasada || rol !== 'gestor'}
+                        onChange={handleCelebradaChange}
+                    />
+                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>
+                    <h2 className="text-2xl font-bold self-start my-1">Puntos del día</h2>
+                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>                    
+                    <ul className="w-full mb-4">
+                        {
+                            puntos.map((punto)=>(
+                                <li key={uuid()} className="text-[1rem] my-1 border border-blue-900 p-3 rounded-lg">
+                                    <div className="flex items-center">
+                                        <Icono name={'fiber_manual_record'} className="icon-sm"/>
+                                        {punto?.descripcion}
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        {(!fechaPasada && rol === 'gestor') && <Btn text="Modificar" type="button" onClick={()=>editarPunto(punto?.descripcion)}/>}
+                                        {(!fechaPasada && rol === 'gestor') && <Btn text="Eliminar" type="button" onClick={()=>eliminarPunto(punto?.descripcion)}/>} 
+                                    </div>                 
+                                </li>
+                            ))
+                        }
+                    </ul>
+                    <textarea
+                        className="border border-blue-900 focus:outline-none p-3 h-36 w-full rounded-lg resize-none"
+                        name="punto"
+                        placeholder="Escribe un punto del día..."
+                        cols={30}
+                        rows={2} 
+                        value={puntoActual}
+                        hidden={fechaPasada || rol !== 'gestor'}
+                        onChange={(e)=>setPuntoActual(e.target.value)}
 
-            <label>Lugar</label>
-            <input
-                type="text"
-                name="lugar"
-                value={lugar}
-                disabled={fechaPasada || rol !== 'gestor'}
-                onChange={handleChange}
-            />
-
-            <label>Fecha</label>
-            <input
-                type="date"
-                name="fecha"
-                value={fecha}
-                disabled={fechaPasada || rol !== 'gestor'}
-                onChange={handleChange}
-            />
-
-            <label>Hora</label>
-            <input
-                type="time"
-                name="hora"
-                value={hora}
-                disabled={fechaPasada || rol !== 'gestor'}
-                onChange={handleChange}
-            />
-            <small hidden={fechaPasada || rol !== 'gestor'}>*Tiempo de cortesia: 10 min después de la hora.</small>
-            <label>Celebrada</label>
-            <input
-                type="checkbox"
-                name="celebrada"
-                checked={celebrada}
-                disabled={fechaPasada || rol !== 'gestor'}
-                onChange={handleCelebradaChange}
-            />
-
-            <h2>Puntos del día</h2>
-            <ul>
-                {
-                    puntos.map((punto)=>(
-                        <li key={uuid()}>
-                            {punto?.descripcion}
-                            {(!fechaPasada && rol === 'gestor') && <button type="button" onClick={()=>editarPunto(punto?.descripcion)}>Moficar</button>}
-                            {(!fechaPasada && rol === 'gestor') && <button type="button" onClick={()=>eliminarPunto(punto?.descripcion)}>Eliminar</button>}                      
-                        </li>
-                    ))
-                }
-            </ul>
-            <textarea
-                name="punto"
-                placeholder="Escribe un punto del día..."
-                cols={30}
-                rows={2} 
-                value={puntoActual}
-                hidden={fechaPasada || rol !== 'gestor'}
-                onChange={(e)=>setPuntoActual(e.target.value)}
-
-            />
-            <button type="button" onClick={agregarPunto} disabled={fechaPasada || rol !== 'gestor'} hidden={rol !== 'gestor'}>Agregar Punto</button>
-            <br />
-            <button type="submit" disabled={fechaPasada || rol !== 'gestor'} hidden={rol !== 'gestor'}>{datos? 'Modificar':'Crear'}</button>
-        </form>        
+                    />
+                    <Btn text="Agregar Punto" type="button" onClick={agregarPunto} disabled={fechaPasada || rol !== 'gestor'} hidden={rol !== 'gestor'}/>                
+                    <Btn text={datos? 'Modificar':'Crear'} type="submit" disabled={fechaPasada || rol !== 'gestor'} hidden={rol !== 'gestor'}/>
+                </Formulario>
+            </Contenedor>
+        </PlantillaGeneral>    
     </>
   )
 }

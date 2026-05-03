@@ -4,6 +4,16 @@ import { useSelector } from "react-redux";
 import { useForm } from "../hooks/useForm";
 import { usePaginate } from "../hooks/usePaginate";
 import { useNavigate } from "react-router-dom";
+import { PlantillaGeneral } from "../components/PlantillaGeneral";
+import { Cabecera } from "../components/Cabecera";
+import { Titulo } from "../components/Titulo";
+import { Paginacion } from "../components/Paginacion";
+import { Contenedor } from "../components/Contenedor";
+import { Item } from "../components/Item";
+import { Formulario } from "../components/Formulario";
+import { Input } from "../components/Input";
+import { Footer } from "../components/Footer";
+import { Btn } from "../components/Btn";
 
 
 export const PropietarioList = () => {
@@ -47,46 +57,40 @@ export const PropietarioList = () => {
     }
   return (
     <>
-        <h1>Propietarios</h1>
-        <form onSubmit={handleSubmit}>
-            <label>DNI del propietario a buscar </label>
-            <input
-            type="text"
-            name="dni"
-            value={dni}
-            onChange={handleChange}
-            />
-            <button type="submit">Buscar</button>
-        </form>
-        <small>*Si el usuario aún no tiene propiedad asignada también puedes buscarlo por el DNI </small>
-        <div>
-            {(datos.length > 0) && 
-                <>
-                    <h2>Lista propietarios</h2>
-                    <ul>
-                        {
-                            PropietariosUnicos.map((usu)=>(
-                                <li key={usu.id}>
-                                    <p><strong>Nombre: </strong>{usu.nombre}</p>
-                                    <p><strong>Apellidos: </strong>{usu.apellido1} {usu.apellido2}</p>
-                                    <p><strong>DNI: </strong>{usu.dni}</p>
-                                    <p><strong>Telefono: </strong>{usu.telefono}</p>
-                                    <p><strong>Email: </strong>{usu.email}</p>
-                                    <p><strong>Rol: </strong>{usu.rol_info}</p>
-                                    <p><strong>{(usu.moroso_info) && 'Moroso'}</strong></p>
-                                    <button onClick={()=>navigate(`/nuevo-propietario/?user_dni=${usu.dni}`)}>Editar</button>
-                                    <button onClick={()=>delUser(token, usu.id)}>Eliminar</button>
-                                </li>
-                            ))
-                        }
-                    </ul>
-                    <div>
-                        {(paginate.previous) && <button onClick={getPrevious}>Anterior</button>}
-                        {(paginate.next) && <button onClick={getNext}>Siguiente</button>}
-                    </div>
-                </>
-            }
-        </div>
+        <PlantillaGeneral>
+            <Cabecera/>
+            <Titulo titulo={'Propietarios'}/>
+            <Formulario onSubmit={handleSubmit}>
+                <Input label={'DNI del propietario a buscar '} value={dni} onChange={handleChange} name={'dni'}/>
+                <Btn text={'Buscar'} type={'submit'}/>
+                <small>*Si el usuario aún no tiene propiedad asignada también puedes buscarlo por el DNI </small>
+            </Formulario>            
+            <Contenedor>
+                {(datos.length > 0) && 
+                    <>
+                        <h2 className="text-center text-white text-2xl">Lista propietarios</h2>
+                            {
+                                PropietariosUnicos.map((usu)=>(
+                                    <Item key={usu.id}>
+                                        <p><strong>{usu.nombre} {usu.apellido1} {usu.apellido2}</strong></p>                                    
+                                        <p>DNI: <strong>{usu.dni}</strong></p>
+                                        <p>Telefono: <strong>{usu.telefono}</strong></p>
+                                        <p>Email: <strong>{usu.email}</strong></p>
+                                        <p>Rol: <strong>{usu.rol_info}</strong></p>
+                                        <p><strong>{(usu.moroso_info) && 'Moroso'}</strong></p>
+                                        <div className="flex items-center gap-4">
+                                            <Btn onClick={()=>navigate(`/nuevo-propietario/?user_dni=${usu.dni}`)} text={'Editar'}/>
+                                            <Btn onClick={()=>delUser(token, usu.id)} text={'Eliminar'}/>
+                                        </div>
+                                    </Item>
+                                ))
+                            }
+                        <Paginacion onClick1={getPrevious} onClick2={getNext} disabled1={!paginate.previous} disabled2={!paginate.next}/>                       
+                    </>
+                }            
+            </Contenedor>
+            <Footer/>
+        </PlantillaGeneral>
     </>
   )
 }

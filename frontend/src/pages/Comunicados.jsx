@@ -5,13 +5,24 @@ import { useNavigate } from "react-router-dom";
 import { usePaginate } from "../hooks/usePaginate";
 import { changeLeido, getcomunicados} from "../services/comunicados";
 import {v4 as uuid} from 'uuid';
-import { BtnMenu } from "../components/BtnMenu";
+import { Cabecera } from "../components/Cabecera";
+import { Icono } from "../components/Icono";
+import { PlantillaGeneral } from "../components/PlantillaGeneral";
+import { Paginacion } from "../components/Paginacion";
+import { BtnNuevo } from "../components/BtnNuevo";
+import { Checked } from "../components/Checked";
+import { Btn } from "../components/Btn";
+import { Footer } from "../components/Footer";
+import { Titulo } from "../components/Titulo";
+import { Contenedor } from "../components/Contenedor";
 
 export const Comunicados = () => {
     const {token, rol, is_loading, is_authenticated}=useSelector((state)=>state.auth);
     const comunidad=useSelector((state)=>state.comunidad.actual);
     const dispatch=useDispatch();
     const navigate=useNavigate();
+
+    const {abierto}=useSelector((state)=>state.menu);
 
     const [paginate, setPaginate]=useState({previous:null, next:null});
     const [datos, setDatos]=useState([]);
@@ -61,51 +72,39 @@ export const Comunicados = () => {
 
   return (
     <>
-        <BtnMenu/>
-        <h1>Comunicados</h1>        
-        {(rol === 'gestor') && <button onClick={()=>navigate('/nuevo-comunicado')}>Nuevo</button>}
+        <PlantillaGeneral>
+            <Cabecera/>
+            <Titulo titulo={'Comunicados'}/>       
+            <Contenedor>
+                {(rol === 'gestor') && <BtnNuevo onClick={()=>navigate('/nuevo-comunicado')}/>}                
+                {datos.map((com)=>(
+                <div key={com?.id} className="bg-white p-5 my-5 rounded-lg">
+                    <div className="flex flex-col">
+                        <p className="whitespace-nowrap self-end">{com?.fecha_creacion}</p>
+                        <h2 className="font-bold m-2">{com?.titulo}</h2>                        
+                    </div>
+                    <p className="m-2">{com?.texto}</p>
+                    {(rol === 'gestor') && <Btn onClick={()=>setAbiertoId(abiertoId === com?.id ? null:com?.id)} text={'Enviado a...'}/>}
+                    
+                    {
+                        (rol !== 'gestor')
+                        ?<>
+                            <Checked name={'leido'} checked={com?.leido || false} disabled={com?.leido} onChange={(e)=>marcarLeido(e.target.checked, com?.comunicadousuario)} text={'Leido'}/> 
+                        </>
 
-        {datos.map((com)=>(
-            <div key={com?.id}>
-                <h2>{com?.titulo}</h2>
-                <p><strong>Fecha: </strong>{com?.fecha_creacion}</p>
-                <p><strong>Texto: </strong>{com?.texto}</p>
-                {(rol === 'gestor') && <button onClick={()=>setAbiertoId(abiertoId === com?.id ? null:com?.id)}>Enviado a...</button>}
-
-                {
-                    (rol !== 'gestor')
-                    ?<>
-                        <input
-                            type="checkbox"
-                            name="leido"
-                            checked={com?.leido || false}
-                            disabled={com?.leido}
-                            onChange={(e)=>marcarLeido(e.target.checked, com?.comunicadousuario)}
-                        />
-                        <label>Leido</label>
-                    </>
-
-                    : ((abiertoId === com?.id && com?.usuarios)? com?.usuarios:[]).map((usu)=>(
-                        <div key={uuid()}>
-                            <p>{usu?.nombre}</p>
-                            <p>{usu?.dni}</p>
-
-                            <input
-                            type="checkbox"
-                            name="leido"
-                            checked={usu?.leido}
-                            disabled={true}
-                        />
-                        <label>Leido</label>
-                        </div>
-                    ))
-                }
-            </div>
-        ))}
-        <div>
-            <button onClick={getPrevious} disabled={!paginate.previous}>Anterior</button>
-            <button onClick={getNext} disabled={!paginate.next}>Siguiente</button>
-        </div>
+                        : ((abiertoId === com?.id && com?.usuarios)? com?.usuarios:[]).map((usu)=>(
+                            <div key={uuid()} className="flex flex-col mt-5 border-b-2 border-blue-900 pb-1">
+                                <p>{usu?.nombre} {usu?.dni}</p>                                
+                                <Checked name={'leido'} checked={usu?.leido} disabled={true} text={'Leido'}/>                               
+                            </div>
+                        ))
+                    }
+                </div>
+                ))}
+                <Paginacion onClick1={getPrevious} onClick2={getNext} disabled1={!paginate.previous} disabled2={!paginate.next}/>
+            </Contenedor>            
+        </PlantillaGeneral>
+        <Footer/>
     </>
   )
 }

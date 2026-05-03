@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { getComActual } from "../redux/thunksComunidad";
 import { asignarRol} from "../redux/auhtSlice";
 import { useMemo } from "react";
+import { Icono } from "./Icono";
 
 export const ComunidadesList = ({list=[], rol=null}) => {
     const dispatch=useDispatch();
@@ -23,12 +24,12 @@ export const ComunidadesList = ({list=[], rol=null}) => {
 
   return (
     <>
-        {(rol)? <h2>Comunidades que gestionas</h2>:<h2>Comunidades a las que perteneces</h2> }           
+        {(rol)? <h2 className="font-text font-bold text-3xl text-blue-900">Comunidades que gestionas</h2>:<h2 className="font-text font-bold text-3xl text-blue-900">Comunidades a las que perteneces</h2> }           
         {
         comunidadesUnicas.map((item)=>(
-            <article key={item.id} onClick={()=>handleClick(item)} style={{border: '2px solid black', margin: '1.5%'}}>
-            <p>{item.com_name}</p>
-            <p>{item.com_localidad}</p>
+            <article key={item.id} onClick={()=>handleClick(item)} className={"bg-white border-2 border-blue-600 rounded-lg p-3 mt-5 shadow-2xl shadow-blue-900 flex gap-2 items-center"}>
+              <Icono name={"home"} className={"text-blue-900"}/>
+              <p className="font-text font-bold">{item.com_name}, {item.com_localidad}</p>
             </article>
         ))
         }

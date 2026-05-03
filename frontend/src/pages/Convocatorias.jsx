@@ -4,7 +4,15 @@ import { useNavigate } from "react-router-dom"
 import { getRefresh } from "../redux/thunks";
 import { getConvocatorias } from "../services/convocatorias";
 import { usePaginate } from "../hooks/usePaginate";
-import { BtnMenu } from "../components/BtnMenu";
+import { Cabecera } from "../components/Cabecera";
+import { Icono } from "../components/Icono";
+import { PlantillaGeneral } from "../components/PlantillaGeneral";
+import { Titulo } from "../components/Titulo";
+import { Paginacion } from "../components/Paginacion";
+import { BtnNuevo } from "../components/BtnNuevo";
+import { Btn } from "../components/Btn";
+import { Footer } from "../components/Footer";
+import { Contenedor } from "../components/Contenedor";
 
 
 export const Convocatorias = () => {
@@ -12,6 +20,7 @@ export const Convocatorias = () => {
     const comunidad=useSelector((state)=>state.comunidad.actual);
     const dispatch=useDispatch();
     const navigate=useNavigate();
+    const {abierto}=useSelector((state)=>state.menu);
 
     const [paginate, setPaginate]=useState({previous:null, next:null});
     const [datos, setDatos]=useState([]);
@@ -43,28 +52,29 @@ export const Convocatorias = () => {
 
   return (
     <>
-        <BtnMenu/>
-        <h1>Convocatorias</h1>
-        {(rol === 'gestor') && <button onClick={()=>navigate('/nuevo-convocatoria')}>Nuevo</button>}
-        
-        <section>
-            {
-                datos.map((item)=>(
-                    <article key={item.id}>
-                        <p><strong>Fecha: </strong>{item?.fecha_lectura}</p>                        
-                        <p><strong>Titulo:</strong>{item?.titulo}</p>
-                        {(item?.celebrada) && <p><strong>Celebrada</strong></p>}
-                        <button onClick={()=> navigate(`/detalle-convocatoria/?id=${item?.id}`)}>{(rol === 'gestor')? 'Ver detalles o modificar': 'Ver detalles'}</button>
-                    </article>
-                ))
-            }
-                        
-            <div>
-                <button onClick={getPrevious} disabled={!paginate.previous}>Anterior</button>
-                <button onClick={getNext} disabled={!paginate.next}>Siguiente</button>
-            </div>
-        </section>
-        <button onClick={()=>navigate('/actas')}>Actas</button>
+        <PlantillaGeneral>
+            <Cabecera/>
+            <Titulo titulo={'Convocatorias'}/>                      
+            <Contenedor>
+                {(rol === 'gestor') && <BtnNuevo onClick={()=>navigate('/nuevo-convocatoria')}/>}
+                <section>
+                    {
+                        datos.map((item)=>(
+                            <article key={item.id} className="bg-white my-5 rounded-lg p-3 box-border z-20 relative font-text">
+                                <div className="flex flex-col">
+                                    <p className="whitespace-nowrap self-end">{item?.fecha_lectura}</p> 
+                                    <p className="font-bold m-2">{item?.titulo}</p>                                                                                               
+                                </div>
+                                {(item?.celebrada)? <p className="bg-green-600 w-max p-2 rounded-lg m-2"><strong>Celebrada</strong></p>:<p className="bg-gray-300 w-max p-2 rounded-lg m-2"><strong>No Celebrada</strong></p>}
+                                <Btn onClick={()=> navigate(`/detalle-convocatoria/?id=${item?.id}`)} text={(rol === 'gestor')? 'Ver detalles o modificar': 'Ver detalles'}/>                        
+                            </article>
+                        ))
+                    }                                               
+                </section>
+                <Paginacion onClick1={getPrevious} onClick2={getNext} disabled1={!paginate.previous} disabled2={!paginate.next}/>
+            </Contenedor>                           
+            <Footer/>
+        </PlantillaGeneral>            
     </>
   )
 }
