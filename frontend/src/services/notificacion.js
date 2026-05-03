@@ -45,11 +45,15 @@ export const suscribirNotificaciones = async () => {
     
     const sendSubData = async (subscripcion) => {
         const browser = navigator.userAgent.match(/(firefox|chrome|safari)/ig)[0].toLowerCase();
+        const sub=susubscripcion.toJSON();
+
         const data = {
             status_type: 'subscribe',
-            subscription: subscripcion.toJSON(),
-            browser: browser,
-            user_agent:navigator.userAgent
+            browser,
+            user_agent: navigator.userAgent,
+            endpoint: sub.endpoint,
+            auth: sub.keys.auth,
+            p256dh: sub.keys.p256dh
         };
 
         const res = await fetch(NOTIFICACION_URL, {
