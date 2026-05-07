@@ -4,6 +4,14 @@ import { createPropiedad, getProp, modificarPropiedad } from '../../services/pro
 import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 import { useEffect, useState } from 'react';
+import { PlantillaGeneral } from '../../components/PlantillaGeneral';
+import { Cabecera } from '../../components/Cabecera';
+import { Titulo } from '../../components/Titulo';
+import { Contenedor } from '../../components/Contenedor';
+import { Formulario } from '../../components/Formulario';
+import { Btn } from '../../components/Btn';
+import { Input } from '../../components/Input';
+import { Footer } from '../../components/Footer';
 
 export const NuevoPropiedad = () => {
   const token=useSelector((state)=>state.auth.token);
@@ -52,25 +60,31 @@ const {form, handleChange, handleReset, num_letra, usuario_dni, setForm, comunid
 
   return (
     <>
-        <h1>Nueva Propiedad</h1>
-        <form onSubmit={handleSubmit}>
-          <label>Numero, piso o letra de la propiedad</label>
-          <input
-          type="text"
-          name="num_letra"
-          value={num_letra}
-          onChange={handleChange}
-          />
-          <label>DNI del propietario</label>
-          <input
-          type="text"
-          name="usuario_dni"
-          value={usuario_dni}
-          onChange={handleChange}
-          />
-          {(!prop)? <button type="submit">Crear</button>:<button type="submit">Modificar</button>}       
-        </form>
-        <small>*Para crear la propiedad el propietario debe estar registrado.</small>
+      <PlantillaGeneral>
+        <Cabecera/>
+        <Titulo titulo={'Nueva Propiedad'}/>
+        <Contenedor>
+          <Formulario onSubmit={handleSubmit}>         
+            <Input
+            label={'Numero, piso o letra de la propiedad'}
+            type="text"
+            name="num_letra"
+            value={num_letra}
+            onChange={handleChange}
+            />          
+            <Input
+            label={'DNI del propietario'}
+            type="text"
+            name="usuario_dni"
+            value={usuario_dni}
+            onChange={handleChange}
+            />
+            {(!prop)? <Btn text='Crear' type="submit"/>:<Btn text='Modificar' type="submit"/>}
+            <small>*Para crear la propiedad el propietario debe estar registrado.</small>   
+          </Formulario>
+        </Contenedor>
+        <Footer/>    
+      </PlantillaGeneral>
     </>
   )
 }

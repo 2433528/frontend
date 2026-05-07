@@ -18,9 +18,11 @@ export const MenuHamburguesa = () => {
         <div onClick={()=>dispatch(cambiarEstado())} className="flex flex-col">
             {abierto? <Icono name={'close'} className="cursor-pointer text-white self-end pr-5"/>:<Icono name={'menu'} className="cursor-pointer text-white self-end pr-1"/>}
             
-            <div className="absolute top-full right-0 md:w-1/3 shadow-lg z-80 rounded-b-lg grid grid-cols-2 bg-[url(./assets/FondoPaisaje.png)] bg-cover font-text" hidden={!abierto}>
+            <div className={`absolute md:w-1/3 shadow-lg z-80 rounded-b-lg grid grid-cols-2 bg-[url(./assets/FondoPaisaje.png)] bg-cover font-text
+                overflow-hidden transition-all duration-700 ease-in-out ${abierto? 'top-full right-0':'top-full right-[-300%]'}`}
+            >
                 <h2 onClick={()=>navigate('/inicio')} className="font-bold md:text-3xl text-blue-900 my-3 md:my-10 flex items-center ml-5 cursor-pointer hover:text-blue-500"><Icono name={'person'} className="text-blue-900 !text-5xl mr-2"/>{user?.nombre} {rol}</h2>
-                <img src={casa} alt="" className="absolute col-start-2 place-self-center bottom-3"/>
+                <img src={casa} alt="" className="absolute col-start-2 place-self-center bottom-2"/>
                 <ul className="col-end-2 ml-10">
                     <li onClick={()=>navigate('/comunicados')} className="p-2 md:p-5 flex font-bold items-center hover:border-2 hover:border-blue-900 hover:rounded-lg"><Icono name={'campaign'} className="text-blue-900 mr-2"/>Comunicados</li>                    
                     <li onClick={()=>navigate('/convocatorias')} className="p-2 md:p-5 flex font-bold items-center hover:border-2 hover:border-blue-900 hover:rounded-lg"><Icono name={'calendar_month'} className="text-blue-900 mr-2"/>Convocatorias</li>

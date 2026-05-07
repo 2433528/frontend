@@ -59,13 +59,13 @@ export const PropietarioList = () => {
     <>
         <PlantillaGeneral>
             <Cabecera/>
-            <Titulo titulo={'Propietarios'}/>
-            <Formulario onSubmit={handleSubmit}>
-                <Input label={'DNI del propietario a buscar '} value={dni} onChange={handleChange} name={'dni'}/>
-                <Btn text={'Buscar'} type={'submit'}/>
-                <small>*Si el usuario aún no tiene propiedad asignada también puedes buscarlo por el DNI </small>
-            </Formulario>            
+            <Titulo titulo={'Propietarios'}/>                        
             <Contenedor>
+                <Formulario onSubmit={handleSubmit}>
+                    <Input label={'DNI del propietario a buscar '} value={dni} onChange={handleChange} name={'dni'}/>
+                    <Btn text={'Buscar'} type={'submit'}/>
+                    <small>*Si el usuario aún no tiene propiedad asignada también puedes buscarlo por el DNI </small>
+                </Formulario>
                 {(datos.length > 0) && 
                     <>
                         <h2 className="text-center text-white text-2xl">Lista propietarios</h2>

@@ -25,7 +25,7 @@ export const Login = () => {
     return(
         <>
             <div className="bg-[url(./assets/Fondo.png)] bg-cover w-screen h-screen flex flex-col justify-center items-center">
-                <h1 className="font-retro text-5xl md:text-8xl text-blue-800 font-bold shadow-2xs shadow-blue-900 mt-10">MiComunidapp</h1>            
+                <h1 className="font-retro text-5xl md:text-8xl text-blue-800 font-bold shadow-2xs shadow-blue-900 mt-15">MiComunidapp</h1>            
                 <form onSubmit={handleSubmit} className="bg-white p-5 md:p-15 rounded-lg flex flex-col mt-20 shadow-black shadow-2xl border-2 border-blue-800">
                     <label className="font-text text-2xl font-bold text-blue-900">Username:</label>
                     <input className="border border-stone-400 rounded-md p-2 outline-none focus:border-stone-600 shadow-black shadow-2xl font-text"

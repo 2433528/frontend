@@ -1,6 +1,14 @@
 import { useSelector } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 import { sendInci } from "../../services/incidencia";
+import { PlantillaGeneral } from "../../components/PlantillaGeneral";
+import { Cabecera } from "../../components/Cabecera";
+import { Titulo } from "../../components/Titulo";
+import { Formulario } from "../../components/Formulario";
+import { Footer } from "../../components/Footer";
+import { Contenedor } from "../../components/Contenedor";
+import { Input } from "../../components/Input";
+import { Btn } from "../../components/Btn";
 
 
 export const NuevoIncidencia = () => {
@@ -32,19 +40,20 @@ export const NuevoIncidencia = () => {
 
   return (
     <>
-        <div>
-            <h1>Nueva incidencia</h1>
-
-            <form onSubmit={handleClick}>
-                <label>Titulo</label>
-                <input
+        <PlantillaGeneral>
+            <Cabecera/>
+            <Titulo titulo={'Nueva Incidencia'}/>  
+            <Contenedor>
+                <Formulario onSubmit={handleClick}>                
+                <Input
+                    label={'Titulo'}
                     type="text"
                     name="titulo"
                     value={titulo}
                     onChange={handleChange}
                 />
-                <label>Texto</label>
-                <textarea
+                <label className="font-semibold text-gray-700">Texto</label>
+                <textarea className="border border-gray-300 focus:outline-none p-3 h-52 w-full rounded-lg resize-none"
                     name="texto"
                     value={texto}
                     onChange={handleChange}
@@ -52,9 +61,11 @@ export const NuevoIncidencia = () => {
                     rows={10}
                 />
 
-                <button type="submit">Crear</button>      
-            </form>
-        </div>
+                <Btn text="Crear" type="submit"/>      
+            </Formulario>         
+            </Contenedor>
+            <Footer/>          
+        </PlantillaGeneral>
     </>
   )
 }

@@ -4,6 +4,15 @@ import { createUser, getUsu, modificarUser } from "../../services/usuarios";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
+import { PlantillaGeneral } from "../../components/PlantillaGeneral";
+import { Cabecera } from "../../components/Cabecera";
+import { Titulo } from "../../components/Titulo";
+import { Contenedor } from "../../components/Contenedor";
+import { Footer } from "../../components/Footer";
+import { Formulario } from "../../components/Formulario";
+import { Btn } from "../../components/Btn";
+import { Input } from "../../components/Input";
+import { Checked } from "../../components/Checked";
 
 
 export const NuevoPropietario = () => {
@@ -66,78 +75,92 @@ export const NuevoPropietario = () => {
 
   return (
     <>
-        <h1>Nuevo Propietario</h1>
-        <form onSubmit={crearPropietario}>
-            <label>Contraseña </label>
-            <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={handleChange}
-            />
-            <label>Nombre </label>
-            <input
-            type="text"
-            name="nombre"
-            value={nombre}
-            onChange={handleChange}
-            />
-            <label>Apellido 1 </label>
-            <input
-            type="text"
-            name="apellido1"
-            value={apellido1}
-            onChange={handleChange}
-            />
-            <label>Apellido 2 </label>
-            <input
-            type="text"
-            name="apellido2"
-            value={apellido2}
-            required={false}
-            onChange={handleChange}
-            />
-            <label>DNI </label>
-            <input
-            type="text"
-            name="dni"
-            value={dni}
-            onChange={handleChange}
-            />
-            <label>Rol </label>
-            <select name="rol" value={rol} onChange={handleChange}>
-                <option value="propietario">Propietario</option>
-                <option value="presidente">Presidente</option>                
-                <option value="vicepresidente">Vicepresidente</option>
-                <option value="secretario">Secretario</option>
-            </select>
-            <label>Telefono </label>
-            <input
-            type="text"
-            name="telefono"
-            value={telefono}
-            required={false}
-            onChange={handleChange}
-            />
-            <label>Email </label>
-            <input
-            type="email"
-            name="email"
-            value={email}
-            onChange={handleChange}
-            />
-            <label>Moroso </label>
-            <input
-            type="checkbox"
-            name="moroso"
-            checked={moroso}
-            onChange={handleChange}
-            />
-            {(!user)? <button type="submit">Crear</button>:<button type="submit">Modificar</button>}
-        </form>
-        <small>*El username sera el DNI.</small>
-        <br />
-        <small>*El nuevo usuario no se mostrará en la lista hasta que no se le asigne una propiedad.</small>
+        <PlantillaGeneral>
+            <Cabecera/>
+            <Titulo titulo={'Nuevo Propietario'}/>
+            <Contenedor>
+                <Formulario onSubmit={crearPropietario}>
+                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>  
+                    <h2 className="text-3xl font-bold self-start">Datos del Propietario</h2>
+                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>
+
+                    <Input
+                    label={'Contraseña'}
+                    type="password"
+                    name="password"
+                    value={password}
+                    onChange={handleChange}
+                    />
+                    <Input
+                    label={'Nombre'}
+                    type="text"
+                    name="nombre"
+                    value={nombre}
+                    onChange={handleChange}
+                    />
+                    <Input
+                    label={'Apellido 1'}
+                    type="text"
+                    name="apellido1"
+                    value={apellido1}
+                    onChange={handleChange}
+                    />                
+                    <Input
+                    label={'Apellido 2'}
+                    type="text"
+                    name="apellido2"
+                    value={apellido2}
+                    required={false}
+                    onChange={handleChange}
+                    />                
+                    <Input
+                    label={'DNI'}
+                    type="text"
+                    name="dni"
+                    value={dni}
+                    onChange={handleChange}
+                    />
+                    <label className="font-semibold text-gray-700">Rol</label>
+                    <select name="rol" value={rol} onChange={handleChange}
+                        className="border border-gray-300 p-2 rounded-lg mb-4 focus:outline-none"
+                    >
+                        <option value="propietario">Propietario</option>
+                        <option value="presidente">Presidente</option>                
+                        <option value="vicepresidente">Vicepresidente</option>
+                        <option value="secretario">Secretario</option>
+                    </select>
+                    <Input
+                    label={'Telefono'}
+                    type="text"
+                    name="telefono"
+                    value={telefono}
+                    required={false}
+                    onChange={handleChange}
+                    />
+                    <Input
+                    label={'Email'}
+                    type="email"
+                    name="email"
+                    value={email}
+                    onChange={handleChange}
+                    />
+                    <Checked
+                    text={'Moroso'}              
+                    name="moroso"
+                    checked={moroso}
+                    onChange={handleChange}
+                    />
+                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>
+                    {(!user)? <Btn text="Crear" type="submit"/>:<Btn text="Modificar" type="submit"/>}
+                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>
+                    <div className="flex flex-col text-start gap-2">
+                        <small>*El username sera el DNI.</small>            
+                        <small>*El nuevo usuario no se mostrará en la lista hasta que no se le asigne una propiedad.</small>
+                    </div>
+            </Formulario>            
+        </Contenedor>
+        <Footer/>
+        </PlantillaGeneral>
     </>
   )
 }

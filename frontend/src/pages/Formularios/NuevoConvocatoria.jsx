@@ -14,6 +14,7 @@ import { Formulario } from "../../components/Formulario";
 import { Input } from "../../components/Input";
 import { Checked } from "../../components/Checked";
 import { Icono } from "../../components/Icono";
+import { Footer } from "../../components/Footer";
 
 
 export const NuevoConvocatoria = ({datos=null}) => {
@@ -253,6 +254,7 @@ export const NuevoConvocatoria = ({datos=null}) => {
                     <Btn text={datos? 'Modificar':'Crear'} type="submit" disabled={fechaPasada || rol !== 'gestor'} hidden={rol !== 'gestor'}/>
                 </Formulario>
             </Contenedor>
+            <Footer/>
         </PlantillaGeneral>    
     </>
   )

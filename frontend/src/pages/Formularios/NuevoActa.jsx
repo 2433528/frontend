@@ -12,6 +12,7 @@ import { Contenedor } from "../../components/Contenedor";
 import { Item } from "../../components/Item";
 import { Icono } from "../../components/Icono";
 import { Btn } from "../../components/Btn";
+import { Footer } from "../../components/Footer";
 
 
 export const NuevoActa = () => {
@@ -86,6 +87,7 @@ export const NuevoActa = () => {
             {(!datos?.acta)? <Btn text="Guardar" type="button" onClick={handleSubmit}/>:<Btn text="Ver Actas" type="button" onClick={()=>navigate('/actas')}/>}
           </Item>
         </Contenedor>
+        <Footer/>
       </PlantillaGeneral>
     </>
   )

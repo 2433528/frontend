@@ -54,12 +54,12 @@ export const PropiedadList = () => {
     <>
         <PlantillaGeneral>
             <Cabecera/>
-            <Titulo titulo={'Propiedades'}/>
-            <Formulario onSubmit={handleSubmit}>
-                <Input label={'Piso y letra'} value={num_piso} onChange={handleChange} name={'num_piso'}/>
-                <Btn text={'Buscar'} type={'submit'}/>
-            </Formulario>  
+            <Titulo titulo={'Propiedades'}/>            
             <Contenedor>
+                <Formulario onSubmit={handleSubmit}>
+                    <Input label={'Piso y letra'} value={num_piso} onChange={handleChange} name={'num_piso'}/>
+                    <Btn text={'Buscar'} type={'submit'}/>
+                </Formulario>  
                 {(datos.length > 0) && 
                     <>
                         <h2 className="text-center text-white text-2xl">Lista propiedades</h2>                    
