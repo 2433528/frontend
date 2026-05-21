@@ -57,8 +57,8 @@ export const PropiedadList = () => {
             <Titulo titulo={'Propiedades'}/>            
             <Contenedor>
                 <Formulario onSubmit={handleSubmit}>
-                    <Input label={'Piso y letra'} value={num_piso} onChange={handleChange} name={'num_piso'}/>
-                    <Btn text={'Buscar'} type={'submit'}/>
+                    <Input label={'Piso y letra'} value={num_piso} onChange={handleChange} name={'num_piso'} addStyle={"col-span-2 sm:col-span-3"}/>
+                    <Btn text={'Buscar'} type={'submit'} addStyle={"col-span-2 sm:col-start-2 sm:col-end-3"}/>
                 </Formulario>  
                 {(datos.length > 0) && 
                     <>

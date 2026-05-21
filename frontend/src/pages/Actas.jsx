@@ -67,7 +67,7 @@ export const Actas = () => {
                             <p className="whitespace-nowrap self-end">{acta.pertenece_convocatoria?.fecha_lectura}</p>
                             <h2 className="font-bold m-2">{acta.pertenece_convocatoria?.titulo}</h2>                            
                         </div>
-                        <Btn onClick={()=>navigate(`/detalle-acta/?id=${acta.id}`)} text={'Votación Detalle'}/>
+                        <Btn onClick={()=>navigate(`/detalle-acta/?id=${acta.id}`)} text={'Ver detalles y votación'}/>
                     </Item>                    
                 ))}
                 <Paginacion onClick1={getPrevious} onClick2={getNext} disabled1={!paginate.previous} disabled2={!paginate.next}/>               

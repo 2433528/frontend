@@ -7,8 +7,8 @@ import { Titulo } from "../../components/Titulo";
 import { Formulario } from "../../components/Formulario";
 import { Footer } from "../../components/Footer";
 import { Contenedor } from "../../components/Contenedor";
-import { Input } from "../../components/Input";
 import { Btn } from "../../components/Btn";
+import { Input } from "../../components/Input";
 
 
 export const NuevoIncidencia = () => {
@@ -46,22 +46,25 @@ export const NuevoIncidencia = () => {
             <Contenedor>
                 <Formulario onSubmit={handleClick}>                
                 <Input
+                    addStyle={"col-span-2 sm:col-span-3"}
                     label={'Titulo'}
                     type="text"
                     name="titulo"
                     value={titulo}
                     onChange={handleChange}
                 />
-                <label className="font-semibold text-gray-700">Texto</label>
-                <textarea className="border border-gray-300 focus:outline-none p-3 h-52 w-full rounded-lg resize-none"
+                <textarea className="border border-gray-300 focus:outline-none p-3 h-52 w-full rounded-lg resize-none col-span-2 sm:col-span-3"
+                    placeholder="Texto..."
                     name="texto"
                     value={texto}
                     onChange={handleChange}
                     cols={40}
                     rows={10}
                 />
-
-                <Btn text="Crear" type="submit"/>      
+                
+                <div className="flex flex-col items-center col-span-2 sm:col-start-2 sm:col-end-3">
+                    <Btn text="Crear" type="submit" addStyle={"w-full"}/> 
+                </div>                     
             </Formulario>         
             </Contenedor>
             <Footer/>          

@@ -66,7 +66,7 @@ export const NuevoConvocatoria = ({datos=null}) => {
             })
 
             setPuntos(datos?.lista_puntos || []);
-        }
+        }        
     },[datos]);
 
     const handleCelebradaChange = async (e) => {
@@ -100,25 +100,30 @@ export const NuevoConvocatoria = ({datos=null}) => {
     }, [celebrada]);
 
     const agregarPunto = () => {
-    if (puntoActual.trim() === "") return;
-    if (datos){
-        setPuntosNuevos([...puntosNuevos, { descripcion: puntoActual }]);
+        if (puntoActual.trim() === "") return;
+        if (datos){
+            setPuntosNuevos([...puntosNuevos, { descripcion: puntoActual }]);
+            setPuntos([...puntos, { descripcion: puntoActual }]);
+            setPuntoActual("");
+            return;
+        }
         setPuntos([...puntos, { descripcion: puntoActual }]);
-        localStorage.setItem('lista', JSON.stringify(puntosNuevos));
         setPuntoActual("");
-        return;
     }
-    setPuntos([...puntos, { descripcion: puntoActual }]);
-    localStorage.setItem('lista', JSON.stringify(puntos));
-    setPuntoActual("");
-    };
+
+    useEffect(()=>{
+        localStorage.setItem('lista', JSON.stringify(puntosNuevos));
+    },[puntosNuevos]);
 
     const eliminarPunto=async(descripcion)=>{
         const punto=puntos.find((p)=>p.descripcion === descripcion);
         await delPunto(token, punto.id);
         setPuntos(()=>puntos.filter((p)=>p.descripcion !== descripcion));
-        localStorage.setItem('lista', JSON.stringify(puntos));
     }
+
+    useEffect(()=>{
+        localStorage.setItem('lista', JSON.stringify(puntos));
+    },[puntos]);
 
     const editarPunto=(descripcion)=>{
         setPuntoActual(descripcion);
@@ -133,6 +138,7 @@ export const NuevoConvocatoria = ({datos=null}) => {
             await changeConvocatoria(token, datos?.id, datosAEnviar);
             setPuntosNuevos([]);
             localStorage.removeItem('lista');
+            navigate('/convocatorias');
             return;
         }
     
@@ -141,6 +147,7 @@ export const NuevoConvocatoria = ({datos=null}) => {
         setPuntosNuevos([]);
         localStorage.removeItem('lista');
         handleReset();
+        navigate('/convocatorias');
     }
 
   return (
@@ -149,81 +156,81 @@ export const NuevoConvocatoria = ({datos=null}) => {
             <Cabecera/>
             <Titulo titulo={datos? 'Convocatoria':'Crear Convocatoria'}/>
             <Contenedor>
-            
-            {(celebrada && rol === 'gestor') && <Btn text={datos? "Ver detalle":"Crear Acta"} type="button" onClick={()=>navigate(`/nuevo-acta/?id=${datos.id}`)}/>}
+                        
             {
                 (datos && fechaPasada) &&
-                <div className="bg-yellow-200 p-2 rounded-lg" hidden={rol !== 'gestor'}>
+                <div className="bg-yellow-200 p-2 rounded-lg" hidden={rol !== 'gestor' && rol !== 'presidente'}>
                     <p>⚠️ Esta convocatoria ya no se puede modificar.</p>
                 </div>
             }   
                 <Formulario onSubmit={handleSubmit}>
-                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>  
-                    <h2 className="text-3xl font-bold self-start">Datos</h2>
-                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>
+                    <hr className="my-2 border-2 border-blue-900 rounded-lg col-span-2 sm:col-span-3"/>  
+                    <h2 className="text-3xl font-bold self-start col-span-2 sm:col-span-3">Datos</h2>
+                    <hr className="my-2 border-2 border-blue-900 rounded-lg w-full col-span-2 sm:col-span-3"/>
                     <Input
-                        label={'Título'}
-                        type="text"
-                        name="titulo"
-                        value={titulo}
-                        disabled={fechaPasada || rol !== 'gestor'}
-                        onChange={handleChange}
-                    />
-
-                    <label className="font-semibold text-gray-700">Tipo</label>
-                    <select name="tipo" value={tipo} onChange={handleChange} disabled={fechaPasada || rol !== 'gestor'}
-                        className="border border-gray-300 p-2 rounded-lg mb-4 focus:outline-none"
-                    >
-                        <option value="ordinaria">Ordinaria</option>
-                        <option value="extraordinaria">Extraordinaria</option>
-                    </select>
-
-                    <label className="font-semibold text-gray-700">Convocatoria</label>
-                    <select name="num_convocatoria" value={num_convocatoria} onChange={handleChange} disabled={fechaPasada || rol !== 'gestor'}
-                        className="border border-gray-300 p-2 rounded-lg focus:outline-none"
-                    >
-                        <option value="primera">Primera</option>
-                        <option value="segunda">Segunda</option>
-                    </select>
-                    
-                    <Input
-                        label={'Lugar'}
-                        type="text"
-                        name="lugar"
-                        value={lugar}
-                        disabled={fechaPasada || rol !== 'gestor'}
-                        onChange={handleChange}
-                    />
-                    
-                    <Input
+                        addStyle={"col-span-2 sm:col-span-1"}
                         label={'Fecha'}
                         type="date"
                         name="fecha"
                         value={fecha}
-                        disabled={fechaPasada || rol !== 'gestor'}
+                        disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')}
                         onChange={handleChange}
                     />
-                    
+
                     <Input
+                        addStyle={"col-span-2 sm:col-span-1"}
                         label={'Hora'}
                         type="time"
                         name="hora"
                         value={hora}
-                        disabled={fechaPasada || rol !== 'gestor'}
+                        disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')}
                         onChange={handleChange}
                     />
-                    <small hidden={fechaPasada || rol !== 'gestor'}>*Tiempo de cortesia: 10 min después de la hora.</small>                    
-                    <Checked
-                        text={'Celebrada'}                        
-                        name="celebrada"
-                        checked={celebrada}
-                        disabled={fechaPasada || rol !== 'gestor'}
-                        onChange={handleCelebradaChange}
+
+                    <Input
+                        addStyle={"col-span-2 sm:col-span-1"}
+                        label={'Lugar'}
+                        type="text"
+                        name="lugar"
+                        value={lugar}
+                        disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')}
+                        onChange={handleChange}
                     />
-                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>
-                    <h2 className="text-2xl font-bold self-start my-1">Puntos del día</h2>
-                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>                    
-                    <ul className="w-full mb-4">
+
+                    <Input
+                        addStyle={"col-span-2 sm:col-span-3"}
+                        label={'Título'}
+                        type="text"
+                        name="titulo"
+                        value={titulo}
+                        disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')}
+                        onChange={handleChange}
+                    />
+
+                    <div className="flex flex-col col-span-2 sm:col-span-1 mb-3">
+                        <label className="font-semibold text-gray-700">Tipo</label>
+                        <select name="tipo" value={tipo} onChange={handleChange} disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')}
+                            className="bg-blue-100 p-2 rounded-lg focus:outline-none"
+                        >
+                            <option value="ordinaria">Ordinaria</option>
+                            <option value="extraordinaria">Extraordinaria</option>
+                        </select>
+                    </div>
+
+                    <div className="flex flex-col col-span-2 sm:col-span-1 mb-3">
+                        <label className="font-semibold text-gray-700">Convocatoria</label>
+                        <select name="num_convocatoria" value={num_convocatoria} onChange={handleChange} disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')}
+                            className="bg-blue-100 p-2 rounded-lg focus:outline-none"
+                        >
+                            <option value="primera">Primera</option>
+                            <option value="segunda">Segunda</option>
+                        </select>  
+                    </div>                  
+                                                            
+                    <hr className="my-2 border-2 border-blue-900 rounded-lg w-full col-span-2 sm:col-span-3"/>
+                    <h2 className="text-2xl font-bold self-start my-1 col-span-2 sm:col-span-3">Puntos del día</h2>
+                    <hr className="my-2 border-2 border-blue-900 rounded-lg w-full col-span-2 sm:col-span-3"/>                    
+                    <ul className="w-full mb-4 col-span-2 sm:col-span-3">
                         {
                             puntos.map((punto)=>(
                                 <li key={uuid()} className="text-[1rem] my-1 border border-blue-900 p-3 rounded-lg">
@@ -232,27 +239,40 @@ export const NuevoConvocatoria = ({datos=null}) => {
                                         {punto?.descripcion}
                                     </div>
                                     <div className="flex items-center gap-2">
-                                        {(!fechaPasada && rol === 'gestor') && <Btn text="Modificar" type="button" onClick={()=>editarPunto(punto?.descripcion)}/>}
-                                        {(!fechaPasada && rol === 'gestor') && <Btn text="Eliminar" type="button" onClick={()=>eliminarPunto(punto?.descripcion)}/>} 
+                                        {!fechaPasada && (rol !== 'gestor' || rol !== 'presidente') && <Btn text="Modificar" type="button" onClick={()=>editarPunto(punto?.descripcion)}/>}
+                                        {!fechaPasada && (rol !== 'gestor' || rol !== 'presidente') && <Btn text="Eliminar" type="button" onClick={()=>eliminarPunto(punto?.descripcion)}/>} 
                                     </div>                 
                                 </li>
                             ))
                         }
                     </ul>
                     <textarea
-                        className="border border-blue-900 focus:outline-none p-3 h-36 w-full rounded-lg resize-none"
+                        className="border border-blue-900 focus:outline-none p-3 h-16 w-full rounded-lg resize-none col-span-2 sm:col-span-3"
                         name="punto"
-                        placeholder="Escribe un punto del día..."
-                        cols={30}
-                        rows={2} 
+                        placeholder="Escribe un punto del día..." 
                         value={puntoActual}
-                        hidden={fechaPasada || rol !== 'gestor'}
+                        hidden={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')}
                         onChange={(e)=>setPuntoActual(e.target.value)}
 
                     />
-                    <Btn text="Agregar Punto" type="button" onClick={agregarPunto} disabled={fechaPasada || rol !== 'gestor'} hidden={rol !== 'gestor'}/>                
-                    <Btn text={datos? 'Modificar':'Crear'} type="submit" disabled={fechaPasada || rol !== 'gestor'} hidden={rol !== 'gestor'}/>
+                    <div className="flex flex-col items-center col-span-2 sm:col-span-3">
+                        <Btn text="Agregar Punto" type="button" onClick={agregarPunto} disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')} addStyle={"sm:self-start"}/>                                        
+                    </div>
+                    <div className="flex flex-col items-center col-span-2 sm:col-span-3">
+                        <Btn addStyle={"w-full"} text={datos? 'Modificar':'Crear'} type="submit" disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')} hidden={rol !== 'gestor' && rol !== 'presidente'}/>
+                    </div>
+                    <div className="my-5 bg-blue-50 p-3 rounded-lg col-span-2 sm:col-span-3">
+                        <small hidden={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')}>*Tiempo de cortesia: 10 min después de la hora.</small>                    
+                        <Checked                            
+                            text={'Marcar como Celebrada'}                        
+                            name="celebrada"
+                            checked={celebrada}
+                            disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')}
+                            onChange={handleCelebradaChange}
+                        />
+                    </div>
                 </Formulario>
+                {(celebrada && (rol === 'gestor' || rol === 'presidente')) && <Btn addStyle={"w-full"} text={datos? "Ver resumen del acta de esta convocatoria":"Crear Acta"} type="button" onClick={()=>navigate(`/nuevo-acta/?id=${datos.id}`)}/>}
             </Contenedor>
             <Footer/>
         </PlantillaGeneral>    

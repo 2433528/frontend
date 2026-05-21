@@ -1,9 +1,9 @@
 
 
-export const Checked = ({name, checked=null, disabled=false, onChange=null, text=null}) => {
+export const Checked = ({name, checked=null, disabled=false, onChange=null, text=null, addStyle=null}) => {
   return (
     <>
-      <div className="flex items-center m-2">
+      <div className={`flex items-center m-2 ${addStyle}`}>
         <input
             className="p-2 appearance-none w-6 h-6 bg-white rounded-full border border-blue-900
                 checked:bg-green-600

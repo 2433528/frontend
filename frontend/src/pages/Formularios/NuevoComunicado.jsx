@@ -11,10 +11,10 @@ import { Titulo } from "../../components/Titulo";
 import { Cabecera } from "../../components/Cabecera";
 import { Formulario } from "../../components/Formulario";
 import { Contenedor } from "../../components/Contenedor";
-import { Input } from "../../components/Input";
 import { Btn } from "../../components/Btn";
 import { Footer } from "../../components/Footer";
 import { Checked } from "../../components/Checked";
+import { Input } from "../../components/Input";
 
 export const NuevoComunicado = () => {
     const {token, is_loading, is_authenticated, rol}=useSelector((state)=>state.auth);
@@ -38,10 +38,10 @@ export const NuevoComunicado = () => {
         }
 
         if (token && !is_loading && is_authenticated) {
-            const cargarDatos = async () => {
+            const cargarDatos = async () => {                
                 const data = await getususcomunicado(actual.id, token);
                 if (!data) return; 
-                setDestinatarios(data);                    
+                setDestinatarios(data);                                  
             };
             cargarDatos();
         }
@@ -65,6 +65,7 @@ export const NuevoComunicado = () => {
         if (!ok)return;
         handleReset();
         setAbierto(false);
+        navigate('/comunicados');        
     }
 
   return (
@@ -75,6 +76,7 @@ export const NuevoComunicado = () => {
         <Contenedor>
             <Formulario onSubmit={handleSubmit}>
                 <Input
+                    addStyle={"col-span-2 sm:col-span-3"}
                     label={'Título'}
                     type="text"
                     name="titulo"
@@ -82,8 +84,8 @@ export const NuevoComunicado = () => {
                     onChange={handleChange}
                 />
 
-                <label className="font-semibold text-gray-700">Mensaje</label>
-                <textarea className="border border-gray-300 focus:outline-none p-3 h-52 w-full rounded-lg resize-none"
+                <textarea className="border border-gray-300 focus:outline-none p-3 h-52 w-full rounded-lg resize-none col-span-3"
+                    placeholder="Mensaje..."
                     name="texto"
                     value={texto}
                     onChange={handleChange}
@@ -91,21 +93,27 @@ export const NuevoComunicado = () => {
                     cols={50}
                 />
 
-                <Btn text="Elegir destinatarios" type="button" onClick={()=>setAbierto(!abierto)}/>
-            {
-                abierto && destinatarios.map((usuario)=>(
-                    <div key={usuario?.id} className="flex flex-col items-center border border-gray-400 w-full p-2 m-2 rounded-lg">
-                        <Checked                            
-                            onChange={(e) => manejarCambio(usuario?.id, 'destinatario', e.target.checked)}
-                        />
+                <div className="flex justify-center col-span-2 sm:col-span-3">
+                    <Btn text="Elegir destinatarios" type="button" onClick={()=>setAbierto(!abierto)}/>
+                </div>
+                <div className="flex flex-col justify-center col-span-2 sm:col-span-3 box-border">
+                    {
+                        abierto && destinatarios.map((usuario)=>(
+                            <div key={usuario?.id} className="flex flex-col items-center border border-gray-400 w-full p-2 m-2 rounded-lg">
+                                <Checked                            
+                                    onChange={(e) => manejarCambio(usuario?.id, 'destinatario', e.target.checked)}
+                                />
 
-                        <p>{usuario?.nombre} {usuario?.apellido1} {usuario?.apellido2}</p>
-                        <p>{usuario?.dni}</p>
-                    </div>
-                ))            
-            }
+                                <p>{usuario?.nombre} {usuario?.apellido1} {usuario?.apellido2}</p>
+                                <p>{usuario?.dni}</p>
+                            </div>
+                        ))            
+                    }
+                </div>
 
-            <Btn text="Crear" type="submit"/>
+            <div className="flex flex-col items-center col-span-2 sm:col-start-2 sm:col-end-3">
+                <Btn text="Crear" type="submit" addStyle={"w-full"}/>
+            </div>
             </Formulario>
         </Contenedor>
         <Footer/>

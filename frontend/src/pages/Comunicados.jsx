@@ -76,9 +76,9 @@ export const Comunicados = () => {
             <Cabecera/>
             <Titulo titulo={'Comunicados'}/>       
             <Contenedor>
-                {(rol === 'gestor') && <BtnNuevo onClick={()=>navigate('/nuevo-comunicado')}/>}                
+                {(rol === 'gestor' || rol === 'presidente') && <BtnNuevo onClick={()=>navigate('/nuevo-comunicado')}/>}                
                 {datos.map((com)=>(
-                <div key={com?.id} className="bg-white p-5 my-5 rounded-lg">
+                <div key={com?.id} className="bg-white p-5 my-5 rounded-lg border border-blue-800">
                     <div className="flex flex-col">
                         <p className="whitespace-nowrap self-end">{com?.fecha_creacion}</p>
                         <h2 className="font-bold m-2">{com?.titulo}</h2>                        

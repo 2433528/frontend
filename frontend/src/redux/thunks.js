@@ -18,7 +18,7 @@ export const getToken=(username, password, navigate='')=>{
             if (!response.ok){                
                 console.log('Credenciales incorrentas', response);
                 alert('Credenciales incorrentas')
-                return;
+                return null;
             } 
 
             const data1=await response.json();

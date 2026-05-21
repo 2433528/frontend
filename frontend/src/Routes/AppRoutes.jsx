@@ -20,6 +20,9 @@ import { NuevoActa } from '../pages/Formularios/NuevoActa'
 import { DetalleActa } from '../pages/DetalleActa'
 import { Comunicados } from '../pages/Comunicados'
 import { NuevoComunicado } from '../pages/Formularios/NuevoComunicado'
+import { ProtectedRoutesGestor } from './ProtectedRoutesGestor'
+import { NuevoComunidad } from '../pages/Formularios/NuevoComunidad'
+import { NuevoCSV } from '../pages/Formularios/NuevoCSV'
 
 export const AppRoutes = () => {  
   return (
@@ -28,8 +31,7 @@ export const AppRoutes = () => {
             <Route path='/' element={<Login/>}/>
             <Route path='/inicio' element={<Inicio/>}/>
             <Route path='/menu' element={<Menu/>}/>
-            <Route path='/tablon' element={<TablonInfo/>}/>
-            <Route path='/nuevo-info' element={<NuevoInfo/>}/>
+            <Route path='/tablon' element={<TablonInfo/>}/>            
             <Route path='/incidencias' element={<Incidencias/>}/>
             <Route path='/nuevo-inci' element={<NuevoIncidencia/>}/>
             <Route path='/convocatorias' element={<Convocatorias/>}/>
@@ -38,6 +40,12 @@ export const AppRoutes = () => {
             <Route path='/detalle-acta' element={<DetalleActa/>}/>
             <Route path='/comunicados' element={<Comunicados/>}/>
             <Route element={<ProtectedRoutes/>}>
+              <Route path='/nuevo-convocatoria' element={<NuevoConvocatoria/>}/>
+              <Route path='/nuevo-comunicado' element={<NuevoComunicado/>}/>
+              <Route path='/nuevo-acta' element={<NuevoActa/>}/>
+              <Route path='/nuevo-info' element={<NuevoInfo/>}/>    
+            </Route>
+            <Route element={<ProtectedRoutesGestor/>}>
               <Route path='/menu-gestion' element={<SubMenuGestion/>}/>
               <Route path='/nuevo-propietario' element={<NuevoPropietario/>}/>
               <Route path='/nuevo-propiedad' element={<NuevoPropiedad/>}/>
@@ -45,9 +53,11 @@ export const AppRoutes = () => {
               <Route path='/propiedades' element={<PropiedadList/>}/>
               <Route path='/nuevo-convocatoria' element={<NuevoConvocatoria/>}/>
               <Route path='/nuevo-comunicado' element={<NuevoComunicado/>}/>
-              <Route path='/nuevo-acta' element={<NuevoActa/>}/>          
-            </Route>
-            
+              <Route path='/nuevo-acta' element={<NuevoActa/>}/>
+              <Route path='/nuevo-info' element={<NuevoInfo/>}/>
+              <Route path='/nuevo-comunidad' element={<NuevoComunidad/>}/>
+              <Route path='/ficheros' element={<NuevoCSV/>}/>
+            </Route>            
         </Routes>
     </>
   )

@@ -3,7 +3,6 @@ import { Icono } from "./Icono";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { BtnSalir } from "./BtnSalir";
-import casa from '../assets/Casa.png';
 import { cambiarEstado } from "../redux/menuSlice";
 
 
@@ -18,18 +17,20 @@ export const MenuHamburguesa = () => {
         <div onClick={()=>dispatch(cambiarEstado())} className="flex flex-col">
             {abierto? <Icono name={'close'} className="cursor-pointer text-white self-end pr-5"/>:<Icono name={'menu'} className="cursor-pointer text-white self-end pr-1"/>}
             
-            <div className={`absolute md:w-1/3 shadow-lg z-80 rounded-b-lg grid grid-cols-2 bg-[url(./assets/FondoPaisaje.png)] bg-cover font-text
+            <div className={`absolute md:w-1/3 shadow-lg z-80 rounded-lg bg-white font-text
                 overflow-hidden transition-all duration-700 ease-in-out ${abierto? 'top-full right-0':'top-full right-[-300%]'}`}
             >
-                <h2 onClick={()=>navigate('/inicio')} className="font-bold md:text-3xl text-blue-900 my-3 md:my-10 flex items-center ml-5 cursor-pointer hover:text-blue-500"><Icono name={'person'} className="text-blue-900 !text-5xl mr-2"/>{user?.nombre} {rol}</h2>
-                <img src={casa} alt="" className="absolute col-start-2 place-self-center bottom-2"/>
-                <ul className="col-end-2 ml-10">
-                    <li onClick={()=>navigate('/comunicados')} className="p-2 md:p-5 flex font-bold items-center hover:border-2 hover:border-blue-900 hover:rounded-lg"><Icono name={'campaign'} className="text-blue-900 mr-2"/>Comunicados</li>                    
-                    <li onClick={()=>navigate('/convocatorias')} className="p-2 md:p-5 flex font-bold items-center hover:border-2 hover:border-blue-900 hover:rounded-lg"><Icono name={'calendar_month'} className="text-blue-900 mr-2"/>Convocatorias</li>
-                    <li onClick={()=>navigate('/actas')} className="p-2 md:p-5 flex font-bold items-center hover:border-2 hover:border-blue-900 hover:rounded-lg"><Icono name={'docs'} className="text-blue-900 mr-2"/>Actas</li>
-                    <li onClick={()=>navigate('/incidencias')} className="p-2 md:p-5 flex font-bold items-center hover:border-2 hover:border-blue-900 hover:rounded-lg"><Icono name={'person_alert'} className="text-blue-900 mr-2"/>Incidencias</li>
-                    <li onClick={()=>navigate('/tablon')} className="p-2 md:p-5 flex font-bold items-center hover:border-2 hover:border-blue-900 hover:rounded-lg"><Icono name={'info'} className="text-blue-900 mr-2"/>Informacion</li>
-                    {(rol === 'gestor') && <li onClick={()=>navigate('/menu-gestion')} className="p-2 md:p-5 flex font-bold items-center hover:border-2 hover:border-blue-900 hover:rounded-lg font-text mb-2"><Icono name={'add_home_work'} className="text-blue-900 mr-2"/>Gestión Comunidad</li>}                
+                <div onClick={()=>navigate('/inicio')} className="text-blue-900 font-text font-semibold m-5 text-center text-2xl box-border hover:cursor-pointer flex flex-col">
+                    <p>{user.nombre}</p>
+                    <p>{rol}</p>
+                </div>
+                <ul className="p-10 box-border">
+                    <li onClick={()=>navigate('/comunicados')} className="flex font-bold items-center mb-3 border-b border-dotted border-blue-900 hover:text-blue-600"><Icono name={'campaign'} className="text-blue-900 mr-2"/>Comunicados</li>                    
+                    <li onClick={()=>navigate('/convocatorias')} className="flex font-bold items-center mb-3 border-b border-dotted border-blue-900 hover:text-blue-600"><Icono name={'calendar_month'} className="text-blue-900 mr-2"/>Convocatorias</li>
+                    <li onClick={()=>navigate('/actas')} className="flex font-bold items-center mb-3 border-b border-dotted border-blue-900 hover:text-blue-600"><Icono name={'docs'} className="text-blue-900 mr-2"/>Actas</li>
+                    <li onClick={()=>navigate('/incidencias')} className="flex font-bold items-center mb-3 border-b border-dotted border-blue-900 hover:text-blue-600"><Icono name={'person_alert'} className="text-blue-900 mr-2"/>Incidencias</li>
+                    <li onClick={()=>navigate('/tablon')} className="flex font-bold items-center mb-3 border-b border-dotted border-blue-900 hover:text-blue-600"><Icono name={'info'} className="text-blue-900 mr-2"/>Informacion</li>
+                    {(rol === 'gestor') && <li onClick={()=>navigate('/menu-gestion')} className="flex font-bold items-center hover:text-blue-600 font-text mb-2"><Icono name={'add_home_work'} className="text-blue-900 mr-2"/>Gestión Comunidad</li>}                
                 </ul>
                 <p className="flex justify-center bg-linear-to-bl from-blue-500 to-blue-900 rounded-b-lg col-start-1 col-end-3"><BtnSalir/></p>          
             </div>

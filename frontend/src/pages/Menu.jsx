@@ -7,10 +7,9 @@ import { comunicadosSinLeer } from "../services/comunicados";
 //import { suscribirNotificaciones } from "../services/notificacion";
 import { Icono } from "../components/Icono";
 import imagen from "../assets/CasaEnMano.png"
-import { CabeceraSimple } from "../components/CabeceraSimple";
 import { PlantillaGeneral } from "../components/PlantillaGeneral";
-import { Plantilla2 } from "../components/Plantilla2";
 import { Footer } from "../components/Footer";
+import { Cabecera } from "../components/Cabecera";
 
 
 export const Menu = () => {
@@ -47,8 +46,8 @@ export const Menu = () => {
 
   return (
     <>
-        <Plantilla2>       
-            <CabeceraSimple sinLeer={sinLeer} cambiarMostrarAviso={cambiarMostrarAviso}/>                  
+        <PlantillaGeneral>       
+            <Cabecera sinLeer={sinLeer} cambiarMostrarAviso={cambiarMostrarAviso}/>                  
                 <div className="w-full md:w-8/12 mx-5 md:mx-10 z-30 px-10 md:px-30 relative">                
                     <section className="grid grid-cols-2 grid-rows-3 my-10 items-center gap-3 box-content">
                         <article onClick={()=>navigate('/comunicados')} className="row-start-1 row-end-2 bg-white ring-2 ring-blue-700 rounded-lg md:p-5 flex flex-col font-text font-bold items-center cursor-pointer"><Icono name={'campaign'} className="text-blue-900 icon-md"/>Comunicados</article>                    
@@ -62,7 +61,7 @@ export const Menu = () => {
                    
             <img src={imagen} alt="" className="absolute bottom-1/12 right-0 hidden md:w-80 md:block lg:w-100 lg:block object-cover z-30" />
             <Footer/>      
-        </Plantilla2>
+        </PlantillaGeneral>
     </>
   )
 }

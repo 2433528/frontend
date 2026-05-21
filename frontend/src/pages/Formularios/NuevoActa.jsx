@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getRefresh } from "../../redux/thunks";
 import { getConvocatoria } from "../../services/convocatorias";
-import { nuevaActa } from "../../services/actas";
+import { getActas, nuevaActa } from "../../services/actas";
 import { PlantillaGeneral } from "../../components/PlantillaGeneral";
 import { Cabecera } from "../../components/Cabecera";
 import { Titulo } from "../../components/Titulo";
@@ -34,7 +34,6 @@ export const NuevoActa = () => {
       if (token && !is_loading && is_authenticated) {
           const cargarDatos = async () => {
               const data = await getConvocatoria(id, token);
-              
               if (!data) {
                   dispatch(getRefresh(navigate));
               } else {
@@ -45,6 +44,12 @@ export const NuevoActa = () => {
       }
   }, [token, is_authenticated, is_loading]);
 
+  const irAacta=async()=>{
+    const acta=await (getActas(actual, token, datos?.id));
+    const id_acta=acta?.results[0]?.id
+    navigate(`/detalle-acta/?id=${id_acta}`);
+  }
+
   const handleSubmit=async(e)=>{
     e.preventDefault();
     const datosAEnviar={
@@ -53,14 +58,14 @@ export const NuevoActa = () => {
       usuario_creador:datos?.creador?.id
     }
     await nuevaActa(token, datosAEnviar);
-    navigate('/actas');
+    irAacta();
   }
 
   return(
     <>
       <PlantillaGeneral>
         <Cabecera/>
-        <Titulo titulo={'Acta'}/>
+        <Titulo titulo={'Resumen Acta'}/>
         <Contenedor>
           <Item>            
             <p className="text-3xl my-4"><strong>{datos?.titulo}</strong></p>
@@ -84,7 +89,7 @@ export const NuevoActa = () => {
               }
             </ul>
 
-            {(!datos?.acta)? <Btn text="Guardar" type="button" onClick={handleSubmit}/>:<Btn text="Ver Actas" type="button" onClick={()=>navigate('/actas')}/>}
+            {(!datos?.acta)? <Btn text="Guardar" type="button" onClick={handleSubmit}/>:<Btn text="Ir al Acta" type="button" onClick={irAacta}/>}
           </Item>
         </Contenedor>
         <Footer/>

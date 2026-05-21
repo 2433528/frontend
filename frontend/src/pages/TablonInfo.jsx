@@ -54,15 +54,15 @@ export const TablonInfo = () => {
         <Cabecera/>
         <Titulo titulo={'Tablón de Anuncios'}/>
             <Contenedor>
-            {(rol === 'gestor') && <BtnNuevo onClick={()=>navigate('/nuevo-info')}/>}
+            {(rol === 'gestor' || rol === 'presidente') && <BtnNuevo onClick={()=>navigate('/nuevo-info')}/>}
             {
                 datos.map((inf)=>(
                     <Item key={inf.id}>
                         <div className="flex justify-between">
-                            <h2 className="font-bold m-2">📌 {inf.titulo}</h2>
-                            <p>{inf.fecha_creacion}</p>
+                            <h2 className="font-bold whitespace-nowrap">📌 {inf.titulo}</h2>
+                            <p className="whitespace-nowrap">{inf.fecha_creacion}</p>
                         </div>
-                        <p className="m-2">{inf.texto}</p>
+                        <p className="my-2">{inf.texto}</p>
                         {(rol === 'gestor') && <Btn onClick={()=>handleDelete(inf.id)} text={'Eliminar'}/>}
                     </Item>
                 ))

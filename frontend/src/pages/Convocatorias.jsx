@@ -50,23 +50,28 @@ export const Convocatorias = () => {
         return;
     }, [comunidad?.id, token, is_loading, is_authenticated]);
 
+    const nuevo=()=>{
+        localStorage.removeItem('lista');
+        navigate('/nuevo-convocatoria');
+    }
+
   return (
     <>
         <PlantillaGeneral>
             <Cabecera/>
             <Titulo titulo={'Convocatorias'}/>                      
             <Contenedor>
-                {(rol === 'gestor') && <BtnNuevo onClick={()=>navigate('/nuevo-convocatoria')}/>}
+                {(rol === 'gestor' || rol === 'presidente') && <BtnNuevo onClick={nuevo}/>}
                 <section>
                     {
                         datos.map((item)=>(
-                            <article key={item.id} className="bg-white my-5 rounded-lg p-3 box-border z-20 relative font-text">
+                            <article key={item.id} className="bg-white my-5 rounded-lg p-3 box-border z-20 relative font-text border border-blue-800">
                                 <div className="flex flex-col">
                                     <p className="whitespace-nowrap self-end">{item?.fecha_lectura}</p> 
                                     <p className="font-bold m-2">{item?.titulo}</p>                                                                                               
                                 </div>
                                 {(item?.celebrada)? <p className="bg-green-600 w-max p-2 rounded-lg m-2"><strong>Celebrada</strong></p>:<p className="bg-gray-300 w-max p-2 rounded-lg m-2"><strong>No Celebrada</strong></p>}
-                                <Btn onClick={()=> navigate(`/detalle-convocatoria/?id=${item?.id}`)} text={(rol === 'gestor')? 'Ver detalles o modificar': 'Ver detalles'}/>                        
+                                <Btn onClick={()=> navigate(`/detalle-convocatoria/?id=${item?.id}`)} text={(rol === 'gestor' || rol === 'presidente')? 'Ver detalles o modificar': 'Ver detalles'}/>                        
                             </article>
                         ))
                     }                                               

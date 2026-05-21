@@ -1,8 +1,8 @@
 const API_URL = import.meta.env.VITE_API_URL;
-export const getActas=async(comunidad='', token='')=>{
+export const getActas=async(comunidad='', token='', id='')=>{
 
     try{
-        const resp=await fetch(`${API_URL}/actas/?comunidad=${comunidad.id}`, {
+        const resp=await fetch(`${API_URL}/actas/?id=${id}&comunidad=${comunidad.id}`, {
             method:'GET',
             headers: {
                 'Content-Type':'application/json',

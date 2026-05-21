@@ -80,11 +80,12 @@ export const NuevoPropietario = () => {
             <Titulo titulo={'Nuevo Propietario'}/>
             <Contenedor>
                 <Formulario onSubmit={crearPropietario}>
-                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>  
-                    <h2 className="text-3xl font-bold self-start">Datos del Propietario</h2>
-                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>
+                    <hr className="my-2 border-2 border-blue-900 rounded-lg w-full col-span-2 sm:col-span-3"/>  
+                    <h2 className="text-3xl font-bold self-start col-span-2 sm:col-span-3">Datos del Propietario</h2>
+                    <hr className="my-2 border-2 border-blue-900 rounded-lg w-full col-span-2 sm:col-span-3"/>
 
                     <Input
+                    addStyle={"col-span-2 sm:col-span-3"}
                     label={'Contraseña'}
                     type="password"
                     name="password"
@@ -92,6 +93,7 @@ export const NuevoPropietario = () => {
                     onChange={handleChange}
                     />
                     <Input
+                    addStyle={"col-span-2 sm:col-span-1"}
                     label={'Nombre'}
                     type="text"
                     name="nombre"
@@ -99,6 +101,7 @@ export const NuevoPropietario = () => {
                     onChange={handleChange}
                     />
                     <Input
+                    addStyle={"col-span-2 sm:col-span-1"}
                     label={'Apellido 1'}
                     type="text"
                     name="apellido1"
@@ -106,6 +109,7 @@ export const NuevoPropietario = () => {
                     onChange={handleChange}
                     />                
                     <Input
+                    addStyle={"col-span-2 sm:col-span-1"}
                     label={'Apellido 2'}
                     type="text"
                     name="apellido2"
@@ -114,22 +118,15 @@ export const NuevoPropietario = () => {
                     onChange={handleChange}
                     />                
                     <Input
+                    addStyle={"col-span-2 sm:col-span-1"}
                     label={'DNI'}
                     type="text"
                     name="dni"
                     value={dni}
                     onChange={handleChange}
-                    />
-                    <label className="font-semibold text-gray-700">Rol</label>
-                    <select name="rol" value={rol} onChange={handleChange}
-                        className="border border-gray-300 p-2 rounded-lg mb-4 focus:outline-none"
-                    >
-                        <option value="propietario">Propietario</option>
-                        <option value="presidente">Presidente</option>                
-                        <option value="vicepresidente">Vicepresidente</option>
-                        <option value="secretario">Secretario</option>
-                    </select>
+                    />                    
                     <Input
+                    addStyle={"col-span-2 sm:col-span-1"}
                     label={'Telefono'}
                     type="text"
                     name="telefono"
@@ -137,7 +134,20 @@ export const NuevoPropietario = () => {
                     required={false}
                     onChange={handleChange}
                     />
+                    
+                    <div className="flex flex-col col-span-2 sm:col-span-1">
+                        <label className="font-semibold text-gray-500">Rol</label>
+                        <select name="rol" value={rol} onChange={handleChange}
+                            className="bg-blue-100 p-2 rounded-lg focus:outline-none"
+                        >
+                            <option value="propietario">Propietario</option>
+                            <option value="presidente">Presidente</option>                
+                            <option value="vicepresidente">Vicepresidente</option>
+                            <option value="secretario">Secretario</option>
+                        </select>
+                    </div>
                     <Input
+                    addStyle={"col-span-2 sm:col-span-3"}
                     label={'Email'}
                     type="email"
                     name="email"
@@ -145,15 +155,17 @@ export const NuevoPropietario = () => {
                     onChange={handleChange}
                     />
                     <Checked
+                    addStyle={"col-span-3 my-5"}
                     text={'Moroso'}              
                     name="moroso"
                     checked={moroso}
                     onChange={handleChange}
                     />
-                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>
-                    {(!user)? <Btn text="Crear" type="submit"/>:<Btn text="Modificar" type="submit"/>}
-                    <hr className="my-4 border-2 border-blue-900 rounded-lg w-full"/>
-                    <div className="flex flex-col text-start gap-2">
+                    <hr className="my-2 border-2 border-blue-900 rounded-lg w-full col-span-2 sm:col-span-3"/>
+                    <div className="col-span-2 sm:col-start-2 sm:col-end-3 flex justify-center">
+                        {(!user)? <Btn text="Crear" type="submit" addStyle={"w-full"}/>:<Btn addStyle={"W-full"} text="Modificar" type="submit"/>}
+                    </div>
+                    <div className="flex flex-col text-start gap-2 col-span-2 sm:col-span-3">
                         <small>*El username sera el DNI.</small>            
                         <small>*El nuevo usuario no se mostrará en la lista hasta que no se le asigne una propiedad.</small>
                     </div>

@@ -24,15 +24,18 @@ export const ComunidadesList = ({list=[], rol=null}) => {
 
   return (
     <>
-        {(rol)? <h2 className="font-text font-bold text-3xl text-blue-900">Comunidades que gestionas</h2>:<h2 className="font-text font-bold text-3xl text-blue-900">Comunidades a las que perteneces</h2> }           
-        {
+      {(rol)? <h2 className="font-text font-bold sm:text-3xl text-white">Comunidades que gestionas</h2>:<h2 className="font-text font-bold sm:text-3xl text-blue-900">Tus comunidades</h2> }           
+      {
         comunidadesUnicas.map((item)=>(
-            <article key={item.id} onClick={()=>handleClick(item)} className={"bg-white border-2 border-blue-600 rounded-lg p-3 mt-5 shadow-2xl shadow-blue-900 flex gap-2 items-center"}>
-              <Icono name={"home"} className={"text-blue-900"}/>
-              <p className="font-text font-bold">{item.com_name}, {item.com_localidad}</p>
+            <article key={item.id} onClick={()=>handleClick(item)} className={"bg-white border-2 border-blue-600 rounded-lg p-3 mt-5 shadow-2xl shadow-blue-900 flex flex-col sm:flex-row gap-2 items-center justify-between"}>
+              <div className="flex items-center">
+                <Icono name={"home"} className={"text-blue-900"}/>
+                <p className="font-text font-bold">{item.com_name}, {item.com_localidad}</p>
+              </div>
+              <p>{item.rol}</p>
             </article>
         ))
-        }
+      }
     </>
   )
 }

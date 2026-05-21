@@ -179,10 +179,7 @@ export const DetalleActa = () => {
                 <p>Convocatoria: <strong>{datos?.pertenece_convocatoria?.num_convocatoria}</strong></p>
                 <p>Creador: <strong>{datos?.pertenece_convocatoria?.creador?.nombre} {datos?.pertenece_convocatoria?.creador?.apellido1} {datos?.pertenece_convocatoria?.creador?.apellido2}</strong></p>
                 <hr className="my-4 border-2 border-blue-900 rounded-lg"/>
-                <p className={`${(datos?.resuelta || resuelta)? "bg-green-600":"bg-orange-400"} my-3 p-2 max-w-max rounded-lg`}>{(datos?.resuelta || resuelta)? 'Resuelta':'Pendiente'}</p>
-                <div hidden={rol !== 'gestor'} className="flex items-center">
-                    <Checked text={'Cerrar Acta'} checked={datos?.resuelta? datos?.resuelta:resuelta} onChange={()=>handleChangeResuelta(datos?.id)} disabled={datos?.resuelta || rol !== 'gestor' || resuelta}/>
-                </div>
+                <p className={`${(datos?.resuelta || resuelta)? "bg-green-600":"bg-orange-400"} my-3 p-2 max-w-max rounded-lg`}>{(datos?.resuelta || resuelta)? 'Resuelta':'Pendiente'}</p>                
                 <hr className="my-4 border-2 border-blue-900 rounded-lg"/>
                 <h2 className="text-2xl font-bold text-center">Puntos del día</h2>
 
@@ -276,6 +273,9 @@ export const DetalleActa = () => {
                         }
                     </ul>
                 </Item>
+                <div hidden={rol !== 'gestor'} className="flex items-center justify-center border border-blue-400 rounded-lg">
+                    <Checked text={'Cerrar Acta'} checked={datos?.resuelta? datos?.resuelta:resuelta} onChange={()=>handleChangeResuelta(datos?.id)} disabled={datos?.resuelta || rol !== 'gestor' || resuelta}/>
+                </div>
             </Contenedor>
             <Footer/>
         </PlantillaGeneral>

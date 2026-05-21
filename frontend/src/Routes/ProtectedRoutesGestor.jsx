@@ -1,12 +1,12 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
-export const ProtectedRoutes = () => {
+export const ProtectedRoutesGestor = () => {
     const rol=useSelector((state)=>state.auth.rol);
   return (
     <>
         {
-          (rol === 'gestor' || rol === 'presidente')? <Outlet/>:<Navigate to={'/menu'}/>
+            (rol === 'gestor')? <Outlet/>:<Navigate to={'/menu'}/>
         }
     </>
   )

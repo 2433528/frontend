@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom"
 import { Cabecera } from "../components/Cabecera";
 import { Icono } from "../components/Icono";
 import { Titulo } from "../components/Titulo";
-import { Plantilla2 } from "../components/Plantilla2";
 import { Footer } from "../components/Footer";
+import { PlantillaGeneral } from "../components/PlantillaGeneral";
 
 export const SubMenuGestion = () => {
     const {rol, is_loading, is_authenticated}=useSelector((state)=>state.auth);
@@ -23,19 +23,21 @@ export const SubMenuGestion = () => {
 
   return (
     <>
-        <Plantilla2>
+        <PlantillaGeneral>
             <Cabecera/>
             <Titulo titulo={'Gestión Comunidad'}/>
             <div className="w-full md:w-8/12 mx-5 md:mx-10 z-30 px-10 md:px-30 relative">                          
-                    <section className="grid grid-cols-2 grid-rows-2 my-10 items-center gap-3 box-content">
+                    <section className="grid grid-cols-2 grid-rows-3 my-10 items-center gap-3 box-content">
                         <article onClick={()=>navigate(`/nuevo-propietario`)} className="row-start-1 row-end-2 bg-white ring-2 ring-blue-700 rounded-lg p-3 md:p-5 flex flex-col font-text font-bold items-center"><Icono name={'person_add'} className="text-blue-900 icon-md"/>Nuevo Propietario</article>
                         <article onClick={()=>navigate('/nuevo-propiedad')} className="row-start-1 row-end-2 bg-white ring-2 ring-blue-700 rounded-lg p-3 md:p-5 flex flex-col font-text font-bold items-center"><Icono name={'add_home'} className="text-blue-900 icon-md"/>Nueva Propiedad</article>
                         <article onClick={()=>navigate('/propietarios')} className="row-start-2 row-end-3 bg-white ring-2 ring-blue-700 rounded-lg p-3 md:p-5 flex flex-col font-text font-bold items-center"><Icono name={'patient_list'} className="text-blue-900 icon-md"/>Lista de Propietarios</article>
                         <article onClick={()=>navigate('/propiedades')} className="row-start-2 row-end-3 bg-white ring-2 ring-blue-700 rounded-lg p-3 md:p-5 flex flex-col font-text font-bold items-center"><Icono name={'list_alt'} className="text-blue-900 icon-md"/>Lista de Propiedades</article>
+                        <article onClick={()=>navigate('/nuevo-comunidad')} className="row-start-3 row-end-4 bg-white ring-2 ring-blue-700 rounded-lg p-3 md:p-5 flex flex-col font-text font-bold items-center"><Icono name={'other_houses'} className="text-blue-900 icon-md"/>Comunidades</article>
+                        <article onClick={()=>navigate('/ficheros')} className="row-start-3 row-end-4 bg-white ring-2 ring-blue-700 rounded-lg p-3 md:p-5 flex flex-col font-text font-bold items-center"><Icono name={'upload_file'} className="text-blue-900 icon-md"/>Subir CSV</article>
                     </section>                                
             </div>
             <Footer/>        
-        </Plantilla2>
+        </PlantillaGeneral>
     </>
   )
 }
