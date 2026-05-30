@@ -15,12 +15,15 @@ import { Btn } from "../components/Btn";
 import { Footer } from "../components/Footer";
 import { Titulo } from "../components/Titulo";
 import { Contenedor } from "../components/Contenedor";
+import { actualizarAvisoComunicado} from "../redux/avisosSlice";
+import { getAvisos } from "../redux/thunksAvisos";
 
 export const Comunicados = () => {
     const {token, rol, is_loading, is_authenticated}=useSelector((state)=>state.auth);
     const comunidad=useSelector((state)=>state.comunidad.actual);
     const dispatch=useDispatch();
     const navigate=useNavigate();
+    const {nuevoComunicado}=useSelector((state)=>state.avisos);
 
     const {abierto}=useSelector((state)=>state.menu);
 
@@ -39,9 +42,9 @@ export const Comunicados = () => {
     const comunicadosFetch = async () => {
         if (!token || !comunidad?.id || is_loading) return;
 
-        const data =await getcomunicados(comunidad.id, token, rol);
-
+        const data =await getcomunicados(comunidad.id, token);
         if (!data) return;
+        await getAvisos();
         actualizarEstado(data);
     };
 
@@ -54,6 +57,10 @@ export const Comunicados = () => {
         return;
     }, [comunidad?.id, token, is_loading, is_authenticated, rol]);
 
+    const quitarAviso=()=>{
+        dispatch(actualizarAvisoComunicado({estado:false}));
+    }
+
     const marcarLeido=async(leido, id)=>{
         if (leido){
             const confirm=window.confirm('Esta acción no se puede deshacer.¿Continuar?')
@@ -61,12 +68,13 @@ export const Comunicados = () => {
                 const ok=await changeLeido(token, id);
                 if (!ok)return;
                 const ok2=await comunicadosFetch();
+                quitarAviso();
                 if (!ok2)return;
             }
-
+            
             setDatos(prev => 
                 prev.map(m => m.id === id ? { ...m, leido: true } : m)
-            );
+            );            
         }
     }
 
@@ -78,7 +86,8 @@ export const Comunicados = () => {
             <Contenedor>
                 {(rol === 'gestor' || rol === 'presidente') && <BtnNuevo onClick={()=>navigate('/nuevo-comunicado')}/>}                
                 {datos.map((com)=>(
-                <div key={com?.id} className="bg-white p-5 my-5 rounded-lg border border-blue-800">
+                
+                <div key={com?.id} className={`bg-white p-5 my-5 rounded-lg border border-blue-800 ${(rol !== 'gestor' && !com?.leido)? "animate-pulse":""}`}>
                     <div className="flex flex-col">
                         <p className="whitespace-nowrap self-end">{com?.fecha_creacion}</p>
                         <h2 className="font-bold m-2">{com?.titulo}</h2>                        
@@ -94,7 +103,7 @@ export const Comunicados = () => {
 
                         : ((abiertoId === com?.id && com?.usuarios)? com?.usuarios:[]).map((usu)=>(
                             <div key={uuid()} className="flex flex-col mt-5 border-b-2 border-blue-900 pb-1">
-                                <p>{usu?.nombre} {usu?.dni}</p>                                
+                                <p><strong>{usu?.nombre}</strong> {usu?.dni} <strong>{usu?.propiedades}</strong></p>                                
                                 <Checked name={'leido'} checked={usu?.leido} disabled={true} text={'Leido'}/>                               
                             </div>
                         ))

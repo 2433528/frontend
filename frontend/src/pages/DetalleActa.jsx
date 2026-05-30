@@ -84,6 +84,7 @@ export const DetalleActa = () => {
         if(!ok2)return;
         setResuelta(true);
         handleReset();
+        navigate('/actas');
     }
 
     const manejarCambio = (id, campo, valor) => {
@@ -192,7 +193,7 @@ export const DetalleActa = () => {
                                 (!punto?.votacion?.cierre && !punto?.votacion?.abierta && !datos?.resuelta)
                                 ?<Btn onClick={()=>crearVotacion(punto.id)} text="Abrir Votación" disabled={datos?.resuelta || resuelta} hidden={rol !== 'gestor'}/>
                                 :<>
-                                    <div className="flex items-center gap-4">
+                                    <div className="w-full flex items-center gap-3 justify-center">
                                         <Btn onClick={()=>votoFavor(punto?.votacion?.id)} text="Favor" disabled={punto?.votacion?.voto} hidden={rol === 'gestor' || punto?.votacion?.cierre}/>
                                         <Btn text="Abstención" hidden={rol === 'gestor' || punto?.votacion?.cierre} disabled={punto?.votacion?.voto} onClick={()=>votoAbstencion(punto?.votacion?.id)}/>
                                         <Btn text="Contra" hidden={rol === 'gestor' || punto?.votacion?.cierre} disabled={punto?.votacion?.voto} onClick={()=>votoContra(punto?.votacion?.id)}/>

@@ -23,6 +23,7 @@ import { NuevoComunicado } from '../pages/Formularios/NuevoComunicado'
 import { ProtectedRoutesGestor } from './ProtectedRoutesGestor'
 import { NuevoComunidad } from '../pages/Formularios/NuevoComunidad'
 import { NuevoCSV } from '../pages/Formularios/NuevoCSV'
+import { NuevoPass } from '../pages/Formularios/NuevoPass'
 
 export const AppRoutes = () => {  
   return (
@@ -39,6 +40,7 @@ export const AppRoutes = () => {
             <Route path='/actas' element={<Actas/>}/>
             <Route path='/detalle-acta' element={<DetalleActa/>}/>
             <Route path='/comunicados' element={<Comunicados/>}/>
+            <Route path='/cambio-password' element={<NuevoPass/>}/>
             <Route element={<ProtectedRoutes/>}>
               <Route path='/nuevo-convocatoria' element={<NuevoConvocatoria/>}/>
               <Route path='/nuevo-comunicado' element={<NuevoComunicado/>}/>

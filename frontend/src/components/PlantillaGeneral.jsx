@@ -8,7 +8,6 @@ export const PlantillaGeneral = ({children}) => {
             <div className={`
                 overflow-x-hidden
                 font-text
-                bg-cover
                 min-h-screen
                 w-full
                 relative                
@@ -20,6 +19,7 @@ export const PlantillaGeneral = ({children}) => {
                 after:z-2
                 after:w-full
                 after:h-full
+                after:pointer-events-none
                 ${abierto
                     && "after:opacity-50 after:bg-black after:z-40"                 
                 }

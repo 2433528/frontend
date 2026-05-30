@@ -133,6 +133,7 @@ export const getRoles=()=>{
         try{
             const resp=await fetch(`${API_URL}/roles-comunidad/?user=${getState().auth.user.user_id}`, {
             method:'GET',
+            cache: 'no-store',
             headers: {
                 'Content-Type':'application/json',
                 'Authorization': `Bearer ${getState().auth.token}`,
@@ -144,7 +145,8 @@ export const getRoles=()=>{
         if (!resp.ok){ 
             const error=await resp.json();               
             console.log(error);
-            return false;
+            dispatch(roles([]));
+            return;
         }
 
         const data=await resp.json();
@@ -153,6 +155,7 @@ export const getRoles=()=>{
         }
         catch(error){
             console.log(error);
+            return [];
         }
     }
 }

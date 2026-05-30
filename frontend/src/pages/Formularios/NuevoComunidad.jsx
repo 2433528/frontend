@@ -111,7 +111,7 @@ export const NuevoComunidad = () => {
                 <Formulario onSubmit={handleSubmit}>
                     <h2 className='font-semibold text-2xl col-span-3 text-center text-blue-900'>Crear Comunidad</h2>
                     <Input
-                        addStyle={"col-span-2"}
+                        addStyle={"col-span-3 sm:col-span-2"}
                         label={'Nombre'}
                         type="text"
                         name="nombre"
@@ -120,6 +120,7 @@ export const NuevoComunidad = () => {
                     />
                     
                     <Input
+                        addStyle={"col-span-3 sm:col-span-2 sm:col-start-3"}
                         label={'CIF'}
                         type="text"
                         name="cif"
@@ -128,7 +129,7 @@ export const NuevoComunidad = () => {
                     />
 
                     <Input
-                        addStyle={"col-span-2"}
+                        addStyle={"col-span-3 sm:col-span-2"}
                         label={'Calle'}
                         type="text"
                         name="calle"
@@ -136,7 +137,8 @@ export const NuevoComunidad = () => {
                         onChange={handleChange}
                     />
 
-                    <Input                        
+                    <Input
+                        addStyle={"col-span-3 sm:col-span-2"}                    
                         label={'Número'}
                         type="text"
                         name="numero"
@@ -145,6 +147,7 @@ export const NuevoComunidad = () => {
                     />
 
                     <Input
+                        addStyle={"col-span-3 sm:col-span-1"}
                         label={'Codigo Postal'}
                         type="text"
                         name="cod_postal"
@@ -153,6 +156,7 @@ export const NuevoComunidad = () => {
                     />
 
                     <Input
+                        addStyle={"col-span-3 sm:col-span-1"}
                         label={'Localidad'}
                         type="text"
                         name="localidad"
@@ -161,6 +165,7 @@ export const NuevoComunidad = () => {
                     />
 
                     <Input
+                        addStyle={"col-span-3 sm:col-span-2"}
                         label={'Provincia'}
                         type="text"
                         name="provincia"
@@ -182,7 +187,7 @@ export const NuevoComunidad = () => {
                 value={cif}
                 onChange={handleChange}
                 />          
-                <Btn text='Buscar' type="submit" addStyle={"w-full col-start-2 col-end-3"}/>
+                <Btn text='Buscar' type="submit" addStyle={"w-full sm:col-start-2 sm:col-end-3 col-span-3"}/>
             </Formulario>
             {  (datos.length > 0)&&
                 <>

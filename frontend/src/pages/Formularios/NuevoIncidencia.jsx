@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 import { sendInci } from "../../services/incidencia";
 import { PlantillaGeneral } from "../../components/PlantillaGeneral";
@@ -9,12 +9,15 @@ import { Footer } from "../../components/Footer";
 import { Contenedor } from "../../components/Contenedor";
 import { Btn } from "../../components/Btn";
 import { Input } from "../../components/Input";
+import { useNavigate } from "react-router-dom";
 
 
 export const NuevoIncidencia = () => {
   const user=useSelector((state)=>state.auth.user);
     const token=useSelector((state)=>state.auth.token);
     const comu=useSelector((state)=>state.comunidad.actual);
+    const navigate=useNavigate();
+    const dispatch=useDispatch();
 
     const {form,titulo, texto, handleChange, handleReset}=useForm({
         titulo:'',
@@ -27,7 +30,7 @@ export const NuevoIncidencia = () => {
 
         const sendFetch = async () => {
                 try {
-                    sendInci(token, form);
+                    await sendInci(token, form);
                 } catch (error) {
                     console.log(error);
                     dispatch(getRefresh(navigate));
@@ -36,6 +39,7 @@ export const NuevoIncidencia = () => {
         
         sendFetch();
         handleReset();
+        navigate('/incidencias');
     }
 
   return (

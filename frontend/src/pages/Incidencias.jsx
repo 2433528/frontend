@@ -13,10 +13,13 @@ import { Item } from "../components/Item";
 import { Paginacion } from "../components/Paginacion";
 import { Footer } from "../components/Footer";
 import { Btn } from "../components/Btn";
+import { NuevoIncidencia } from "./Formularios/NuevoIncidencia";
+import { getAvisos, marcarAviso } from "../redux/thunksAvisos";
 
 export const Incidencias = () => {
     const {token, rol, is_loading, is_authenticated}=useSelector((state)=>state.auth);
     const comunidad=useSelector((state)=>state.comunidad.actual);
+    const {avisos_list}=useSelector((state)=>state.avisos);
     const dispatch=useDispatch();
     const navigate=useNavigate();
 
@@ -34,7 +37,7 @@ export const Incidencias = () => {
         if (!token || !comunidad?.id || is_loading) return;
         
         const data = await getInci(comunidad.id, token);
-
+        await dispatch(getAvisos());
         if (!data) return;               
         actualizarEstado(data);
     };
@@ -69,6 +72,19 @@ export const Incidencias = () => {
         }
     }
 
+    const incluirEstilo = (id) => {
+        return avisos_list.some(aviso => aviso.id_elemento === id)
+            ? 'animate-pulse'
+            : '';
+    };
+
+    const quitarAviso=async(id)=>{
+        const aviso=avisos_list.find((aviso)=> aviso.tipo === 'incidencia' && aviso.id_elemento === id);
+        if(!aviso?.id)return;
+        await dispatch(marcarAviso(aviso.id));
+        await dispatch(getAvisos());        
+    }
+
   return (
     <>
         <PlantillaGeneral>
@@ -78,17 +94,18 @@ export const Incidencias = () => {
             <BtnNuevo onClick={()=>navigate('/nuevo-inci')}/>
             {
                 datos.map((dato)=>(
-                    <Item key={dato.id}>
+                    <Item key={dato.id} addStyle={incluirEstilo(dato.id)} onClick={()=>quitarAviso(dato.id)}>
                         <div className="flex justify-between">
                             <h2 className="font-bold">{dato.titulo}</h2>
-                            <p>{dato.fecha_creacion}</p>
+                            <p>{dato.fecha_bonita}</p>
                         </div>                        
                         <p>Emisor: <span className="font-bold">{dato?.usuario_creador?.nombre} {dato?.usuario_creador?.dni}</span></p>
-                        <p>{dato.texto}</p>
+                        <p>Propiedades: <span className="font-bold">{dato?.usuario_creador?.propiedades}</span></p>
+                        <p className="font-semibold">{dato.texto}</p>
                         {
                             (dato.estado !== 'resuelta' && rol === 'gestor')
                             ? 
-                                <select className={`${(dato.estado === 'inicio') ? "bg-gray-400":"bg-orange-400"} p-2 mt-5 rounded-lg focus:outline-none`}
+                                <select className={`${(dato.estado === 'inicio') ? "bg-gray-400":"bg-orange-400"} font-semibold p-2 mt-5 rounded-lg focus:outline-none`}
                                     name="estado"
                                     value={dato.estado}
                                     onChange={(e)=>cambiarEstado(dato.id, e.target.value)}>
@@ -96,7 +113,7 @@ export const Incidencias = () => {
                                     <option className="bg-white" value="proceso">Proceso</option>
                                     <option className="bg-white" value="resuelta">Resuelta</option>
                                 </select>                               
-                            : <p className={`${(dato.estado === 'resuelta')? "bg-green-600":(dato.estado === 'proceso')? "bg-orange-400":"bg-gray-400"} p-2 mt-5 rounded-lg max-w-max`}>{dato.estado}</p>
+                            : <p className={`${(dato.estado === 'resuelta')? "font-semibold bg-green-600":(dato.estado === 'proceso')? "bg-orange-400 font-semibold":"bg-gray-400 font-semibold"} p-2 mt-5 rounded-lg max-w-max`}>{(dato.estado === 'resuelta')? 'Resuelta':(dato.estado === 'proceso')? 'Proceso':'Inicio'}</p>
                         }
 
                         {

@@ -13,6 +13,8 @@ import { BtnNuevo } from "../components/BtnNuevo";
 import { Btn } from "../components/Btn";
 import { Footer } from "../components/Footer";
 import { Contenedor } from "../components/Contenedor";
+import { getAvisos, marcarAviso } from "../redux/thunksAvisos";
+import { Item } from "../components/Item";
 
 
 export const Convocatorias = () => {
@@ -21,6 +23,7 @@ export const Convocatorias = () => {
     const dispatch=useDispatch();
     const navigate=useNavigate();
     const {abierto}=useSelector((state)=>state.menu);
+    const {avisos_list}=useSelector((state)=>state.avisos);
 
     const [paginate, setPaginate]=useState({previous:null, next:null});
     const [datos, setDatos]=useState([]);
@@ -38,6 +41,7 @@ export const Convocatorias = () => {
         const data = await getConvocatorias(comunidad, token);
 
         if (!data) return;
+        await dispatch(getAvisos());
         actualizarEstado(data);
     };
 
@@ -55,6 +59,19 @@ export const Convocatorias = () => {
         navigate('/nuevo-convocatoria');
     }
 
+    const incluirEstilo = (id) => {
+        return avisos_list.some(aviso => aviso.id_elemento === id)
+            ? 'animate-pulse'
+            : '';
+    };
+
+    const quitarAviso=async(id)=>{
+        const aviso=avisos_list.find((aviso)=> aviso?.tipo === 'convocatoria' && aviso?.id_elemento === id);
+        if(!aviso?.id)return;
+        await dispatch(marcarAviso(aviso.id));
+        await dispatch(getAvisos());        
+    }
+
   return (
     <>
         <PlantillaGeneral>
@@ -65,16 +82,16 @@ export const Convocatorias = () => {
                 <section>
                     {
                         datos.map((item)=>(
-                            <article key={item.id} className="bg-white my-5 rounded-lg p-3 box-border z-20 relative font-text border border-blue-800">
+                                                         
+                            <Item key={item.id} addStyle={incluirEstilo(item.id)} onClick={()=>quitarAviso(item.id)}>
                                 <div className="flex flex-col">
                                     <p className="whitespace-nowrap self-end">{item?.fecha_lectura}</p> 
                                     <p className="font-bold m-2">{item?.titulo}</p>                                                                                               
                                 </div>
                                 {(item?.celebrada)? <p className="bg-green-600 w-max p-2 rounded-lg m-2"><strong>Celebrada</strong></p>:<p className="bg-gray-300 w-max p-2 rounded-lg m-2"><strong>No Celebrada</strong></p>}
-                                <Btn onClick={()=> navigate(`/detalle-convocatoria/?id=${item?.id}`)} text={(rol === 'gestor' || rol === 'presidente')? 'Ver detalles o modificar': 'Ver detalles'}/>                        
-                            </article>
-                        ))
-                    }                                               
+                                <Btn addStyle={"justify-self-end"} onClick={()=> navigate(`/detalle-convocatoria/?id=${item?.id}`)} text={(rol === 'gestor' || rol === 'presidente')? 'Ver detalles o modificar': 'Ver detalles'}/>                        
+                            </Item>                                                                                    
+                    ))}                                               
                 </section>
                 <Paginacion onClick1={getPrevious} onClick2={getNext} disabled1={!paginate.previous} disabled2={!paginate.next}/>
             </Contenedor>                           

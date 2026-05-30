@@ -19,6 +19,9 @@ export const NuevoCSV = () => {
     const [comunidadesFile, setComunidadesFile] = useState(null);
     const [propietariosFile, setPropietariosFile] = useState(null);
 
+    const [filename1, setFilename1]=useState(null);
+    const [filename2, setFilename2]=useState(null);
+
     const handleSubmit1=async(e)=>{
         e.preventDefault();
         await enviarAlBackend('comunidades/subir-csv', comunidadesFile, 'archivo', token);
@@ -39,27 +42,42 @@ export const NuevoCSV = () => {
                 <small>⚠️ Crear primero las comunidades</small>                            
                 <Formulario onSubmit={handleSubmit1}>                    
                     <Icono name={'home_work'} className="text-blue-900 icon-md"/>
-                    <Input
-                        addStyle={"col-span-2 sm:col-start-2 text-blue-900 hover:text-blue-500"}
-                        label={'Fichero CSV con comunidades'}
-                        type="file"                    
-                        name="archivo1"
-                        onChange={(e) => setComunidadesFile(e.target.files[0])}
-                    />
-                    <Btn text={'Enviar'} type="submit" addStyle={"w-full col-start-3"}/>
-                    <small className='col-span-3'>ℹ️ Cabecera del fichero: <strong>nombre,calle,numero,cod_postal,localidad,provincia,cif</strong></small>                   
+                    <p className='col-span-3 sm:-mb-16 font-semibold text-gray-500'>Fichero CSV con comunidades</p>
+                    <label className="col-span-3 sm:col-start-2 text-blue-900 hover:text-blue-500 hover:cursor-pointer bg-blue-100 rounded-lg p-3 flex justify-between">
+                        Subir archivo
+
+                        <Input
+                            addStyle={"hidden"}                            
+                            type="file"                    
+                            name="archivo1"
+                            onChange={(e)=>setFilename1(e.target.files[0]?.name || "")}
+                        />
+                        <span className="text-gray-600">
+                            {filename1 || "Ningún archivo"}
+                        </span>                                  
+                    </label>                       
+                    <Btn text={'Enviar'} type="submit" addStyle={"w-full col-span-3 sm:col-start-3"}/>
+                    <small className='col-span-3 wrap-break-word'>ℹ️ Cabecera del fichero: <strong>nombre,calle,numero,cod_postal,localidad,provincia,cif</strong></small>                   
                 </Formulario>
                 <Formulario onSubmit={handleSubmit2}>
                     <Icono name={'person_edit'} className="text-blue-900 icon-md"/>
-                    <Input
-                        addStyle={"col-span-2 sm:col-start-2 text-blue-900 hover:text-blue-500"}
-                        label={'Fichero CSV con propietarios y sus propiedades'}
-                        type="file"
-                        name="archivo2"                        
-                        onChange={(e) => setPropietariosFile(e.target.files[0])}
-                    />
-                    <Btn text={'Enviar'} type="submit" addStyle={"w-full col-start-3"}/>
-                    <small className='col-span-3'>ℹ️ Cabecera del fichero: <strong>dni,nombre,apellido1,apellido2,telefono,email,num_letra,comunidad_id</strong></small>
+                    <p className='col-span-3 sm:-mb-16 font-semibold text-gray-500'>Fichero CSV con propietarios y sus propiedades</p>
+                    <label className="col-span-3 sm:col-start-2 text-blue-900 hover:text-blue-500 hover:cursor-pointer bg-blue-100 rounded-lg p-3 flex justify-between">
+                        Subir archivo
+
+                        <Input
+                            addStyle={"hidden"}
+                            type="file"
+                            name="archivo2"                        
+                            onChange={(e)=>setFilename2(e.target.files[0]?.name || "")}
+                        />
+
+                        <span className="text-gray-600">
+                            {filename2 || "Ningún archivo"}
+                        </span>                                  
+                    </label>                   
+                    <Btn text={'Enviar'} type="submit" addStyle={"w-full col-span-3 sm:col-start-3"}/>
+                    <small className='col-span-3 wrap-break-word'>ℹ️ Cabecera del fichero: <strong>dni,nombre,apellido1,apellido2,telefono,email,num_letra,cif_comunidad</strong></small>
                 </Formulario>
             </Contenedor>
             <Footer/>

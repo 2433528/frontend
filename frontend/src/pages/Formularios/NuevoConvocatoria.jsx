@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useForm } from "../../hooks/useForm";
 import { useEffect, useState } from "react";
 import {v4 as uuid} from 'uuid';
@@ -21,6 +21,7 @@ export const NuevoConvocatoria = ({datos=null}) => {
     const {token, rol} = useSelector((state)=>state.auth);
     const {actual} = useSelector((state)=>state.comunidad);
     const navigate=useNavigate();
+    const dispatch=useDispatch();
 
     const {titulo, tipo, fecha, num_convocatoria, lugar, hora, form, celebrada, comunidad, handleChange, handleReset, setForm}=useForm({
         titulo:'',
@@ -210,7 +211,7 @@ export const NuevoConvocatoria = ({datos=null}) => {
                     <div className="flex flex-col col-span-2 sm:col-span-1 mb-3">
                         <label className="font-semibold text-gray-700">Tipo</label>
                         <select name="tipo" value={tipo} onChange={handleChange} disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')}
-                            className="bg-blue-100 p-2 rounded-lg focus:outline-none"
+                            className={`bg-blue-100 p-2 rounded-lg focus:outline-none ${(rol !== 'gestor' && rol !== 'presidente') && "hover:cursor-not-allowed"}`}
                         >
                             <option value="ordinaria">Ordinaria</option>
                             <option value="extraordinaria">Extraordinaria</option>
@@ -220,7 +221,7 @@ export const NuevoConvocatoria = ({datos=null}) => {
                     <div className="flex flex-col col-span-2 sm:col-span-1 mb-3">
                         <label className="font-semibold text-gray-700">Convocatoria</label>
                         <select name="num_convocatoria" value={num_convocatoria} onChange={handleChange} disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')}
-                            className="bg-blue-100 p-2 rounded-lg focus:outline-none"
+                            className={`bg-blue-100 p-2 rounded-lg focus:outline-none ${(rol !== 'gestor' && rol !== 'presidente') && "hover:cursor-not-allowed"}`}
                         >
                             <option value="primera">Primera</option>
                             <option value="segunda">Segunda</option>
@@ -238,10 +239,10 @@ export const NuevoConvocatoria = ({datos=null}) => {
                                         <Icono name={'fiber_manual_record'} className="icon-sm"/>
                                         {punto?.descripcion}
                                     </div>
-                                    <div className="flex items-center gap-2">
+                                    {(rol === 'gestor' || rol === 'presidente') && <div className="flex items-center gap-2">
                                         {!fechaPasada && (rol !== 'gestor' || rol !== 'presidente') && <Btn text="Modificar" type="button" onClick={()=>editarPunto(punto?.descripcion)}/>}
                                         {!fechaPasada && (rol !== 'gestor' || rol !== 'presidente') && <Btn text="Eliminar" type="button" onClick={()=>eliminarPunto(punto?.descripcion)}/>} 
-                                    </div>                 
+                                    </div>}               
                                 </li>
                             ))
                         }
@@ -256,12 +257,12 @@ export const NuevoConvocatoria = ({datos=null}) => {
 
                     />
                     <div className="flex flex-col items-center col-span-2 sm:col-span-3">
-                        <Btn text="Agregar Punto" type="button" onClick={agregarPunto} disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')} addStyle={"sm:self-start"}/>                                        
+                    {(rol === 'gestor' || rol === 'presidente') && <Btn text="Agregar Punto" type="button" onClick={agregarPunto} disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')} addStyle={"sm:self-start"}/>}                                       
                     </div>
                     <div className="flex flex-col items-center col-span-2 sm:col-span-3">
                         <Btn addStyle={"w-full"} text={datos? 'Modificar':'Crear'} type="submit" disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')} hidden={rol !== 'gestor' && rol !== 'presidente'}/>
                     </div>
-                    <div className="my-5 bg-blue-50 p-3 rounded-lg col-span-2 sm:col-span-3">
+                    {(rol === 'gestor' || rol === 'presidente') && <div className="my-5 bg-blue-50 p-3 rounded-lg col-span-2 sm:col-span-3">
                         <small hidden={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')}>*Tiempo de cortesia: 10 min después de la hora.</small>                    
                         <Checked                            
                             text={'Marcar como Celebrada'}                        
@@ -270,7 +271,7 @@ export const NuevoConvocatoria = ({datos=null}) => {
                             disabled={fechaPasada || (rol !== 'gestor' && rol !== 'presidente')}
                             onChange={handleCelebradaChange}
                         />
-                    </div>
+                    </div>}
                 </Formulario>
                 {(celebrada && (rol === 'gestor' || rol === 'presidente')) && <Btn addStyle={"w-full"} text={datos? "Ver resumen del acta de esta convocatoria":"Crear Acta"} type="button" onClick={()=>navigate(`/nuevo-acta/?id=${datos.id}`)}/>}
             </Contenedor>

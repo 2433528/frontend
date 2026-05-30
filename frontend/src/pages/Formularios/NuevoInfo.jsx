@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 import { sendInfo } from "../../services/info";
 import { PlantillaGeneral } from "../../components/PlantillaGeneral";
@@ -10,11 +10,14 @@ import { Btn } from "../../components/Btn";
 import { Footer } from "../../components/Footer";
 import { Input } from "../../components/Input";
 import { isFulfilled } from "@reduxjs/toolkit";
+import { useNavigate } from "react-router-dom";
 
 export const NuevoInfo = () => {
     const {rol, user}=useSelector((state)=>state.auth);
     const token=useSelector((state)=>state.auth.token);
     const comu=useSelector((state)=>state.comunidad.actual);
+    const navigate=useNavigate();
+    const dispatch=useDispatch();
 
     const {form,titulo, texto, handleChange, handleReset}=useForm({
         titulo:'',
@@ -27,16 +30,18 @@ export const NuevoInfo = () => {
         e.preventDefault();
 
         const sendFetch = async () => {
-                try {
-                    sendInfo(token, form);
-                } catch (error) {
-                    console.log(error);
-                    dispatch(getRefresh(navigate));
-                }
-            };
+            try {
+                await sendInfo(token, form);
+            } catch (error) {
+                console.log(error);
+                dispatch(getRefresh(navigate));
+            }
+            return;
+        };
         
-        sendFetch();
-        handleReset();
+        sendFetch();        
+        handleReset();        
+        navigate('/tablon');
     }
 
   return (

@@ -96,6 +96,7 @@ export const modificarUser =async (id='', token='', form={}) => {
         if (!resp.ok){                
             const data = await resp.json();
             console.log("ERROR BACKEND:", data);
+            alert('No se pudo cambiar la contraseña.')
             return false;
         }
 
@@ -103,6 +104,7 @@ export const modificarUser =async (id='', token='', form={}) => {
     }
     catch(error){
         console.log(error);
+        alert('No se pudo cambiar la contraseña.')
     }    
 }
 

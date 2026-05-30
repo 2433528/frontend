@@ -37,7 +37,7 @@ export const NuevoActa = () => {
               if (!data) {
                   dispatch(getRefresh(navigate));
               } else {
-                  setDatos(data);
+                  setDatos(data);                  
               }
           };
           cargarDatos();
@@ -89,7 +89,7 @@ export const NuevoActa = () => {
               }
             </ul>
 
-            {(!datos?.acta)? <Btn text="Guardar" type="button" onClick={handleSubmit}/>:<Btn text="Ir al Acta" type="button" onClick={irAacta}/>}
+            {(!datos?.acta)? <Btn text="Crear Acta" type="button" onClick={handleSubmit}/>:<Btn text="Ir al Acta" type="button" onClick={irAacta}/>}
           </Item>
         </Contenedor>
         <Footer/>

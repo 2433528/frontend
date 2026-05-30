@@ -1,7 +1,7 @@
 const API_URL = import.meta.env.VITE_API_URL;
-export const getcomunicados=async(comunidad='', token='', rol='')=>{
+export const getcomunicados=async(comunidad='', token='')=>{
     try{
-        const resp=await fetch(`${API_URL}/comunicados/?comunidad=${comunidad}&rol=${rol}`, {
+        const resp=await fetch(`${API_URL}/comunicados/?comunidad=${comunidad}`, {
             method:'GET',
             headers: {
                 'Content-Type':'application/json',

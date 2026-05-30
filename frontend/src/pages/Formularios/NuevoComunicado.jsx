@@ -60,8 +60,9 @@ export const NuevoComunicado = () => {
     };
 
     const handleSubmit=async(e)=>{
-        e.preventDefault();
-        const ok=await sendComunicado(token, {titulo, texto, comunidad, destinatarios});
+        e.preventDefault();        
+        const filtro=destinatarios.filter((item)=>item?.destinatario);      
+        const ok=await sendComunicado(token, {titulo, texto, comunidad, 'destinatarios':filtro});
         if (!ok)return;
         handleReset();
         setAbierto(false);
@@ -106,6 +107,7 @@ export const NuevoComunicado = () => {
 
                                 <p>{usuario?.nombre} {usuario?.apellido1} {usuario?.apellido2}</p>
                                 <p>{usuario?.dni}</p>
+                                <p>Propiedades:<strong>{usuario?.propiedades?.map(propiedad=>` ${propiedad}`)}</strong></p>
                             </div>
                         ))            
                     }

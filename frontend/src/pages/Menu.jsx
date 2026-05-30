@@ -10,6 +10,8 @@ import imagen from "../assets/CasaEnMano.png"
 import { PlantillaGeneral } from "../components/PlantillaGeneral";
 import { Footer } from "../components/Footer";
 import { Cabecera } from "../components/Cabecera";
+import { Avisos } from "../components/Avisos";
+import { getAvisos } from "../redux/thunksAvisos";
 
 
 export const Menu = () => {
@@ -18,18 +20,17 @@ export const Menu = () => {
     const navigate=useNavigate();
     const dispatch=useDispatch();
 
-    const [sinLeer, setSinLeer]=useState({sinLeer:false});
-
-    const mostrarAviso=async()=>{
-        const avisar=await comunicadosSinLeer(token, actual.id);
-        if (!avisar?.sinLeer)return;
-        setSinLeer(avisar);
-    }
+    
 
     useEffect(()=>{        
         if (rol && is_authenticated){
             //suscribirNotificaciones();
-            mostrarAviso();
+            const conseguirAvisos=async()=>{
+                await dispatch(getAvisos());
+                return;
+            }
+
+            conseguirAvisos();    
         } 
 
         if (!is_loading && !is_authenticated){
@@ -39,15 +40,11 @@ export const Menu = () => {
         return;
     }, [rol, is_loading, is_authenticated]);
 
-    const cambiarMostrarAviso=()=>{
-        navigate('/comunicados');
-        setSinLeer({sinLeer:false});
-    }
-
   return (
     <>
         <PlantillaGeneral>       
-            <Cabecera sinLeer={sinLeer} cambiarMostrarAviso={cambiarMostrarAviso}/>                  
+            <Cabecera/>
+            <Avisos/>               
                 <div className="w-full md:w-8/12 mx-5 md:mx-10 z-30 px-10 md:px-30 relative">                
                     <section className="grid grid-cols-2 grid-rows-3 my-10 items-center gap-3 box-content">
                         <article onClick={()=>navigate('/comunicados')} className="row-start-1 row-end-2 bg-white ring-2 ring-blue-700 rounded-lg md:p-5 flex flex-col font-text font-bold items-center cursor-pointer"><Icono name={'campaign'} className="text-blue-900 icon-md"/>Comunicados</article>                    
@@ -58,8 +55,9 @@ export const Menu = () => {
                         {(rol === 'gestor') && <article onClick={()=>navigate('/menu-gestion')} className="row-start-3 row-end-4 bg-white ring-2 ring-blue-700 rounded-lg md:p-5 flex flex-col font-text font-bold items-center cursor-pointer"><Icono name={'add_home_work'} className="text-blue-900 icon-md"/>Comunidad</article>}
                     </section>                
                 </div>                         
-                   
-            <img src={imagen} alt="" className="absolute bottom-1/12 right-0 hidden md:w-80 md:block lg:w-100 lg:block object-cover z-30" />
+            <div className="w-full flex justify-end -mb-20">
+                <img src={imagen} alt=""/>
+            </div>     
             <Footer/>      
         </PlantillaGeneral>
     </>
