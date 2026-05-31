@@ -121,6 +121,7 @@ export const getLogout=(navigate='')=>{
             console.log(error);
         } finally {
             dispatch(logout());
+            localStorage.removeItem('actual');
             console.log('Sesión cerrada.')
             if (navigate !== '') navigate('/', { replace: true });
         }

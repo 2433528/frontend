@@ -84,7 +84,7 @@ const {form, handleChange, handleReset, num_letra, usuario_dni, setForm, comunid
             <div className="col-span-2 sm:col-start-2 sm:col-end-3">
               {(!prop)? <Btn text='Crear' type="submit" addStyle={"w-full"}/>:<Btn text='Modificar' type="submit" addStyle={"w-full"}/>}
             </div>
-            <small className="col-span-2 sm:col-span-3">*Para crear la propiedad el propietario debe estar registrado.</small>   
+            <small className="col-span-2 sm:col-span-3">ℹ️ Para crear la propiedad el propietario debe estar registrado.</small>   
           </Formulario>
         </Contenedor>
         <Footer/>    

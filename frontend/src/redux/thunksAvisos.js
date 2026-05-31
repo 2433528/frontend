@@ -20,6 +20,7 @@ export const getAvisos=()=>{
         if (!resp.ok){ 
             const error=await resp.json();               
             console.log(error);
+            dispatch(actualizarAvisos([]));
             return;
         }
 
@@ -29,6 +30,7 @@ export const getAvisos=()=>{
         }
         catch(error){
             console.log(error);
+            dispatch(actualizarAvisos([]));
             return;
         }
     }

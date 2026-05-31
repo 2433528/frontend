@@ -166,8 +166,8 @@ export const NuevoPropietario = () => {
                         {(!user)? <Btn text="Crear" type="submit" addStyle={"w-full"}/>:<Btn addStyle={"W-full"} text="Modificar" type="submit"/>}
                     </div>
                     <div className="flex flex-col text-start gap-2 col-span-2 sm:col-span-3">
-                        <small>*El username sera el DNI.</small>            
-                        <small>*El nuevo usuario no se mostrará en la lista hasta que no se le asigne una propiedad.</small>
+                        <small>ℹ️ El username sera el DNI.</small>            
+                        <small>ℹ️ El nuevo usuario no se mostrará en la lista hasta que no se le asigne una propiedad.</small>
                     </div>
             </Formulario>            
         </Contenedor>

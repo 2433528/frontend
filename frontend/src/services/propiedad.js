@@ -2,7 +2,6 @@ const API_URL = import.meta.env.VITE_API_URL;
 
 export const createPropiedad =async (token='', datos={}) => {
   try{
-        console.log(datos);
         const resp=await fetch(`${API_URL}/propiedades/`, {
             method:'POST',
             headers: {
@@ -17,7 +16,7 @@ export const createPropiedad =async (token='', datos={}) => {
         if (!resp.ok){                
             const data = await resp.json();
             console.log("ERROR BACKEND:", data);
-            alert('Esta propiedad ya existe.')
+            alert('Esta propiedad ya existe o hubo un error.')
             return false;
         }
 
