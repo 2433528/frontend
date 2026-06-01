@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import {useForm} from '../../hooks/useForm'
 import { createPropiedad, getProp, modificarPropiedad } from '../../services/propiedad';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import queryString from 'query-string';
 import { useEffect, useState } from 'react';
 import { PlantillaGeneral } from '../../components/PlantillaGeneral';
@@ -17,6 +17,7 @@ export const NuevoPropiedad = () => {
   const token=useSelector((state)=>state.auth.token);
   const location=useLocation();
   const {prop_id}=queryString.parse(location.search);
+  const navigate=useNavigate();
 
   const [prop, setProp]=useState();
 
@@ -51,6 +52,7 @@ const {form, handleChange, handleReset, num_letra, usuario_dni, setForm, comunid
     if (!prop){      
       await createPropiedad(token, form);
       handleReset();
+      navigate('/propietarios');
       return;
     }
 

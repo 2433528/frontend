@@ -50,7 +50,11 @@ export const NuevoCSV = () => {
                             addStyle={"hidden"}                            
                             type="file"                    
                             name="archivo1"
-                            onChange={(e)=>setFilename1(e.target.files[0]?.name || "")}
+                            onChange={(e) =>{
+                                const file = e.target.files?.[0];
+                                setFilename1(file?.name || "");
+                                setComunidadesFile(file);
+                            }}
                         />
                         <span className="text-gray-600">
                             {filename1 || "Ningún archivo"}
@@ -69,15 +73,20 @@ export const NuevoCSV = () => {
                             addStyle={"hidden"}
                             type="file"
                             name="archivo2"                        
-                            onChange={(e)=>setFilename2(e.target.files[0]?.name || "")}
+                            onChange={(e) =>{
+                                const file = e.target.files?.[0];
+                                setFilename2(file?.name || "");
+                                setPropietariosFile(file);
+                            }}
                         />
 
                         <span className="text-gray-600">
                             {filename2 || "Ningún archivo"}
                         </span>                                  
                     </label>                   
-                    <Btn text={'Enviar'} type="submit" addStyle={"w-full col-span-3 sm:col-start-3"}/>
-                    <small className='col-span-3 wrap-break-word'>ℹ️ Cabecera del fichero: <strong>dni,nombre,apellido1,apellido2,telefono,email,num_letra,cif_comunidad</strong></small>
+                    <Btn text={'Enviar'} type="submit" addStyle={"w-full col-span-3 sm:col-start-3"}/>            
+                    <small className='col-span-3 wrap-break-word'>ℹ️ Cabecera del fichero: <strong>dni,nombre,apellido1,apellido2,telefono,email,num_letra,cif_comunidad</strong></small>                    
+                    <small className='col-span-3 wrap-break-word'>ℹ️ Contraseña provisional usuarios creados: <strong>Comunidad12345</strong></small>
                 </Formulario>
             </Contenedor>
             <Footer/>

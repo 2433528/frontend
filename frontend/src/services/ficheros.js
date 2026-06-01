@@ -29,5 +29,6 @@ export const enviarAlBackend = async (ruta, archivo, campoName, token) => {
 
     } catch (error) {
         console.error("Error de red:", error);
+        alert("Error en el servidor al procesar el archivo");
     }
 };

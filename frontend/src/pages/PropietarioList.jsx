@@ -50,7 +50,6 @@ export const PropietarioList = () => {
 
     const handleSubmit=async(e)=>{
         e.preventDefault();
-        console.log(dni);
         const data=await getUsu(token, dni);
         actualizarEstado(data);
         handleReset();
@@ -71,16 +70,17 @@ export const PropietarioList = () => {
                         <h2 className="text-center text-white text-2xl">Lista propietarios</h2>
                             {
                                 PropietariosUnicos.map((usu)=>(
-                                    <Item key={usu.id}>
-                                        <p><strong>{usu.nombre} {usu.apellido1} {usu.apellido2}</strong></p>                                    
-                                        <p>DNI: <strong>{usu.dni}</strong></p>
-                                        <p>Telefono: <strong>{usu.telefono}</strong></p>
-                                        <p>Email: <strong>{usu.email}</strong></p>
-                                        <p>Rol: <strong>{usu.rol_info}</strong></p>
-                                        <p><strong>{(usu.moroso_info) && 'Moroso'}</strong></p>
+                                    <Item key={usu?.id}>
+                                        <p><strong>{usu?.nombre} {usu?.apellido1} {usu?.apellido2}</strong></p>                                    
+                                        <p>DNI: <strong>{usu?.dni}</strong></p>
+                                        <p>Telefono: <strong>{usu?.telefono}</strong></p>
+                                        <p>Email: <strong>{usu?.email}</strong></p>
+                                        <p>Rol: <strong>{usu?.rol_info}</strong></p>
+                                        <p>Propiedades: <strong>{usu?.propiedad}</strong></p>
+                                        <p><strong>{(usu?.moroso_info) && 'Moroso'}</strong></p>
                                         <div className="flex items-center gap-4">
-                                            <Btn onClick={()=>navigate(`/nuevo-propietario/?user_dni=${usu.dni}`)} text={'Editar'}/>
-                                            <Btn onClick={()=>delUser(token, usu.id)} text={'Eliminar'}/>
+                                            <Btn onClick={()=>navigate(`/nuevo-propietario/?user_dni=${usu?.dni}`)} text={'Editar'}/>
+                                            <Btn onClick={()=>delUser(token, usu?.id)} text={'Eliminar'}/>
                                         </div>
                                     </Item>
                                 ))

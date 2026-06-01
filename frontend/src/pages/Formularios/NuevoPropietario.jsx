@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 import { createUser, getUsu, modificarUser } from "../../services/usuarios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { PlantillaGeneral } from "../../components/PlantillaGeneral";
@@ -18,6 +18,7 @@ import { Checked } from "../../components/Checked";
 export const NuevoPropietario = () => {
     const token=useSelector((state)=>state.auth.token);
     const location=useLocation();
+    const navigate=useNavigate();
     const {user_dni}=queryString.parse(location.search);
 
     const [user, setUser]=useState();
@@ -65,12 +66,13 @@ export const NuevoPropietario = () => {
         e.preventDefault();
         if (!user){
             await createUser(token, form);
-            handleReset();
+            handleReset();           
             return;
         }
 
         await modificarUser(user.id, token, form);
-        handleReset();            
+        handleReset();
+        navigate('/propietarios');        
     }
 
   return (

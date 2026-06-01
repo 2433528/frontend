@@ -188,15 +188,15 @@ export const DetalleActa = () => {
                     {
                     ((datos?.pertenece_convocatoria?.lista_puntos)? datos?.pertenece_convocatoria?.lista_puntos:[]).map((punto)=>(
                         <li key={punto.id}>                            
-                            <p className="text-[1rem] flex items-center font-semibold my-5"><Icono name={'fiber_manual_record'} className="icon-sm"/>{punto.descripcion}</p>
+                            <p className="text-[1.2rem] flex items-center font-semibold my-5"><Icono name={'fiber_manual_record'} className="icon-sm"/>{punto.descripcion}</p>
                             {
                                 (!punto?.votacion?.cierre && !punto?.votacion?.abierta && !datos?.resuelta)
                                 ?<Btn onClick={()=>crearVotacion(punto.id)} text="Abrir Votación" disabled={datos?.resuelta || resuelta} hidden={rol !== 'gestor'}/>
                                 :<>
                                     <div className="w-full flex items-center gap-3 justify-center">
-                                        <Btn onClick={()=>votoFavor(punto?.votacion?.id)} text="Favor" disabled={punto?.votacion?.voto} hidden={rol === 'gestor' || punto?.votacion?.cierre}/>
+                                        <Btn onClick={()=>votoFavor(punto?.votacion?.id)} text="Favor" disabled={punto?.votacion?.voto} hidden={rol === 'gestor' || punto?.votacion?.cierre} addStyle={"bg-none bg-green-600 hover:bg-green-400"}/>
                                         <Btn text="Abstención" hidden={rol === 'gestor' || punto?.votacion?.cierre} disabled={punto?.votacion?.voto} onClick={()=>votoAbstencion(punto?.votacion?.id)}/>
-                                        <Btn text="Contra" hidden={rol === 'gestor' || punto?.votacion?.cierre} disabled={punto?.votacion?.voto} onClick={()=>votoContra(punto?.votacion?.id)}/>
+                                        <Btn text="Contra" hidden={rol === 'gestor' || punto?.votacion?.cierre} disabled={punto?.votacion?.voto} onClick={()=>votoContra(punto?.votacion?.id)} addStyle={"bg-none bg-red-600 hover:bg-red-400"}/>
                                         {(rol === 'gestor' && !datos?.resuelta && !resuelta) && <Btn text="Cerrar Votación" disabled={punto?.votacion?.cierre} onClick={(e)=>cerrarVotacion(e, punto?.votacion?.id)}/>}
                                     </div>
 

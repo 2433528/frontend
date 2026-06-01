@@ -40,7 +40,7 @@ export const NuevoComunicado = () => {
         if (token && !is_loading && is_authenticated) {
             const cargarDatos = async () => {                
                 const data = await getususcomunicado(actual.id, token);
-                if (!data) return; 
+                if (!data) return;
                 setDestinatarios(data);                                  
             };
             cargarDatos();

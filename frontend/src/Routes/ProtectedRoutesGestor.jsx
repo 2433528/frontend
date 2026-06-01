@@ -2,11 +2,11 @@ import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
 export const ProtectedRoutesGestor = () => {
-    const rol=useSelector((state)=>state.auth.rol);
+    const {rol, user}=useSelector((state)=>state.auth);
   return (
     <>
         {
-            (rol === 'gestor')? <Outlet/>:<Navigate to={'/menu'}/>
+          (user?.gestor_fincas || rol === 'gestor')? <Outlet/>:<Navigate to={'/menu'}/>
         }
     </>
   )

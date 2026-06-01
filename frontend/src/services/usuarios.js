@@ -100,18 +100,18 @@ export const modificarUser =async (id='', token='', form={}) => {
             return false;
         }
 
-        alert('Propietario modificado.')
+        alert('Datos modificados.')
     }
     catch(error){
         console.log(error);
-        alert('No se pudo cambiar la contraseña.')
+        alert('No se pudo modificar al propietario.')
     }    
 }
 
 
 export const BorrarUser =async (token='', id='') => {
   try{
-        const resp=await fetch(`${API_URL}/usuarios/${id}/`, {
+        const resp=await fetch(`${API_URL}/usuarios/${id}/?comunidad=${localStorage.getItem('actual')}`, {
             method:'DELETE',
             headers: {
                 'Content-Type':'application/json',

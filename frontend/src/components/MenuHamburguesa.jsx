@@ -30,11 +30,11 @@ export const MenuHamburguesa = () => {
                     <li onClick={()=>navigate('/convocatorias')} className="flex font-bold items-center mb-3 border-b border-dotted border-blue-900 hover:text-blue-600 hover:cursor-pointer"><Icono name={'calendar_month'} className="text-blue-900 mr-2"/>Convocatorias</li>
                     <li onClick={()=>navigate('/actas')} className="flex font-bold items-center mb-3 border-b border-dotted border-blue-900 hover:text-blue-600 hover:cursor-pointer"><Icono name={'docs'} className="text-blue-900 mr-2"/>Actas</li>
                     <li onClick={()=>navigate('/incidencias')} className="flex font-bold items-center mb-3 border-b border-dotted border-blue-900 hover:text-blue-600 hover:cursor-pointer"><Icono name={'person_alert'} className="text-blue-900 mr-2"/>Incidencias</li>
-                    <li onClick={()=>navigate('/tablon')} className="flex font-bold items-center mb-3 border-b border-dotted border-blue-900 hover:text-blue-600 hover:cursor-pointer"><Icono name={'info'} className="text-blue-900 mr-2"/>Informacion</li>
+                    <li onClick={()=>navigate('/tablon')} className="flex font-bold items-center mb-3 border-b border-dotted border-blue-900 hover:text-blue-600 hover:cursor-pointer"><Icono name={'info'} className="text-blue-900 mr-2"/>Información</li>
                     <li onClick={()=>navigate('/cambio-password')} className="flex font-bold items-center mb-3 border-b border-dotted border-blue-900 hover:text-blue-600 hover:cursor-pointer"><Icono name={'password'} className="text-blue-900 mr-2"/>Cambiar mi contraseña</li>
                     {(rol === 'gestor') && <li onClick={()=>navigate('/menu-gestion')} className="flex font-bold items-center hover:text-blue-600 font-text mb-2 hover:cursor-pointer"><Icono name={'add_home_work'} className="text-blue-900 mr-2"/>Gestión Comunidad</li>}                
                 </ul>
-                <p className="flex justify-center bg-linear-to-bl from-blue-500 to-blue-900 rounded-b-lg col-start-1 col-end-3"><BtnSalir/></p>          
+                <p className="flex justify-center bg-linear-to-bl from-blue-500 to-blue-900 rounded-b-lg col-start-1 col-end-3"><BtnSalir addStyle={"w-full justify-center hover:rounded-none"}/></p>          
             </div>
             
         </div>

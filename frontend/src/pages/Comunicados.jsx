@@ -19,7 +19,7 @@ import { actualizarAvisoComunicado} from "../redux/avisosSlice";
 import { getAvisos } from "../redux/thunksAvisos";
 
 export const Comunicados = () => {
-    const {token, rol, is_loading, is_authenticated}=useSelector((state)=>state.auth);
+    const {token, rol, is_loading, is_authenticated, user}=useSelector((state)=>state.auth);
     const comunidad=useSelector((state)=>state.comunidad.actual);
     const dispatch=useDispatch();
     const navigate=useNavigate();
@@ -87,16 +87,16 @@ export const Comunicados = () => {
                 {(rol === 'gestor' || rol === 'presidente') && <BtnNuevo onClick={()=>navigate('/nuevo-comunicado')}/>}                
                 {datos.map((com)=>(
                 
-                <div key={com?.id} className={`bg-white p-5 my-5 rounded-lg border border-blue-800 ${(rol !== 'gestor' && !com?.leido)? "animate-pulse":""}`}>
+                <div key={com?.id} className={`bg-white p-5 my-5 rounded-lg border border-blue-800 ${(rol !== 'gestor' && rol !== 'presidente' && !com?.leido)? "animate-pulse":""}`}>
                     <div className="flex flex-col">
                         <p className="whitespace-nowrap self-end">{com?.fecha_creacion}</p>
                         <h2 className="font-bold m-2">{com?.titulo}</h2>                        
                     </div>
                     <p className="m-2">{com?.texto}</p>
-                    {(rol === 'gestor') && <Btn onClick={()=>setAbiertoId(abiertoId === com?.id ? null:com?.id)} text={'Enviado a...'}/>}
+                    {(rol === 'gestor' || rol === 'presidente') && <Btn onClick={()=>setAbiertoId(abiertoId === com?.id ? null:com?.id)} text={'Enviado a...'}/>}
                     
                     {
-                        (rol !== 'gestor')
+                        (rol !== 'gestor' && rol !== 'presidente')
                         ?<>
                             <Checked name={'leido'} checked={com?.leido || false} disabled={com?.leido} onChange={(e)=>marcarLeido(e.target.checked, com?.comunicadousuario)} text={'Leido'}/> 
                         </>
@@ -104,7 +104,7 @@ export const Comunicados = () => {
                         : ((abiertoId === com?.id && com?.usuarios)? com?.usuarios:[]).map((usu)=>(
                             <div key={uuid()} className="flex flex-col mt-5 border-b-2 border-blue-900 pb-1">
                                 <p><strong>{usu?.nombre}</strong> {usu?.dni} <strong>{usu?.propiedades}</strong></p>                                
-                                <Checked name={'leido'} checked={usu?.leido} disabled={true} text={'Leido'}/>                               
+                                <Checked name={'leido'} checked={usu?.leido} disabled={!(rol === 'presidente' && user?.dni === usu?.dni)} onChange={(e)=>marcarLeido(e.target.checked, com?.comunicadousuario)} text={'Leido'}/>                               
                             </div>
                         ))
                     }

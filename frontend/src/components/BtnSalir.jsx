@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Icono } from "./Icono";
 
 
-export const BtnSalir = () => {
+export const BtnSalir = ({addStyle=null}) => {
     const navigate=useNavigate();
     const dispatch=useDispatch();
 
@@ -16,7 +16,7 @@ export const BtnSalir = () => {
     <>
         <button
           onClick={salir}
-          className="text-white md:text-2xl md:p-3 rounded-md flex cursor-pointer hover:bg-none hover:bg-blue-200 hover:text-blue-900 items-center">            
+          className={`text-white md:text-2xl md:p-3 rounded-md flex cursor-pointer hover:bg-none hover:bg-blue-200 hover:text-blue-900 items-center ${addStyle}`}>            
             Salir
             <Icono name="logout" className="ml-2"/>
         </button>

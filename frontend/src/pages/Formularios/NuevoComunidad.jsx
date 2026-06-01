@@ -92,6 +92,7 @@ export const NuevoComunidad = () => {
 
         await modificarComunidad(com?.id, token, form);
         setDatos([]);
+        setCom([]);
         limpiarDatos();
     }
 
@@ -109,7 +110,7 @@ export const NuevoComunidad = () => {
             <Titulo titulo={'Comunidades'}/>
             <Contenedor>
                 <Formulario onSubmit={handleSubmit}>
-                    <h2 className='font-semibold text-2xl col-span-3 text-center text-blue-900'>Crear Comunidad</h2>
+                    {!com ? <h2 className='font-semibold text-2xl col-span-3 text-center text-blue-900'>Crear Comunidad</h2>:<h2 className='font-semibold text-2xl col-span-3 text-center text-blue-900'>Modificar Comunidad</h2>}
                     <Input
                         addStyle={"col-span-3 sm:col-span-2"}
                         label={'Nombre'}
