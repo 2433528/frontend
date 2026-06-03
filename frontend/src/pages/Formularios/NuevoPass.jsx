@@ -25,8 +25,8 @@ export const NuevoPass = () => {
     const crearPropietario=async(e)=>{
         e.preventDefault();        
         await modificarUser(user?.user_id, token, {password});
-        handleReset();
-        navigate('/menu');         
+        navigate('/menu');
+        handleReset();                 
     }
 
   return (
