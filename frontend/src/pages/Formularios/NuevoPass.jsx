@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { useForm } from "../../hooks/useForm";
 import { createUser, getUsu, modificarUser } from "../../services/usuarios";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import queryString from "query-string";
 import { useEffect, useState } from "react";
 import { PlantillaGeneral } from "../../components/PlantillaGeneral";
@@ -16,7 +16,8 @@ import { Checked } from "../../components/Checked";
 
 
 export const NuevoPass = () => {
-    const {user, token}=useSelector((state)=>state.auth);    
+    const {user, token}=useSelector((state)=>state.auth);
+    const navigate=useNavigate();   
     const {handleChange, handleReset, password}=useForm({
         password:''
     });    
@@ -24,7 +25,8 @@ export const NuevoPass = () => {
     const crearPropietario=async(e)=>{
         e.preventDefault();        
         await modificarUser(user?.user_id, token, {password});
-        handleReset();            
+        handleReset();
+        navigate('/menu');         
     }
 
   return (
