@@ -16,6 +16,7 @@ export const createUser =async (token='', datos={}) => {
         if (!resp.ok){                
             const data = await resp.json();
             console.log("ERROR BACKEND:", data);
+            alert('El propietario no se pudo crear.');
             return data;
         }
 
@@ -23,6 +24,7 @@ export const createUser =async (token='', datos={}) => {
     }
     catch(error){
         console.log(error);
+        alert('El propietario no se pudo crear.');
     }    
 }
 
@@ -127,7 +129,7 @@ export const BorrarUser =async (token='', id='') => {
             return false;
         }
 
-        alert('Propietario borrado con exito.');
+        alert('Propietario borrado con éxito.');
     }
     catch(error){
         console.log(error);

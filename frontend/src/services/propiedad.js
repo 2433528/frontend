@@ -126,7 +126,7 @@ export const BorrarPropiedad =async (token='', id='') => {
             return false;
         }
 
-        alert('Propiedad borrada con exito.');
+        alert('Propiedad borrada con éxito.');
     }
     catch(error){
         console.log(error);

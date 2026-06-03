@@ -75,7 +75,7 @@ export const nuevaVotacion=async(token='', id='')=>{
             return null;
         }
 
-        alert('Votacion creada con exito.');
+        alert('Votacion creada con éxito.');
         return {};
     }
     catch(error){
@@ -136,7 +136,7 @@ export const nuevoVoto=async(token='', datos={})=>{
             return null;
         }
 
-        alert('Voto creado con exito.');
+        alert('Voto creado con éxito.');
         return {};
     }
     catch(error){

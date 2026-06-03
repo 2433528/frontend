@@ -96,7 +96,7 @@ export const Incidencias = () => {
                 datos.map((dato)=>(
                     <Item key={dato.id} addStyle={incluirEstilo(dato.id)} onClick={()=>quitarAviso(dato.id)}>
                         <div className="flex justify-between">
-                            <h2 className="font-bold">{dato.titulo}</h2>
+                            <h2 className="font-bold">❗ {dato.titulo}</h2>
                             <p>{dato.fecha_bonita}</p>
                         </div>                        
                         <p>Emisor: <span className="font-bold">{dato?.usuario_creador?.nombre} {dato?.usuario_creador?.dni}</span></p>

@@ -46,7 +46,7 @@ export const sendInfo=async(token='', datos={})=>{
             return;
         }
 
-        alert('Información creada con exito.');
+        alert('Información creada con éxito.');
     }
     catch(error){
         console.log(error);
@@ -71,7 +71,7 @@ export const delInfo=async(token='', id)=>{
             return;
         }
 
-        alert('Información borrada con exito.');
+        alert('Información borrada con éxito.');
     }
     catch(error){
         console.log(error);

@@ -73,7 +73,7 @@ export const nuevaActa=async(token='', datos={})=>{
             return;
         }
 
-        alert('Acta creada con exito.');
+        alert('Acta creada con éxito.');
     }
     catch(error){
         console.log(error);
@@ -129,7 +129,7 @@ export const saveAsistentes=async(token='', datos={})=>{
             return null;
         }
 
-        alert('Asistentes guardados con exito.');
+        alert('Asistentes guardados con éxito.');
         return{};
     }
     catch(error){

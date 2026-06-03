@@ -16,8 +16,8 @@ export const getToken=(username, password, navigate='')=>{
             });
 
             if (!response.ok){                
-                console.log('Credenciales incorrentas', response);
-                alert('Credenciales incorrentas')
+                console.log('Credenciales incorrectas', response);
+                alert('Credenciales incorrectas')
                 return null;
             } 
 
@@ -33,15 +33,15 @@ export const getToken=(username, password, navigate='')=>{
             });
 
             if (!resp.ok){                
-                console.log('No se consiguió el usuario.', resp);
-                alert('No se consiguió el usuario.')
+                console.log('No se consiguió al usuario.', resp);
+                alert('No se consiguió al usuario.')
                 return;
             }
 
             const data2=await resp.json();
 
             dispatch(login({access:data1.access, user:data2}))
-            console.log('Login exitoso');
+            console.log('Login éxitoso');
             (navigate !== '') && navigate('/inicio');
        }
        catch(error){
@@ -91,7 +91,7 @@ export const getRefresh=(navigate='')=>{
             await dispatch(login({access:data1.access, user:data2}))            
             await dispatch(getComActual(`${localStorage.getItem('actual')}`));
             await dispatch(getRol(data1.access, `${localStorage.getItem('actual')}`, data2.user_id));
-            console.log('Refresh exitoso');
+            console.log('Refresh éxitoso');
             return true;
        }
        catch(error){

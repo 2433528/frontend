@@ -76,7 +76,7 @@ export const sendComunicado=async(token='', datos={})=>{
             return null;
         }
 
-        alert('Comunicado crado con exito.');
+        alert('Comunicado creado con éxito.');
         return {};
     }
     catch(error){

@@ -66,7 +66,7 @@ export const PropiedadList = () => {
                             {
                                 datos.map((item)=>(
                                     <Item key={item.id}>
-                                        <p>Piso y letra: <strong>{item.num_letra}</strong></p>
+                                        <p>🏠 <strong>{item.num_letra}</strong></p>
                                         <p>Propietario: <strong>{item.nombre_usu} {item.apellido1_usu} {item.apellido2_usu}</strong></p>     
                                         <p>DNI del Propietario: <strong>{item.dni_usu}</strong></p>                                                             
                                         <div className="flex items-center gap-4">

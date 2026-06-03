@@ -127,7 +127,7 @@ export const BorrarComunidad =async (token='', id='') => {
             return false;
         }
 
-        alert('Comunidad borrada con exito.');
+        alert('Comunidad borrada con éxito.');
     }
     catch(error){
         console.log(error);

@@ -47,7 +47,7 @@ export const sendInci=async(token='', datos={})=>{
             return;
         }
 
-        alert('Incidencia creada con exito.');
+        alert('Incidencia creada con éxito.');
     }
     catch(error){
         console.log(error);
@@ -73,7 +73,7 @@ export const delInci=async(token='', id='')=>{
             return;
         }
 
-        alert('Incidencia borrada con exito.');
+        alert('Incidencia borrada con éxito.');
     }
     catch(error){
         console.log(error);

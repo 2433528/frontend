@@ -212,9 +212,9 @@ export const DetalleActa = () => {
                                                 </thead>
                                                 <tbody>                                            
                                                     <tr>
-                                                        <td>{punto?.votacion?.voto_favor}</td>
-                                                        <td>{punto?.votacion?.voto_contra}</td>
+                                                        <td>{punto?.votacion?.voto_favor}</td>                                                        
                                                         <td>{punto?.votacion?.abstencion}</td>
+                                                        <td>{punto?.votacion?.voto_contra}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>                                    

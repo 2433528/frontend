@@ -72,7 +72,7 @@ export const nuevaConvocatoria=async(token='', datos={})=>{
             return;
         }
 
-        alert('Convocatoria creada con exito.');
+        alert('Convocatoria creada con éxito.');
     }
     catch(error){
         console.log(error);
@@ -125,7 +125,7 @@ export const delPunto=async(token='', id='')=>{
             return;
         }
 
-        alert('Punto borrado con exito.');
+        alert('Punto borrado con éxito.');
     }
     catch(error){
         console.log(error);

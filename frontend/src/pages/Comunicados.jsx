@@ -90,7 +90,7 @@ export const Comunicados = () => {
                 <div key={com?.id} className={`bg-white p-5 my-5 rounded-lg border border-blue-800 ${(rol !== 'gestor' && rol !== 'presidente' && !com?.leido)? "animate-pulse":""}`}>
                     <div className="flex flex-col">
                         <p className="whitespace-nowrap self-end">{com?.fecha_creacion}</p>
-                        <h2 className="font-bold m-2">{com?.titulo}</h2>                        
+                        <h2 className="font-bold m-2">🚨 {com?.titulo}</h2>                        
                     </div>
                     <p className="m-2">{com?.texto}</p>
                     {(rol === 'gestor' || rol === 'presidente') && <Btn onClick={()=>setAbiertoId(abiertoId === com?.id ? null:com?.id)} text={'Enviado a...'}/>}

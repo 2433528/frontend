@@ -88,7 +88,7 @@ export const Actas = () => {
                 <Item key={acta.id} addStyle={incluirEstilo(acta)} onClick={()=>quitarAviso(acta.id)}>
                     <div className="flex flex-col">
                         <p className="whitespace-nowrap self-end">{acta.pertenece_convocatoria?.fecha_lectura}</p>
-                        <h2 className="font-bold m-2">{acta.pertenece_convocatoria?.titulo}</h2>
+                        <h2 className="font-bold m-2">📋 {acta.pertenece_convocatoria?.titulo}</h2>
                         {(acta?.resuelta)? <p className="bg-green-600 w-max p-2 rounded-lg m-2"><strong>Resuelta</strong></p>:<p className="bg-gray-300 w-max p-2 rounded-lg m-2"><strong>Pendiente</strong></p>}                           
                     </div>
                     <Btn addStyle={"justify-self-end"} onClick={()=>btnClick(acta.id)} text={'Ver detalles y votación'}/>

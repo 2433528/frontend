@@ -71,7 +71,7 @@ export const PropietarioList = () => {
                             {
                                 PropietariosUnicos.map((usu)=>(
                                     <Item key={usu?.id}>
-                                        <p><strong>{usu?.nombre} {usu?.apellido1} {usu?.apellido2}</strong></p>                                    
+                                        <p>👤 <strong>{usu?.nombre} {usu?.apellido1} {usu?.apellido2}</strong></p>                                    
                                         <p>DNI: <strong>{usu?.dni}</strong></p>
                                         <p>Telefono: <strong>{usu?.telefono}</strong></p>
                                         <p>Email: <strong>{usu?.email}</strong></p>

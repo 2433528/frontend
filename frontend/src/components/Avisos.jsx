@@ -53,7 +53,7 @@ export const Avisos = (tipo=null) => {
     {   (avisos_list.some(aviso => aviso.tipo === 'incidencia') && rol === 'gestor') &&
         <article onClick={()=>navigate('/incidencias')} className="flex flex-col font-text font-bold items-center hover:cursor-pointer">
             <Icono name={'notifications_unread'} className="text-orange-400 animate-bounce"/>
-            Incicencia
+            Incidencia
         </article>
     }
     {  (avisos_list.some(aviso => aviso.tipo === 'info')) &&
