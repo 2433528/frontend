@@ -234,7 +234,7 @@ export const DetalleActa = () => {
                 <textarea
                 className={`${(datos?.resuelta || resuelta) && "hover:cursor-not-allowed"} border border-blue-900 focus:outline-none p-3 h-52 w-full rounded-lg resize-none`}
                     name="resumen"
-                    value={resumen}
+                    value={datos?.resumen || resumen}
                     onChange={handleChange}
                     hidden={rol !== 'gestor' && !datos?.resuelta && !resuelta}
                     disabled={datos?.resuelta || resuelta}
