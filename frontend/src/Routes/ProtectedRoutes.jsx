@@ -6,7 +6,7 @@ export const ProtectedRoutes = () => {
   return (
     <>
         {
-          (rol === 'gestor' || rol === 'presidente')? <Outlet/>:<Navigate to={'/menu'}/>
+          (rol === 'gestor' || rol === 'presidente')? <Outlet/>:<Navigate to={'/inicio'}/>
         }
     </>
   )

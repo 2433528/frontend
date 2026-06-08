@@ -64,7 +64,7 @@ export const Login = () => {
                     <img src={comunidad} alt="" className="h-full w-full mt-10"/>
                 </div>
             </div>
-            <Footer/> 
+            <Footer/>    
         </>
     )
 

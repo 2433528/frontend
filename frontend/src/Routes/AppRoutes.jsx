@@ -24,6 +24,7 @@ import { ProtectedRoutesGestor } from './ProtectedRoutesGestor'
 import { NuevoComunidad } from '../pages/Formularios/NuevoComunidad'
 import { NuevoCSV } from '../pages/Formularios/NuevoCSV'
 import { NuevoPass } from '../pages/Formularios/NuevoPass'
+import { ModificarUsuario } from '../pages/Formularios/ModificarUsuario'
 
 export const AppRoutes = () => {  
   return (
@@ -31,7 +32,7 @@ export const AppRoutes = () => {
         <Routes>
             <Route path='/' element={<Login/>}/>
             <Route path='/inicio' element={<Inicio/>}/>
-            <Route path='/menu' element={<Menu/>}/>
+            <Route path='/modificar-usuario' element={<ModificarUsuario/>}/>
             <Route path='/tablon' element={<TablonInfo/>}/>            
             <Route path='/incidencias' element={<Incidencias/>}/>
             <Route path='/nuevo-inci' element={<NuevoIncidencia/>}/>

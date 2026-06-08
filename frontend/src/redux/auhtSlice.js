@@ -35,6 +35,8 @@ export const auhtSlice = createSlice({
             state.is_authenticated=false;
             state.token='';
             state.is_loading = false;
+            state.roles_list=[];
+            state.rol=''
         },
 
         roles:(state, {payload})=>{

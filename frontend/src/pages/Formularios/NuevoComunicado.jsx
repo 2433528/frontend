@@ -118,7 +118,6 @@ export const NuevoComunicado = () => {
             </div>
             </Formulario>
         </Contenedor>
-        <Footer/>
         </PlantillaGeneral>      
     </>
   )

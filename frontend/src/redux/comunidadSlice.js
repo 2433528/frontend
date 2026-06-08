@@ -15,9 +15,13 @@ export const comunidadSlice = createSlice({
 
         obtenerActual:(state, {payload})=>{
             state.actual=payload;
-        }
+        },
+
+        resetComunidad:(state)=>{
+            state.comunidad_list=[];
+            state.actual={};
+        },
     }
 });
 
-
-export const {obtenerComunidad, obtenerActual}=comunidadSlice.actions;
+export const {obtenerComunidad, obtenerActual, resetComunidad}=comunidadSlice.actions;

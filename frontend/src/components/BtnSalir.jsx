@@ -17,7 +17,7 @@ export const BtnSalir = ({addStyle=null}) => {
         <button
           onClick={salir}
           className={`text-white md:text-2xl md:p-3 rounded-md flex cursor-pointer hover:bg-none hover:bg-blue-200 hover:text-blue-900 items-center ${addStyle}`}>            
-            Salir
+            <p>Salir</p>
             <Icono name="logout" className="ml-2"/>
         </button>
     </>

@@ -88,8 +88,7 @@ const {form, handleChange, handleReset, num_letra, usuario_dni, setForm, comunid
             </div>
             <small className="col-span-2 sm:col-span-3">ℹ️ Para crear la propiedad el propietario debe estar registrado.</small>   
           </Formulario>
-        </Contenedor>
-        <Footer/>    
+        </Contenedor>        
       </PlantillaGeneral>
     </>
   )

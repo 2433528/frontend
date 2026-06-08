@@ -1,6 +1,8 @@
 import { replace } from "react-router-dom";
 import { asignarRol, login, logout, refresh, roles, startLoading } from "./auhtSlice";
 import { getComActual, getComunidades } from "./thunksComunidad";
+import { obtenerActual, resetComunidad } from "./comunidadSlice";
+import { resetAvisos } from "./avisosSlice";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const getToken=(username, password, navigate='')=>{
@@ -42,6 +44,10 @@ export const getToken=(username, password, navigate='')=>{
 
             dispatch(login({access:data1.access, user:data2}))
             console.log('Login éxitoso');
+            const actual=JSON.parse(localStorage.getItem('actual'));
+            if (actual){     
+                await dispatch(getRol(data1.access, JSON.parse(localStorage.getItem('actual')), data2.user_id));
+            }
             (navigate !== '') && navigate('/inicio');
        }
        catch(error){
@@ -70,7 +76,7 @@ export const getRefresh=(navigate='')=>{
                 return false;
             }
 
-            const data1=await resp1.json();
+            const data1=await resp1.json();            
 
             const resp2=await fetch(`${API_URL}/getuser/`, {
                 method:'GET',
@@ -87,10 +93,13 @@ export const getRefresh=(navigate='')=>{
                 return false;
             }
 
-            const data2=await resp2.json();            
-            await dispatch(login({access:data1.access, user:data2}))            
-            await dispatch(getComActual(`${localStorage.getItem('actual')}`));
-            await dispatch(getRol(data1.access, `${localStorage.getItem('actual')}`, data2.user_id));
+            const data2=await resp2.json();        
+            await dispatch(login({access:data1.access, user:data2}));
+            const actual=JSON.parse(localStorage.getItem('actual'));
+            if (actual){     
+                await dispatch(getComActual(JSON.parse(localStorage.getItem('actual'))));
+                await dispatch(getRol(data1.access, JSON.parse(localStorage.getItem('actual')), data2.user_id));
+            }
             console.log('Refresh éxitoso');
             return true;
        }
@@ -122,6 +131,10 @@ export const getLogout=(navigate='')=>{
         } finally {
             dispatch(logout());
             localStorage.removeItem('actual');
+            localStorage.removeItem('key');
+            localStorage.removeItem('lista');
+            dispatch(resetAvisos());
+            dispatch(resetComunidad());
             console.log('Sesión cerrada.')
             if (navigate !== '') navigate('/', { replace: true });
         }
@@ -164,7 +177,13 @@ export const getRoles=()=>{
 export const getRol=(token, comunidad, user)=>{
     return async(dispatch)=>{
         try{
-            const resp=await fetch(`${API_URL}/roles-comunidad/?user=${user}&comunidad=${comunidad}`, {
+            let url = `${API_URL}/roles-comunidad/?user=${user}`;
+
+            if (comunidad) {
+                url += `&comunidad=${comunidad}`;
+            }
+
+            const resp=await fetch(url, {
             method:'GET',
             headers: {
                 'Content-Type':'application/json',
@@ -181,8 +200,8 @@ export const getRol=(token, comunidad, user)=>{
         }
 
         const data=await resp.json();
-        const actual=data.find((item)=>item.rol === 'gestor') || null;
-        (actual)? dispatch(asignarRol({rol:actual.rol})):dispatch(asignarRol({rol:data[0].rol}));
+        const actual=(data? data:[]).find((item)=>item.rol === 'gestor') || null;
+        (actual)? dispatch(asignarRol({rol:actual.rol})):dispatch(asignarRol({rol:data[0].rol}) || '');
         return;      
         }
         catch(error){

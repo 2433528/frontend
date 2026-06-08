@@ -73,8 +73,7 @@ export const NuevoInfo = () => {
                 </div>                    
             </Formulario>    
             </Contenedor>
-            }
-            <Footer/>           
+            }                    
         </PlantillaGeneral>
     </>
   )

@@ -6,7 +6,7 @@ export const ProtectedRoutesGestor = () => {
   return (
     <>
         {
-          (user?.gestor_fincas || rol === 'gestor')? <Outlet/>:<Navigate to={'/menu'}/>
+          (user?.gestor_fincas || rol === 'gestor')? <Outlet/>:<Navigate to={'/inicio'}/>
         }
     </>
   )

@@ -11,7 +11,12 @@ export const avisosSlice=createSlice({
         actualizarAvisoComunicado:(state, {payload})=>{
             state.avisoComunicado=payload.estado;
         },
+
+        resetAvisos:(state)=>{
+            state.avisos_list=[];
+            state.avisoComunicado=false;
+        },
     }
 });
 
-export const{actualizarAvisos, actualizarAvisoComunicado}=avisosSlice.actions;
+export const{actualizarAvisos, actualizarAvisoComunicado, resetAvisos}=avisosSlice.actions;

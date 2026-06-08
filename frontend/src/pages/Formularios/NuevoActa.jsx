@@ -92,7 +92,6 @@ export const NuevoActa = () => {
             {(!datos?.acta)? <Btn text="Crear Acta" type="button" onClick={handleSubmit}/>:<Btn text="Ir al Acta" type="button" onClick={irAacta}/>}
           </Item>
         </Contenedor>
-        <Footer/>
       </PlantillaGeneral>
     </>
   )

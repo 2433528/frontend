@@ -88,8 +88,7 @@ export const NuevoCSV = () => {
                     <small className='col-span-3 wrap-break-word'>ℹ️ Cabecera del fichero: <strong>dni,nombre,apellido1,apellido2,telefono,email,num_letra,cif_comunidad</strong></small>                    
                     <small className='col-span-3 wrap-break-word'>ℹ️ Contraseña provisional usuarios creados: <strong>Comunidad12345</strong></small>
                 </Formulario>
-            </Contenedor>
-            <Footer/>
+            </Contenedor>            
         </PlantillaGeneral>
     </>
   )

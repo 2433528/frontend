@@ -62,7 +62,7 @@ export const PropietarioList = () => {
             <Contenedor>
                 <Formulario onSubmit={handleSubmit}>
                     <Input label={'DNI del propietario a buscar '} value={dni} onChange={handleChange} name={'dni'} addStyle={"col-span-2 sm:col-span-3"}/>
-                    <Btn text={'Buscar'} type={'submit'} addStyle={"col-span-2 sm:col-start-2 sm:col-end-3"}/>
+                    <Btn text={'Buscar todos'} type={'submit'} addStyle={"col-span-2 sm:col-start-2 sm:col-end-3"}/>
                     <small className="col-span-2 sm:col-span-3">ℹ️ Si el usuario aún no tiene propiedad asignada también puedes buscarlo por el DNI </small>
                 </Formulario>
                 {(datos.length > 0) && 
@@ -77,7 +77,7 @@ export const PropietarioList = () => {
                                         <p>Email: <strong>{usu?.email}</strong></p>
                                         <p>Rol: <strong>{usu?.rol_info}</strong></p>
                                         <p>Propiedades: <strong>{usu?.propiedad}</strong></p>
-                                        <p><strong>{(usu?.moroso_info) && 'Moroso'}</strong></p>
+                                        {(usu?.moroso_info) && <p className="bg-red-500 max-w-max p-3 rounded-lg"><strong>Moroso</strong></p>}
                                         <div className="flex items-center gap-4">
                                             <Btn onClick={()=>navigate(`/nuevo-propietario/?user_dni=${usu?.dni}`)} text={'Editar'}/>
                                             <Btn onClick={()=>delUser(token, usu?.id)} text={'Eliminar'}/>
@@ -88,8 +88,7 @@ export const PropietarioList = () => {
                         <Paginacion onClick1={getPrevious} onClick2={getNext} disabled1={!paginate.previous} disabled2={!paginate.next}/>                       
                     </>
                 }            
-            </Contenedor>
-            <Footer/>
+            </Contenedor>            
         </PlantillaGeneral>
     </>
   )

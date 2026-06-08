@@ -83,7 +83,6 @@ export const TablonInfo = () => {
                 ))
             }
         </Contenedor>
-        <Footer/>
         </PlantillaGeneral>
     </>
   )

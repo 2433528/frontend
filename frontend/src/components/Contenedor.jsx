@@ -1,6 +1,6 @@
 
-export const Contenedor = ({children}) => {
+export const Contenedor = ({children, onClick=null}) => {
   return (
-    <div  className="w-[80%] md:w-1/2 m-10 z-40 flex-1">{children}</div>
+    <div onClick={onClick}  className="w-[80%] md:w-1/2 m-10 z-40 flex-1">{children}</div>
   )
 }

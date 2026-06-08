@@ -31,34 +31,34 @@ export const Avisos = (tipo=null) => {
     
 
   return (
-    <div className="w-full flex justify-around sm:justify-end gap-2 sm:gap-15 px-5">
+    <div className="w-full flex flex-col my-5 items-center gap-3 box-content">
     { (avisoComunicado && rol !== 'gestor') &&
-        <article onClick={()=>navigate('/comunicados')} className="flex flex-col font-text font-bold items-center hover:cursor-pointer">
-            <Icono name={'mark_email_unread'} className="text-orange-400 animate-bounce"/>
+        <article onClick={()=>navigate('/comunicados')} className="flex items-center w-full ring-2 ring-blue-800 rounded-lg p-5 font-semibold hover:cursor-pointer">
+            <Icono name={'mark_email_unread'} className="text-orange-400 animate-bounce mr-2"/>
             Comunicado
         </article>
     }
     { (avisos_list.some(aviso => aviso.tipo === 'convocatoria')) &&
-        <article onClick={()=>navigate('/convocatorias')} className="flex flex-col font-text font-bold items-center hover:cursor-pointer">
-            <Icono name={'event'} className="text-orange-400 animate-bounce"/>
+        <article onClick={()=>navigate('/convocatorias')} className="flex items-center w-full ring-2 ring-blue-800 rounded-lg p-5 font-semibold hover:cursor-pointer">
+            <Icono name={'event'} className="text-orange-400 animate-bounce mr-2"/>
             Convocatoria
         </article>
     }
     {  (avisos_list.some(aviso => aviso.tipo === 'acta')) &&
-        <article onClick={()=>navigate('/actas')} className="flex flex-col font-text font-bold items-center hover:cursor-pointer">
-            <Icono name={'thumbs_up_down'} className="text-orange-400 animate-bounce"/>
+        <article onClick={()=>navigate('/actas')} className="flex items-center w-full ring-2 ring-blue-800 rounded-lg p-5 font-semibold hover:cursor-pointer">
+            <Icono name={'thumbs_up_down'} className="text-orange-400 animate-bounce mr-2"/>
             Votación
         </article>
     }
     {   (avisos_list.some(aviso => aviso.tipo === 'incidencia') && rol === 'gestor') &&
-        <article onClick={()=>navigate('/incidencias')} className="flex flex-col font-text font-bold items-center hover:cursor-pointer">
-            <Icono name={'notifications_unread'} className="text-orange-400 animate-bounce"/>
+        <article onClick={()=>navigate('/incidencias')} className="flex items-center w-full ring-2 ring-blue-800 rounded-lg p-5 font-semibold hover:cursor-pointer">
+            <Icono name={'report'} className="text-orange-400 animate-bounce mr-2"/>
             Incidencia
         </article>
     }
     {  (avisos_list.some(aviso => aviso.tipo === 'info')) &&
-        <article onClick={()=>navigate('/tablon')} className="flex flex-col font-text font-bold items-center">
-            <Icono name={'help_clinic'} className="text-orange-400 animate-bounce"/>
+        <article onClick={()=>navigate('/tablon')} className="flex items-center w-full ring-2 ring-blue-800 rounded-lg p-5 font-semibold hover:cursor-pointer">
+            <Icono name={'help_clinic'} className="text-orange-400 animate-bounce mr-2"/>
             Información
         </article>
     }          

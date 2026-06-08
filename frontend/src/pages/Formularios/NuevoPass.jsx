@@ -25,7 +25,7 @@ export const NuevoPass = () => {
     const crearPropietario=async(e)=>{
         e.preventDefault();        
         await modificarUser(user?.user_id, token, {password});
-        navigate('/menu');
+        navigate('/inicio');
         handleReset();                 
     }
 
@@ -52,8 +52,7 @@ export const NuevoPass = () => {
                     <Btn addStyle={"W-full"} text="Modificar" type="submit"/>
                     </div>
             </Formulario>            
-        </Contenedor>
-        <Footer/>
+        </Contenedor>        
         </PlantillaGeneral>
     </>
   )

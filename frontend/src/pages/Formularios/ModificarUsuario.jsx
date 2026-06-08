@@ -15,8 +15,9 @@ import { Input } from "../../components/Input";
 import { Checked } from "../../components/Checked";
 
 
-export const NuevoPropietario = () => {
+export const ModificarUsuario = () => {
     const token=useSelector((state)=>state.auth.token);
+    const rol_enComunidad=useSelector((state)=>state.auth.rol);
     const location=useLocation();
     const navigate=useNavigate();
     const {user_dni}=queryString.parse(location.search);
@@ -64,13 +65,8 @@ export const NuevoPropietario = () => {
 
     const crearPropietario=async(e)=>{
         e.preventDefault();
-        if (!user){
-            await createUser(token, form);
-            handleReset();           
-            return;
-        }
 
-        await modificarUser(user.id, token, form);
+        await modificarUser(user?.id, token, form);
         handleReset();
         navigate('/propietarios');        
     }
@@ -80,20 +76,13 @@ export const NuevoPropietario = () => {
         <PlantillaGeneral>
             <Cabecera/>
             <Titulo titulo={'Nuevo Propietario'}/>
-            <Contenedor>
-                <Formulario onSubmit={crearPropietario}>
+            <Contenedor onClick={()=>navigate('/inicio')}>
+                <Formulario onSubmit={crearPropietario}>                    
                     <hr className="my-2 border-2 border-blue-900 rounded-lg w-full col-span-2 sm:col-span-3"/>  
-                    <h2 className="text-3xl font-bold self-start col-span-2 sm:col-span-3">Datos del Propietario</h2>
+                    <h2 className="text-3xl font-bold self-start col-span-2 sm:col-span-3">Datos del Usuario</h2>
                     <hr className="my-2 border-2 border-blue-900 rounded-lg w-full col-span-2 sm:col-span-3"/>
 
-                    <Input
-                    addStyle={"col-span-2 sm:col-span-3"}
-                    label={'Contraseña'}
-                    type="password"
-                    name="password"
-                    value={password}
-                    onChange={handleChange}
-                    />
+                   
                     <Input
                     addStyle={"col-span-2 sm:col-span-1"}
                     label={'Nombre'}
@@ -137,17 +126,7 @@ export const NuevoPropietario = () => {
                     onChange={handleChange}
                     />
                     
-                    <div className="flex flex-col col-span-2 sm:col-span-1">
-                        <label className="font-semibold text-gray-500">Rol</label>
-                        <select name="rol" value={rol} onChange={handleChange}
-                            className="bg-blue-100 p-2 rounded-lg focus:outline-none"
-                        >
-                            <option value="propietario">Propietario</option>
-                            <option value="presidente">Presidente</option>                
-                            <option value="vicepresidente">Vicepresidente</option>
-                            <option value="secretario">Secretario</option>
-                        </select>
-                    </div>
+                    
                     <Input
                     addStyle={"col-span-2 sm:col-span-3"}
                     label={'Email'}
@@ -156,21 +135,9 @@ export const NuevoPropietario = () => {
                     value={email}
                     onChange={handleChange}
                     />
-                    <Checked
-                    addStyle={"col-span-3 my-5"}
-                    text={'Moroso'}              
-                    name="moroso"
-                    checked={moroso}
-                    onChange={handleChange}
-                    />
+                    
                     <hr className="my-2 border-2 border-blue-900 rounded-lg w-full col-span-2 sm:col-span-3"/>
-                    <div className="col-span-2 sm:col-start-2 sm:col-end-3 flex justify-center">
-                        {(!user)? <Btn text="Crear" type="submit" addStyle={"w-full"}/>:<Btn addStyle={"W-full"} text="Modificar" type="submit"/>}
-                    </div>
-                    <div className="flex flex-col text-start gap-2 col-span-2 sm:col-span-3">
-                        <small>ℹ️ El username sera el DNI.</small>            
-                        <small>ℹ️ El nuevo usuario no se mostrará en la lista hasta que no se le asigne una propiedad.</small>
-                    </div>
+                    <small className="col-span-3">ℹ️ <strong>Modo lectura</strong>: no se permiten modificaciones.</small>
             </Formulario>            
         </Contenedor>        
         </PlantillaGeneral>

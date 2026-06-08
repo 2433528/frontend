@@ -109,6 +109,44 @@ export const NuevoComunidad = () => {
             <Cabecera/>
             <Titulo titulo={'Comunidades'}/>
             <Contenedor>
+                <Formulario onSubmit={handleSubmit2}>
+                    <h2 className='font-semibold text-2xl col-span-3 text-center text-blue-900'>Buscar comunidad</h2>       
+                    <Input
+                    addStyle={"col-span-2 sm:col-span-3"}
+                    label={'CIF'}
+                    type="text"
+                    name="cif"
+                    value={cif}
+                    onChange={handleChange}
+                    />          
+                    <Btn text='Buscar todos' type="submit" addStyle={"w-full sm:col-start-2 sm:col-end-3 col-span-3"}/>
+                </Formulario>
+
+                <div className='py-5'>            
+                {  (datos.length > 0)&&
+                    <>
+                        <h2 className="text-center text-blue-900 text-2xl">Lista comunidades</h2>                    
+                            {
+                                datos.map((item)=>(
+                                    <Item key={item.id}>
+                                        <p>Nombre: <strong>{item.nombre}</strong></p>
+                                        <p>CIF: <strong>{item.cif}</strong></p>
+                                        <p>Dirección: <strong>{item.calle}, {item.numero}</strong></p>    
+                                        <p>Código Postal: <strong>{item.cod_postal}</strong></p>
+                                        <p>Localidad: <strong>{item.localidad}</strong></p>
+                                        <p>Provincia: <strong>{item.provincia}</strong></p>                                                             
+                                        <div className="flex items-center gap-4">
+                                            <Btn onClick={()=>editarComunidad(item?.id)} text="Editar"/>
+                                            <Btn onClick={()=>delComunidad(token, item.id)} text="Eliminar"/>
+                                        </div>
+                                    </Item>
+                                ))
+                            }                                     
+                        <Paginacion onClick1={getPrevious} onClick2={getNext} disabled1={!paginate.previous} disabled2={!paginate.next}/> 
+                    </>
+                }
+                </div>
+
                 <Formulario onSubmit={handleSubmit}>
                     {!com ? <h2 className='font-semibold text-2xl col-span-3 text-center text-blue-900'>Crear Comunidad</h2>:<h2 className='font-semibold text-2xl col-span-3 text-center text-blue-900'>Modificar Comunidad</h2>}
                     <Input
@@ -176,44 +214,7 @@ export const NuevoComunidad = () => {
                     {com ? <Btn text="Modificar" type="submit" addStyle={"col-span-3"}/>:<Btn text="Crear" type="submit" addStyle={"col-span-3"}/>}                    
                 </Formulario>
                 {com && <Btn text="Limpiar datos" type="button" onClick={limpiarDatos} addStyle={"justify-self-end"}/>}
-            </Contenedor>
-            <Contenedor>
-            <Formulario onSubmit={handleSubmit2}>
-                <h2 className='font-semibold text-2xl col-span-3 text-center text-blue-900'>Buscar comunidad</h2>       
-                <Input
-                addStyle={"col-span-2 sm:col-span-3"}
-                label={'CIF'}
-                type="text"
-                name="cif"
-                value={cif}
-                onChange={handleChange}
-                />          
-                <Btn text='Buscar' type="submit" addStyle={"w-full sm:col-start-2 sm:col-end-3 col-span-3"}/>
-            </Formulario>
-            {  (datos.length > 0)&&
-                <>
-                    <h2 className="text-center text-blue-900 text-2xl">Lista comunidades</h2>                    
-                        {
-                            datos.map((item)=>(
-                                <Item key={item.id}>
-                                    <p>Nombre: <strong>{item.nombre}</strong></p>
-                                    <p>CIF: <strong>{item.cif}</strong></p>
-                                    <p>Dirección: <strong>{item.calle}, {item.numero}</strong></p>    
-                                    <p>Código Postal: <strong>{item.cod_postal}</strong></p>
-                                    <p>Localidad: <strong>{item.localidad}</strong></p>
-                                    <p>Provincia: <strong>{item.provincia}</strong></p>                                                             
-                                    <div className="flex items-center gap-4">
-                                        <Btn onClick={()=>editarComunidad(item?.id)} text="Editar"/>
-                                        <Btn onClick={()=>delComunidad(token, item.id)} text="Eliminar"/>
-                                    </div>
-                                </Item>
-                            ))
-                        }                                     
-                    <Paginacion onClick1={getPrevious} onClick2={getNext} disabled1={!paginate.previous} disabled2={!paginate.next}/> 
-                </>
-            }
-            </Contenedor>
-            <Footer/>
+            </Contenedor>                    
         </PlantillaGeneral>    
     </>
   )

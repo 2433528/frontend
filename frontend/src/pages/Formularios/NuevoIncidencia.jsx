@@ -70,8 +70,7 @@ export const NuevoIncidencia = () => {
                     <Btn text="Crear" type="submit" addStyle={"w-full"}/> 
                 </div>                     
             </Formulario>         
-            </Contenedor>
-            <Footer/>          
+            </Contenedor>        
         </PlantillaGeneral>
     </>
   )

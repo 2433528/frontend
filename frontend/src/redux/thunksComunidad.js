@@ -1,4 +1,5 @@
 import { obtenerActual, obtenerComunidad } from "./comunidadSlice";
+import { getAvisos } from "./thunksAvisos";
 const API_URL = import.meta.env.VITE_API_URL;
 
 export const getComunidades=(user)=>{
@@ -20,8 +21,8 @@ export const getComunidades=(user)=>{
             return;
         }
 
-        const data=await resp.json();
-        dispatch(obtenerComunidad(data));
+        const data=await resp.json();        
+        dispatch(obtenerComunidad(data));        
         return data;
         }
         catch(error){
@@ -46,14 +47,16 @@ export const getComActual=(id='')=>{
         if (!resp.ok){ 
             const error=await resp.json();               
             console.log(error);
-            return;
+            return{};
         }
 
         const data=await resp.json();
-        dispatch(obtenerActual(data));        
+        dispatch(obtenerActual(data));
+        dispatch(getAvisos());      
         }
         catch(error){
             console.log(error);
+            return{};
         }
     }
 }

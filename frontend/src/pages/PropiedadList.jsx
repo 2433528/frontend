@@ -58,7 +58,7 @@ export const PropiedadList = () => {
             <Contenedor>
                 <Formulario onSubmit={handleSubmit}>
                     <Input label={'Piso y letra'} value={num_piso} onChange={handleChange} name={'num_piso'} addStyle={"col-span-2 sm:col-span-3"}/>
-                    <Btn text={'Buscar'} type={'submit'} addStyle={"col-span-2 sm:col-start-2 sm:col-end-3"}/>
+                    <Btn text={'Buscar todos'} type={'submit'} addStyle={"col-span-2 sm:col-start-2 sm:col-end-3"}/>
                 </Formulario>  
                 {(datos.length > 0) && 
                     <>
@@ -79,8 +79,7 @@ export const PropiedadList = () => {
                         <Paginacion onClick1={getPrevious} onClick2={getNext} disabled1={!paginate.previous} disabled2={!paginate.next}/> 
                     </>
                 }
-            </Contenedor>
-            <Footer/>
+            </Contenedor>            
         </PlantillaGeneral>
     </>
   )

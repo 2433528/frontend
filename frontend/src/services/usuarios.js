@@ -57,7 +57,14 @@ export const getPropietarios =async (token='') => {
 
 export const getUsu =async (token='', dni='') => {
   try{
-        const resp=await fetch(`${API_URL}/usuarios/?comunidad=${localStorage.getItem('actual')}&dni=${dni}`, {
+        const comunidad=JSON.parse(localStorage.getItem('actual')) || null;
+        let url = `${API_URL}/usuarios/?dni=${dni}`;
+
+        if (comunidad) {
+            url += `&comunidad=${comunidad}`;
+        }
+        
+        const resp=await fetch(url, {
             method:'GET',
             headers: {
                 'Content-Type':'application/json',

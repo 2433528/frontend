@@ -277,8 +277,7 @@ export const DetalleActa = () => {
                 <div hidden={rol !== 'gestor'} className="flex items-center justify-center border border-blue-400 rounded-lg">
                     <Checked text={'Cerrar Acta'} checked={datos?.resuelta? datos?.resuelta:resuelta} onChange={()=>handleChangeResuelta(datos?.id)} disabled={datos?.resuelta || rol !== 'gestor' || resuelta}/>
                 </div>
-            </Contenedor>
-            <Footer/>
+            </Contenedor>            
         </PlantillaGeneral>
     </>
   )

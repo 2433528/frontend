@@ -1,26 +1,42 @@
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Icono } from "./Icono";
 import { MenuHamburguesa } from "./MenuHamburguesa";
+import { MenuPersonal } from "./MenuPersonal";
+import { useEffect, useState } from "react";
+import { getAvisos } from "../redux/thunksAvisos";
 
 
 export const Cabecera = ({sinLeer=false, cambiarMostrarAviso=null}) => {
-    const {rol, user}=useSelector((state)=>state.auth);
+    const {rol, user, is_loading, is_authenticated}=useSelector((state)=>state.auth);
     const {actual}=useSelector((state)=>state.comunidad);
     const navigate=useNavigate();
+    const dispatch=useDispatch();
+    const {avisos_list}=useSelector((state)=>state.avisos);
+
+    useEffect(()=>{        
+      if (rol && is_authenticated && actual?.nombre){
+          
+          const conseguirAvisos=async()=>{
+              await dispatch(getAvisos());
+              return;
+          }
+
+          conseguirAvisos();    
+      } 
+
+      return;
+    }, [rol, is_loading, is_authenticated, actual]);
 
   return (
     <>
-        <div className="relative w-screen flex justify-between items-center p-3 md:p-5 bg-linear-to-t from-transparent to-blue-900/80 z-50">
-            <h1 className="font-retro text-3xl md:text-6xl text-blue-900 cursor-pointer" onClick={()=>navigate('/menu')}>MiComunidapp</h1>
-            <div className="flex flex-row items-center gap-2">
-                <p className="font-bold text-blue-900 text-2xl hidden sm:block">{actual?.nombre}</p>
-                <div onClick={()=>navigate('/inicio')} className="text-blue-900 font-text font-semibold m-5 text-center box-border hover:cursor-pointer sm:flex flex-col hidden">
-                    <p>{user.nombre}</p>
-                    <p>{rol}</p>
-                </div>                          
-                <MenuHamburguesa/>
-            </div>
+        <div className="w-full flex justify-around sm:justify-end items-center h-24 bg-blue-900 z-50 p-2 sm:gap-10">
+            <MenuHamburguesa/>
+            {(avisos_list.length > 0)? <Icono name={'notifications_unread'} className={`text-orange-400 hover:cursor-pointer`} onClick={()=>navigate('/inicio')}/>
+            : <Icono name={'notifications'} className={`text-orange-400 hover:cursor-pointer`} onClick={()=>navigate('/inicio')}/>
+            }                  
+            <p className="bg-white font-bold text-blue-900 sm:text-2xl items-center flex shadow-inner shadow-blue-950 rounded-lg p-3"><Icono name={'home'}/>{actual?.nombre}</p>            
+            <MenuPersonal/>
         </div>        
     </>
   )

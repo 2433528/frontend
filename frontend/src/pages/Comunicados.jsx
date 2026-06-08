@@ -17,6 +17,7 @@ import { Titulo } from "../components/Titulo";
 import { Contenedor } from "../components/Contenedor";
 import { actualizarAvisoComunicado} from "../redux/avisosSlice";
 import { getAvisos } from "../redux/thunksAvisos";
+import { Item } from "../components/Item";
 
 export const Comunicados = () => {
     const {token, rol, is_loading, is_authenticated, user}=useSelector((state)=>state.auth);
@@ -42,9 +43,9 @@ export const Comunicados = () => {
     const comunicadosFetch = async () => {
         if (!token || !comunidad?.id || is_loading) return;
 
-        const data =await getcomunicados(comunidad.id, token);
+        const data =await getcomunicados(comunidad.id, token, rol);
         if (!data) return;
-        await getAvisos();
+        //await getAvisos();
         actualizarEstado(data);
     };
 
@@ -87,7 +88,7 @@ export const Comunicados = () => {
                 {(rol === 'gestor' || rol === 'presidente') && <BtnNuevo onClick={()=>navigate('/nuevo-comunicado')}/>}                
                 {datos.map((com)=>(
                 
-                <div key={com?.id} className={`bg-white p-5 my-5 rounded-lg border border-blue-800 ${(rol !== 'gestor' && rol !== 'presidente' && !com?.leido)? "animate-pulse":""}`}>
+                <Item key={com?.id} className={`bg-white p-5 my-5 rounded-lg border border-blue-800 ${(rol !== 'gestor' && rol !== 'presidente' && !com?.leido)? "animate-pulse":""}`}>
                     <div className="flex flex-col">
                         <p className="whitespace-nowrap self-end">{com?.fecha_creacion}</p>
                         <h2 className="font-bold m-2">🚨 {com?.titulo}</h2>                        
@@ -108,12 +109,11 @@ export const Comunicados = () => {
                             </div>
                         ))
                     }
-                </div>
+                </Item>
                 ))}
                 <Paginacion onClick1={getPrevious} onClick2={getNext} disabled1={!paginate.previous} disabled2={!paginate.next}/>
             </Contenedor>            
         </PlantillaGeneral>
-        <Footer/>
     </>
   )
 }

@@ -274,8 +274,7 @@ export const NuevoConvocatoria = ({datos=null}) => {
                     </div>}
                 </Formulario>
                 {(celebrada && (rol === 'gestor' || rol === 'presidente')) && <Btn addStyle={"w-full"} text={datos? "Ver resumen del acta de esta convocatoria":"Crear Acta"} type="button" onClick={()=>navigate(`/nuevo-acta/?id=${datos.id}`)}/>}
-            </Contenedor>
-            <Footer/>
+            </Contenedor>        
         </PlantillaGeneral>    
     </>
   )

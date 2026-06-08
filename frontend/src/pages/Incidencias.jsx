@@ -123,8 +123,7 @@ export const Incidencias = () => {
                 ))
             }
             <Paginacion onClick1={getPrevious} onClick2={getNext} disabled1={!paginate.previous} disabled2={!paginate.next}/>
-            </Contenedor>            
-            <Footer/>   
+            </Contenedor>                          
         </PlantillaGeneral>
     </>
   )
