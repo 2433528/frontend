@@ -17,7 +17,7 @@ import { NuevoIncidencia } from "./Formularios/NuevoIncidencia";
 import { getAvisos, marcarAviso } from "../redux/thunksAvisos";
 
 export const Incidencias = () => {
-    const {token, rol, is_loading, is_authenticated}=useSelector((state)=>state.auth);
+    const {token, rol, is_loading, is_authenticated, user}=useSelector((state)=>state.auth);
     const comunidad=useSelector((state)=>state.comunidad.actual);
     const {avisos_list}=useSelector((state)=>state.avisos);
     const dispatch=useDispatch();
@@ -36,7 +36,7 @@ export const Incidencias = () => {
     const inciFetch = async () => {
         if (!token || !comunidad?.id || is_loading) return;
         
-        const data = await getInci(comunidad.id, token);
+        const data = await getInci(comunidad.id, token, rol);
         await dispatch(getAvisos());
         if (!data) return;               
         actualizarEstado(data);
@@ -49,7 +49,7 @@ export const Incidencias = () => {
 
         inciFetch();
         return;
-    }, [comunidad?.id, token, is_loading, is_authenticated]);
+    }, [comunidad?.id, token, is_loading, is_authenticated, rol]);
 
     const handleDelete=(id)=>{
         const dts=datos.filter((dato)=>dato.id !== id);

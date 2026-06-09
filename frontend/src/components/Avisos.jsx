@@ -12,26 +12,26 @@ export const Avisos = (tipo=null) => {
     const navigate=useNavigate();
     const dispatch=useDispatch();
     
-    const mostrarAviso=async()=>{
-        const avisar=await comunicadosSinLeer(token, actual.id);
-        if (!avisar?.sinLeer)return;
-        dispatch(actualizarAvisoComunicado({
-            estado:true
-        }));
-    }
+    // const mostrarAviso=async()=>{
+    //     const avisar=await comunicadosSinLeer(token, actual.id);
+    //     if (!avisar?.sinLeer)return;
+    //     dispatch(actualizarAvisoComunicado({
+    //         estado:true
+    //     }));
+    // }
 
-    useEffect(()=>{        
-        if (rol && is_authenticated){
-            mostrarAviso();
-        }
-        return;
-    }, [rol, is_authenticated]);
-
-
-    
+    // useEffect(()=>{        
+    //     if (rol && is_authenticated){
+    //         mostrarAviso();
+    //     }
+    //     return;
+    // }, [rol, is_authenticated, actual]);
 
   return (
     <div className="w-full flex flex-col my-5 items-center gap-3 box-content">
+        <h2 className="mt-20 font-bold sm:text-2xl text-orange-400 flex items-center"><Icono name={(avisos_list.length > 0 || (avisoComunicado && rol !== 'gestor'))? 'notifications_unread':'notifications'} className="text-orange-400 icon-md"/>
+            Alertas {actual?.nombre? `${actual?.nombre},`:''} {actual?.localidad}
+        </h2>
     { (avisoComunicado && rol !== 'gestor') &&
         <article onClick={()=>navigate('/comunicados')} className="flex items-center w-full ring-2 ring-blue-800 rounded-lg p-5 font-semibold hover:cursor-pointer">
             <Icono name={'mark_email_unread'} className="text-orange-400 animate-bounce mr-2"/>

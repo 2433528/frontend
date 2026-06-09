@@ -5,15 +5,27 @@ import { asignarRol} from "../redux/auhtSlice";
 import { useEffect, useMemo, useState } from "react";
 import { Icono } from "./Icono";
 import { cambiarEstado } from "../redux/menuSlice";
+import { actualizarAvisoComunicado } from "../redux/avisosSlice";
+import { comunicadosSinLeer } from "../services/comunicados";
 
 export const ComunidadesList = ({rolGestion=[], rolDist=[]}) => {
   const {user_id, gestor_fincas}=useSelector((state)=>state.auth.user);
+  const {is_authenticated, token}=useSelector((state)=>state.auth);
   const dispatch=useDispatch();
   const navigate=useNavigate();
   const [rol, setRol]=useState('');
   const [abrirComunidad, setAbrirComunidad]=useState(
     JSON.parse(localStorage.getItem('key')) || null
   );
+
+  const mostrarAviso=async(id)=>{
+    const avisar=await comunicadosSinLeer(token, id);
+    if (!avisar?.sinLeer)return;
+    dispatch(actualizarAvisoComunicado({
+        estado:true
+    }));
+  }
+  
   
   const cambiarComunidadAbierta=(key)=>{
     setAbrirComunidad(abrirComunidad !== key? key:null);
@@ -22,11 +34,14 @@ export const ComunidadesList = ({rolGestion=[], rolDist=[]}) => {
   // Aqui se da el valor de la comunidad elegida el estado global
   const handleClick=(item)=>{
     const key=`${item.comunidad}-${item.rol}`
+    dispatch(actualizarAvisoComunicado({estado:false}));
+    mostrarAviso(item.comunidad);
     localStorage.setItem('actual', JSON.stringify(item.comunidad));
     localStorage.setItem('key', JSON.stringify(key));
     dispatch(getComActual(item.comunidad));
     setRol(item.rol);
     dispatch(asignarRol({rol:item.rol}));
+    localStorage.setItem('rol_activo', item.rol)
     cambiarComunidadAbierta(key);
   }
 

@@ -99,6 +99,8 @@ export const getRefresh=(navigate='')=>{
             if (actual){     
                 await dispatch(getComActual(JSON.parse(localStorage.getItem('actual'))));
                 await dispatch(getRol(data1.access, JSON.parse(localStorage.getItem('actual')), data2.user_id));
+                //localStorage.removeItem('key');
+                dispatch(asignarRol({rol:localStorage.getItem('rol_activo')}));
             }
             console.log('Refresh éxitoso');
             return true;
@@ -133,6 +135,7 @@ export const getLogout=(navigate='')=>{
             localStorage.removeItem('actual');
             localStorage.removeItem('key');
             localStorage.removeItem('lista');
+            localStorage.removeItem('rol_activo');
             dispatch(resetAvisos());
             dispatch(resetComunidad());
             console.log('Sesión cerrada.')
@@ -201,7 +204,7 @@ export const getRol=(token, comunidad, user)=>{
 
         const data=await resp.json();
         const actual=(data? data:[]).find((item)=>item.rol === 'gestor') || null;
-        (actual)? dispatch(asignarRol({rol:actual.rol})):dispatch(asignarRol({rol:data[0].rol}) || '');
+        (actual)? dispatch(asignarRol({rol:actual.rol})) :dispatch(asignarRol({rol:data[0].rol}) || '');
         return;      
         }
         catch(error){

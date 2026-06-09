@@ -69,6 +69,7 @@ export const nuevaConvocatoria=async(token='', datos={})=>{
         if (!resp.ok){                
             const error=await resp.json();               
             console.log(error);
+            alert("Error en los datos.")
             return;
         }
 
@@ -76,6 +77,7 @@ export const nuevaConvocatoria=async(token='', datos={})=>{
     }
     catch(error){
         console.log(error);
+        alert("Error en los datos.")
     }    
 }
 

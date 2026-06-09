@@ -6,7 +6,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 export const getAvisos=()=>{
     return async(dispatch, getState)=>{
         const comunidad=getState().comunidad.actual.id;
-        const rol=getState().auth;
+        const {rol}=getState().auth;
         try{
         const resp=await fetch(`${API_URL}/avisos/?comunidad=${comunidad}`, {
             method:'GET',

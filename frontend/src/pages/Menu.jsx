@@ -11,7 +11,6 @@ import { Avisos } from "../components/Avisos";
 
 export const Menu = () => {
     const {rol, is_authenticated, is_loading, token}=useSelector((state)=>state.auth);
-    const {avisos_list}=useSelector((state)=>state.avisos);
     const {actual}=useSelector((state)=>state.comunidad);
     const navigate=useNavigate();
     const dispatch=useDispatch();
@@ -34,9 +33,7 @@ export const Menu = () => {
   return (
     <>        
         <div className="max-w-full mx-5 md:mx-10 z-30 px-10 md:px-30 relative">
-            <h2 className="mt-20 font-bold sm:text-2xl text-orange-400 flex items-center"><Icono name={(!avisos_list.length > 0)? 'notifications':'notifications_unread'} className="text-orange-400 icon-md"/>
-                Alertas {actual?.nombre? `${actual?.nombre},`:''} {actual?.localidad}
-            </h2>  
+              
             <section className="flex flex-col my-5 items-center gap-3 box-content">
                 {/* <article onClick={()=>navigate('/comunicados')} className="row-start-1 row-end-2 bg-white hover:bg-blue-100 ring-2 ring-blue-700 rounded-lg md:p-5 flex flex-col font-text font-bold items-center cursor-pointer"><Icono name={'campaign'} className="text-blue-900 icon-md"/>Comunicados</article>                    
                 <article onClick={()=>navigate('/convocatorias')} className="row-start-1 row-end-2 bg-white hover:bg-blue-100 ring-2 ring-blue-700 rounded-lg md:p-5 flex flex-col font-text font-bold items-center cursor-pointer"><Icono name={'calendar_month'} className="text-blue-900 icon-md"/>Convocatorias</article>
